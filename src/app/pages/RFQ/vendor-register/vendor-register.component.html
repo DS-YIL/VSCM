@@ -1,0 +1,489 @@
+<!-- <p>vendor-register works!</p> -->
+<div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;align-content: center;font-weight: 600;background-color: goldenrod;height:1%;">Vendor Registration Form</div>
+
+<div class='col-xs-12  col-md-12 col-sm-12' style="text-align:center;padding-top: 2%;">
+
+
+    
+    <form [formGroup]="AddQuotation">
+        <div class="strike">
+            <span class="headername">Vendor Details</span>
+        </div>
+        <div class="tab-pane" style="padding-top:0%;">
+            <div class="row">
+                <div class='col-xs-12 col-md-6 col-sm-6'>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control"  ngModel maxlength="100" formControlName="VendorName" [(ngModel)]="VendorData.VendorName" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.VendorName.errors}" placeholder="Vendor Name" />
+                        <span *ngIf="VQAddSubmitted && AddQuotation.controls.VendorName.errors" class="invalid-feedback">Please enter Vendor Name.</span>
+                        
+                    </div>
+   
+                    <div class="form-group">
+                        <input type="text" class="form-control"  ngModel maxlength="100" formControlName="street" [(ngModel)]="VendorData.street" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.street.errors}" placeholder="Street" />
+                        <span *ngIf="VQAddSubmitted && AddQuotation.controls.street.errors" class="invalid-feedback">Please enter Street.</span>
+                        
+                    </div>
+                    <div class="form-group">
+                       
+
+                        <select id="stateid" class="form-control dropdown" formControlName="State" [(ngModel)]="VendorData.State"   [ngClass]="{'is-invalid': VQAddSubmitted && (AddQuotation.controls.State.value=='0' || AddQuotation.controls.State.value==null)}">
+                           
+                            <option disabled selected value> -- select State -- </option>
+                                        <option *ngFor=" let state of StateList " value= {{state.StateId}}>
+                                          {{state.StateName}}
+                                        </option>
+                        </select>
+                        <span *ngIf="VQAddSubmitted && AddQuotation.controls.State.errors" class="invalid-feedback">Please select state.</span>
+                    </div>
+
+                    <div class="form-group">
+                       
+                        <input type="text" class="form-control"  ngModel maxlength="100" formControlName="City" [(ngModel)]="VendorData.City" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.City.errors}" placeholder="City" />
+                        <span *ngIf="VQAddSubmitted && AddQuotation.controls.City.errors" class="invalid-feedback">Please enter City.</span>
+                        
+                    </div>
+                    <div class="form-group" [ngClass]="{ 'is-invalid': VQAddSubmitted && !Onetimevendor}">
+                        <span class="onetimeven">One time vendor</span>  
+                        <p-radioButton name="vendor" value="true" label="Yes" formControlName="Onetimevendor" [(ngModel)]="Onetimevendor"></p-radioButton>&nbsp;&nbsp;
+                        <p-radioButton name="vendor" value="false" label="No"  formControlName="Onetimevendor" [(ngModel)]="Onetimevendor"></p-radioButton>
+                        <span *ngIf="VQAddSubmitted && !Onetimevendor" class="invalid-feedback" style="display: contents !important">Is there is One time vendor?</span>
+                    </div>
+                   
+                    <div class="form-group" [ngClass]="{ 'is-invalid': VQAddSubmitted && !showEvaluation}">
+                        <span class="onetimeven">Evaluation Required</span> 
+                        <p-radioButton name="Evaluation" value="true" label="Yes" formControlName="showEvaluation" [(ngModel)]="showEvaluation"></p-radioButton>&nbsp;&nbsp;
+                        <p-radioButton name="Evaluation" value="false" label="No"  formControlName="showEvaluation" [(ngModel)]="showEvaluation"></p-radioButton>
+                        <span *ngIf="VQAddSubmitted && !showEvaluation" class="invalid-feedback" style="display: contents !important">Is there is One time vendor?</span>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'is-invalid': VQAddSubmitted && !MSME}">
+                        <span class="onetimeven">MSME Required</span>    
+                        
+                        <p-radioButton name="MSME" value="true" label="Yes" formControlName="MSME" [(ngModel)]="MSME"></p-radioButton>&nbsp;&nbsp;
+                        <p-radioButton name="MSME" value="false" label="No"  formControlName="MSME" [(ngModel)]="MSME"></p-radioButton>
+                        <span *ngIf="VQAddSubmitted && !MSME" class="invalid-feedback" style="display: contents !important">Is there is One time vendor?</span>
+                    </div>
+                </div>
+                <div class='col-xs-12 col-md-6 col-sm-6'>
+                    <div class="form-group">
+                        <input type="text" class="form-control"  ngModel maxlength="6" formControlName="PostalCode" [(ngModel)]="VendorData.PostalCode" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.PostalCode.errors}" placeholder="PostalCode" />
+                        <span *ngIf="VQAddSubmitted && AddQuotation.controls.PostalCode.errors" class="invalid-feedback">Please enter PostalCode.</span>
+                    </div>
+
+
+                    <div class="form-group ">
+                        <!-- <input class="form-control input-md" #LocalBranchOffice="ngModel" required id="LocalBranch"  name="LocalBranch"  type="text"  pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+)(\s)*(\w+)*(\s)*)+$"  placeholder="LocalBranch" [(ngModel)]="Registration.LocalBranchOffice"> -->
+                        <input type="text" class="form-control"  ngModel maxlength="6" formControlName="LocalBranch" [(ngModel)]="VendorData.LocalBranch" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.LocalBranch.errors}" placeholder="LocalBranch" />
+                        <span *ngIf="VQAddSubmitted && AddQuotation.controls.LocalBranch.errors" class="invalid-feedback">Please enter Local Branch.</span>
+              
+                    </div>
+                    
+                    <div class="form-group">
+                        <!-- <input class="form-control input-md " #BusinessArea="ngModel" required id="BusinessArea " name="BusinessArea " type="text " pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+)(\s)*(\w+)*(\s)*)+$" placeholder="Business Area" [(ngModel)]="Registration.BusinessArea"> -->
+                        <input type="text" class="form-control"  ngModel maxlength="6" formControlName="BusinessArea" [(ngModel)]="VendorData.BusinessArea" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.BusinessArea.errors}" placeholder="BusinessArea" />
+                        <span *ngIf="VQAddSubmitted && AddQuotation.controls.BusinessArea.errors" class="invalid-feedback">Please enter Business Area.</span>
+              
+                    </div>
+                      <div class="form-group">
+                        <!-- <input class="form-control input-md " #VendorNoInSAP="ngModel" required id="VendorNoInSAP " name="VendorNoInSAP " type="text " pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+)(\s)*(\w+)*(\s)*)+$" placeholder="Vendor No In SAP" [(ngModel)]="Registration.VendorNoInSAP"> -->
+                        <input type="text" class="form-control"  ngModel maxlength="6" formControlName="VendorNoInSAP" [(ngModel)]="VendorData.VendorNoInSAP" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.VendorNoInSAP.errors}" placeholder="Vendor Number In SAP" />
+                        <span *ngIf="VQAddSubmitted && AddQuotation.controls.VendorNoInSAP.errors" class="invalid-feedback">Please enter Vendor Number In SAP.</span>
+              
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="strike">
+                <span class="headername">Communication</span>
+            </div>
+            <div class="tab-pane" style="padding-top:0%;">
+                <div class="row">
+                    <div class='col-xs-12 col-md-6 col-sm-6'>
+                        <div class="form-group">
+                            <!-- <input class="form-control input-md" #PhoneExn="ngModel"  required id="PhoneExn" name="PhoneExn" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="Phone & Extn" [(ngModel)]="Registration.PhoneExn"> -->
+                            <input type="text" class="form-control"  ngModel maxlength="6" formControlName="PhoneExn" [(ngModel)]="VendorData.PhoneExn" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.PhoneExn.errors}" placeholder="Phone & Extn" />
+                            <span *ngIf="VQAddSubmitted && AddQuotation.controls.PhoneExn.errors" class="invalid-feedback">Please enter Phone & Extn.</span>
+                  
+                        </div>  
+                        <div class="form-group">
+                            <!-- <input class="form-control input-md" #Mobile="ngModel" required id="Mobile" name="Mobile" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="Mobile Number" [(ngModel)]="Registration.Mobile"> -->
+                            <input type="text" class="form-control"  ngModel maxlength="6" formControlName="Mobile" [(ngModel)]="VendorData.Mobile" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.Mobile.errors}" placeholder="Mobile Number" />
+                            <span *ngIf="VQAddSubmitted && AddQuotation.controls.Mobile.errors" class="invalid-feedback">Please enter Mobile Number.</span>
+                  
+                        </div>  
+                        <div class="form-group">
+                            <!-- <input class="form-control input-md" #Email="ngModel" required id="Email" name="Email" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="EmailId" [(ngModel)]="Registration.email"> -->
+                            <input type="text" class="form-control"  ngModel maxlength="6" formControlName="email" [(ngModel)]="VendorData.email" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.email.errors}" placeholder="EmailId" />
+                            <span *ngIf="VQAddSubmitted && AddQuotation.controls.email.errors" class="invalid-feedback">Please enter EmailId.</span>
+                  
+                        </div>   
+</div>
+<div class='col-xs-12 col-md-6 col-sm-6'>
+    <div class="form-group">
+        <!-- <input class="form-control input-md" #Fax="ngModel" required id="Fax" name="Fax" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="Fax" [(ngModel)]="Registration.Fax"> -->
+        <input type="text" class="form-control"  ngModel maxlength="6" formControlName="Fax" [(ngModel)]="VendorData.Fax" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.Fax.errors}" placeholder="Fax" />
+        <span *ngIf="VQAddSubmitted && AddQuotation.controls.Fax.errors" class="invalid-feedback">Please enter Fax.</span>
+
+    </div>  
+    <div class="form-group">
+        <!-- <input class="form-control input-md" #ContactPerson="ngModel" required id="ContactPerson" name="ContactPerson" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="Contact Person" [(ngModel)]="Registration.ContactPerson"> -->
+        <input type="text" class="form-control"  ngModel maxlength="6" formControlName="ContactPerson" [(ngModel)]="VendorData.ContactPerson" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.ContactPerson.errors}" placeholder="Contact Person" />
+        <span *ngIf="VQAddSubmitted && AddQuotation.controls.ContactPerson.errors" class="invalid-feedback">Please enter Contact Person.</span>
+
+    </div>  
+    <div class="form-group">
+        <!-- <input class="form-control input-md" #contPhone="ngModel" required id="contPhone" name="contPhone" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="contact Person Phone Number" [(ngModel)]="Registration.contPhone"> -->
+        <input type="text" class="form-control"  ngModel maxlength="6" formControlName="contPhone" [(ngModel)]="VendorData.contPhone" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.contPhone.errors}" placeholder="contact Person Phone Number" />
+        <span *ngIf="VQAddSubmitted && AddQuotation.controls.contPhone.errors" class="invalid-feedback">Please enter Contact Person.</span>
+
+    </div>  
+</div>
+</div>
+
+<div class="strike">
+    <span class="headername">Tax Information</span>
+</div>
+<div class="tab-pane" style="padding-top:0%;">
+    <div class="row">
+        <div class='col-xs-12 col-md-6 col-sm-6'>
+            <div class="form-group">
+                <!-- <input class="form-control input-md" #GSTNo="ngModel" required id="GSTNo" name="GSTNo" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="GST No" [(ngModel)]="Registration.GSTNo"> -->
+                <input type="text" class="form-control"  ngModel maxlength="6" formControlName="GSTNo" [(ngModel)]="VendorData.GSTNo" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.GSTNo.errors}" placeholder="GST No" />
+                <span *ngIf="VQAddSubmitted && AddQuotation.controls.GSTNo.errors" class="invalid-feedback">Please enter  GSTNo.</span>
+        
+        
+            </div> 
+            <div class="form-group">
+                <!-- <input class="form-control input-md" #PANNo="ngModel" required id="PANNo" name="PANNo" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="PAN No" [(ngModel)]="Registration.PANNo"> -->
+                <input type="text" class="form-control"  ngModel maxlength="6" formControlName="PANNo" [(ngModel)]="VendorData.PANNo" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.PANNo.errors}" placeholder="PAN No" />
+                <span *ngIf="VQAddSubmitted && AddQuotation.controls.PANNo.errors" class="invalid-feedback">Please enter PANNo.</span>
+        
+            </div> 
+            <div class="form-group">
+                <!-- <input class="form-control input-md" #CINNo="ngModel" required id="CINNo" name="CINNo" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="CIN No" [(ngModel)]="Registration.CINNo"> -->
+                <input type="text" class="form-control"  ngModel maxlength="6" formControlName="CINNo" [(ngModel)]="VendorData.CINNo" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.CINNo.errors}" placeholder="CIN No" />
+                <span *ngIf="VQAddSubmitted && AddQuotation.controls.CINNo.errors" class="invalid-feedback">Please enter CINNo.</span>
+        
+            </div> 
+            </div>
+            <div class='col-xs-12 col-md-6 col-sm-6'>
+                <div class="form-group">
+                    <!-- <input class="form-control input-md" #TanNo="ngModel"  required id="TanNo" name="TanNo" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="TAX No" [(ngModel)]="Registration.TanNo"> -->
+                    <input type="text" class="form-control"  ngModel maxlength="6" formControlName="TanNo" [(ngModel)]="VendorData.TanNo" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.TanNo.errors}" placeholder="TAN No" />
+                    <span *ngIf="VQAddSubmitted && AddQuotation.controls.TanNo.errors" class="invalid-feedback">Please enter TanNo.</span>
+            
+                </div> 
+                <div class="form-group">
+                    <!-- <select id="drp_Business" class="form-control input-md">
+                        <option disabled selected value> -- select Nature Of Business -- </option>
+                        <option *ngFor=" let BusinessList of NaturOfBusinessList " value= {{BusinessList.NaturofBusinessId}}>
+                          {{BusinessList.NatureofbusinessName}}
+                        </option>
+                    </select> -->
+                    <select id="drp_Business" class="form-control dropdown" formControlName="NaturOfBusiness" [(ngModel)]="VendorData.NaturOfBusiness"   [ngClass]="{'is-invalid': VQAddSubmitted && (AddQuotation.controls.NaturOfBusiness.value=='0' || AddQuotation.controls.NaturOfBusiness.value==null)}">
+                           
+                        <option disabled selected value> -- select Nature Of Business -- </option>
+                        <option *ngFor=" let BusinessList of NaturOfBusinessList " value= {{BusinessList.NaturofBusinessId}}>
+                          {{BusinessList.NatureofbusinessName}}
+                        </option>
+                    </select>
+                    <span *ngIf="VQAddSubmitted && AddQuotation.controls.NaturOfBusiness.errors" class="invalid-feedback">Please select Nature of Business.</span>
+                </div>
+            </div>
+        </div>
+        <div class="strike">
+            <span class="headername">Payment Information</span>
+        </div>
+        <div class="tab-pane" style="padding-top:0%;">
+            <div class="row">
+                <div class='col-xs-12 col-md-6 col-sm-6'>
+                    <div class="form-group">
+                        <!-- <input class="form-control input-md" #PaymentTerms="ngModel" required id="PaymentTerms" name="PaymentTerms" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="Payment Terms" [(ngModel)]="Registration.PaymentTerms"> -->
+                        <input type="text" class="form-control"  ngModel maxlength="6" formControlName="PaymentTerms" [(ngModel)]="VendorData.PaymentTerms" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.PaymentTerms.errors}" placeholder="Payment Terms" />
+                        <span *ngIf="VQAddSubmitted && AddQuotation.controls.PaymentTerms.errors" class="invalid-feedback">Please enter Payment Terms.</span>
+                
+                    </div> 
+                    <div class="form-group">
+                        <!-- <input class="form-control input-md" #BankDetails="ngModel" required id="BankDetails" name="BankDetails" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="Bank Details" [(ngModel)]="Registration.BankDetails"> -->
+                        <input type="text" class="form-control"  ngModel maxlength="6" formControlName="BankDetails" [(ngModel)]="VendorData.BankDetails" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.BankDetails.errors}" placeholder="Bank Details" />
+                        <span *ngIf="VQAddSubmitted && AddQuotation.controls.BankDetails.errors" class="invalid-feedback">Please enter Bank Details.</span>
+                
+                    </div> 
+                    <div class="form-group">
+                        <!-- <input class="form-control input-md" #BankerName="ngModel"  required id="BankerName" name="BankerName" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="Banker  Name" [(ngModel)]="Registration.BankerName"> -->
+                        <input type="text" class="form-control"  ngModel maxlength="6" formControlName="BankerName" [(ngModel)]="VendorData.BankerName" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.BankerName.errors}" placeholder="Banker Name" />
+                        <span *ngIf="VQAddSubmitted && AddQuotation.controls.BankerName.errors" class="invalid-feedback">Please enter Banker Name.</span>
+                
+                    </div> 
+                    <div class="form-group">
+                        <!-- <input class="form-control input-md" #AccountHolderName="ngModel" required id="AccountHolderName" name="AccountHolderName" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="Account Holder Name" [(ngModel)]="Registration.AccountHolderName"> -->
+                        <input type="text" class="form-control"  ngModel maxlength="6" formControlName="AccountHolderName" [(ngModel)]="VendorData.AccountHolderName" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.AccountHolderName.errors}" placeholder="AccountHolder Name" />
+                        <span *ngIf="VQAddSubmitted && AddQuotation.controls.AccountHolderName.errors" class="invalid-feedback">Please enter Account Holder Name.</span>
+                
+                    </div> 
+
+                    </div>
+                    <div class='col-xs-12 col-md-6 col-sm-6'>
+                        <div class="form-group">
+                            <!-- <input class="form-control input-md"#LocationOrBranch="ngModel"  required id="LocationOrBranch" name="LocationOrBranch" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="Location Or Branch" [(ngModel)]="Registration.LocationOrBranch"> -->
+                            <input type="text" class="form-control"  ngModel maxlength="6" formControlName="LocationOrBranch" [(ngModel)]="VendorData.LocationOrBranch" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.LocationOrBranch.errors}" placeholder="Location Or Branch" />
+                            <span *ngIf="VQAddSubmitted && AddQuotation.controls.LocationOrBranch.errors" class="invalid-feedback">Please enter Location Or Branch.</span>
+                    
+                        </div> 
+                        <div class="form-group">
+                            <!-- <input class="form-control input-md" #AccNo="ngModel"  required id="AccNo" name="AccNo" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="Account Number" [(ngModel)]="Registration.AccNo"> -->
+                            <input type="text" class="form-control"  ngModel maxlength="6" formControlName="AccNo" [(ngModel)]="VendorData.AccNo" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.AccNo.errors}" placeholder="Account Number" />
+                            <span *ngIf="VQAddSubmitted && AddQuotation.controls.AccNo.errors" class="invalid-feedback">Please enter Account number.</span>
+                    
+                        </div> 
+                        <div class="form-group">
+                            <!-- <input class="form-control input-md" #IFSCCode="ngModel" required id="IFSCCode" name="IFSCCode" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="IFSC Code" [(ngModel)]="Registration.IFSCCode"> -->
+                            <input type="text" class="form-control"  ngModel maxlength="6" formControlName="IFSCCode" [(ngModel)]="VendorData.IFSCCode" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.IFSCCode.errors}" placeholder="IFSC Code" />
+                            <span *ngIf="VQAddSubmitted && AddQuotation.controls.IFSCCode.errors" class="invalid-feedback">Please enter IFSC Code.</span>
+                    
+                        </div>   
+                    </div>
+            </div>
+
+            <div class="strike" id="docdetailsid">
+                <span class="headername">Documents Information</span>
+            </div>
+            <div class="tab-pane" style="padding-top:0%;" id="docdetailsid">
+                <div class="row">
+                    <div class='col-xs-12 col-md-6 col-sm-6'>
+                        <div class="form-group">
+                            <select id="drp_documenttype1" class="form-control input-md" (change)="onChange1($event.target.value)">
+                                <option disabled selected value> -- select Address Proof-- </option>
+                                <option  id="selectedPANId"*ngFor=" let DocList of DocumentList " value= {{DocList.DocId}}>
+                                    {{DocList.DocumentName}}
+                                  </option>
+                            </select>
+                        </div>
+                         <div class="form-group">
+                            <select id="drp_documenttype2" class="form-control input-md" (change)="onChange2($event.target.value)">
+                                <option disabled selected value> -- select GST registration certificate-- </option>
+                                <option  id="selectedPANId" *ngFor=" let DocList of DocumentList " value= {{DocList.DocId}}>
+                                    {{DocList.DocumentName}}
+                                  </option>
+                            </select>
+                        </div>
+                       <div class="form-group">
+                            <select id="drp_documenttype3" class="form-control input-md" (change)="onChange3($event.target.value)">
+                                <option disabled selected value> -- select PAN-- </option>
+                                <option  id="selectedPANId" *ngFor=" let DocList of DocumentList " value= {{DocList.DocId}}>
+                                    {{DocList.DocumentName}}
+                                  </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select id="drp_documenttype4" class="form-control input-md" (change)="onChange4($event.target.value)">
+                                <option disabled selected value> -- CIN Copy-- </option>
+                                <option  id="selectedPANId"*ngFor=" let DocList of DocumentList " value= {{DocList.DocId}}>
+                                    {{DocList.DocumentName}}
+                                  </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select id="drp_documenttype5" class="form-control input-md" (change)="onChange5($event.target.value)">
+                                <option disabled selected value> -- select Bank Mandate duly signed by banker-- </option>
+                                <option  id="selectedPANId"*ngFor=" let DocList of DocumentList " value= {{DocList.DocId}}>
+                                    {{DocList.DocumentName}}
+                                  </option>
+                            </select>
+                        </div>
+                         <div class="form-group">
+                            <select id="drp_documenttype6" class="form-control input-md" (change)="onChange6($event.target.value)">
+                                <option disabled selected value> -- select Cancelled cheque Copy-- </option>
+                                <option  id="selectedPANId"*ngFor=" let DocList of DocumentList " value= {{DocList.DocId}}>
+                                    {{DocList.DocumentName}}
+                                  </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select id="drp_documenttype7" class="form-control input-md" (change)="onChange7($event.target.value)">
+                                <option disabled selected value> -- select Certificate from factory Inspector-- </option>
+                                <option  id="selectedPANId"*ngFor=" let DocList of DocumentList " value= {{DocList.DocId}}>
+                                    {{DocList.DocumentName}}
+                                  </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select id="drp_documenttype8" class="form-control input-md" (change)="onChange8($event.target.value)">
+                                <option disabled selected value> -- select ESI / PF Registration-- </option>
+                                <option  id="selectedPANId"*ngFor=" let DocList of DocumentList " value= {{DocList.DocId}}>
+                                    {{DocList.DocumentName}}
+                                  </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select id="drp_documenttype9" class="form-control input-md" (change)="onChange9($event.target.value)">
+                                <option disabled selected value> -- select Pollution clearance certificate copy-- </option>
+                                <option  id="selectedPANId"*ngFor=" let DocList of DocumentList " value= {{DocList.DocId}}>
+                                    {{DocList.DocumentName}}
+                                  </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select id="drp_documenttype10" class="form-control input-md" (change)="onChange10($event.target.value)">
+                                <option disabled selected value> -- select Excise registration certificate copy-- </option>
+                                <option  *ngFor=" let DocList of DocumentList " value= {{DocList.DocId}}>
+                                    {{DocList.DocumentName}}
+                                  </option>
+                            </select>
+                        </div> 
+                    </div>
+                    <div class='col-xs-3 col-md-2 col-sm-2'>
+                        <div class="form-group">
+                            <button class="attachedbtn" mat-raised-button [disabled]="isDisabledaddress" (click)="fileInput1.click()">Select File</button>
+                           <input style="display: none"  #attachments type="file" (change)="fileattached1($event,'itemDetails')" #fileInput1 multiple="true">
+                            
+                          
+                        </div>
+                         <div class="form-group">
+                            <button class="attachedbtn" mat-raised-button [disabled]="isDisabledGST" (click)="fileInput2.click()">Select File</button>
+                            <input style="display: none"  #attachments type="file" (change)="fileattached2($event,'itemDetails')" #fileInput2 multiple="true">
+                          
+                            
+                        </div>
+                        <div class="form-group">
+                            <button class="attachedbtn" mat-raised-button [disabled]="isDisabledPAN" (click)="fileInput3.click()">Select File</button>
+                            <input style="display: none"  #attachments type="file" (change)="fileattached3($event,'itemDetails')" #fileInput3 multiple="true">
+                            
+                        </div>
+                        <div class="form-group">
+                            <button class="attachedbtn" mat-raised-button [disabled]="isDisabledCIN" (click)="fileInput4.click()">Select File</button>
+                            <input style="display: none"  #attachments type="file" (change)="fileattached4($event,'itemDetails')" #fileInput4 multiple="true">
+                            
+                        </div>
+                        <div class="form-group">
+                            <button class="attachedbtn" mat-raised-button [disabled]="isDisabledBank" (click)="fileInput5.click()">Select File</button>
+                            <input style="display: none"  #attachments type="file" (change)="fileattached5($event,'itemDetails')" #fileInput5 multiple="true">
+                            
+                        </div>
+                        <div class="form-group">
+                            <button class="attachedbtn" mat-raised-button [disabled]="isDisabledCheque" (click)="fileInput6.click()">Select File</button>
+                            <input style="display: none"  #attachments type="file" (change)="fileattached6($event,'itemDetails')" #fileInput6 multiple="true">
+                            
+                        </div>
+                        <div class="form-group">
+                            <button class="attachedbtn" mat-raised-button [disabled]="isDisabledInspecter" (click)="fileInput7.click()">Select File</button>
+                            <input style="display: none"  #attachments type="file" (change)="fileattached7($event,'itemDetails')" #fileInput7 multiple="true">
+                            
+                        </div>
+                        <div class="form-group">
+                            <button class="attachedbtn" mat-raised-button [disabled]="isDisabledESI" (click)="fileInput8.click()">Select File</button>
+                            <input style="display: none"  #attachments type="file" (change)="fileattached8($event,'itemDetails')" #fileInput8 multiple="true">
+                            
+                        </div>
+                        <div class="form-group">
+                            <button class="attachedbtn" mat-raised-button [disabled]="isDisabledPollution" (click)="fileInput9.click()">Select File</button>
+                            <input style="display: none"  #attachments type="file" (change)="fileattached9($event,'itemDetails')" #fileInput9 multiple="true">
+                            
+                        </div> 
+                        <div class="form-group">
+                            <button class="attachedbtn" mat-raised-button [disabled]="isDisabledExcise" (click)="fileInput10.click()">Select File</button>
+                            <input style="display: none"  #attachments type="file" (change)="fileattached10($event,'itemDetails')" #fileInput10 multiple="true">
+                            
+                        </div> 
+                    </div>
+                    <div class='col-xs-9 col-md-4 col-sm-4'>
+                        <div class="form-group">
+                            <span *ngFor="let selected of listOfFiles1;let index = index">
+                                    <span  class="fixed-text" pTooltip={{selected}}><i  icon="fa fa-file" class="fa fa-file"></i></span>
+                                <button mat-icon-button (click)="removeSelectedFile1(selected,index)"><i  icon="fa fa-trash" class="fa fa-trash"></i></button>
+                               
+                              </span>
+                            </div>
+                            <div class="form-group">
+                                <span *ngFor="let selected of listOfFiles2;let index = index">
+                                        <span  class="fixed-text" pTooltip={{selected}}><i  icon="fa fa-file" class="fa fa-file"></i></span>
+                                    <button mat-icon-button (click)="removeSelectedFile2(selected,index)"><i  icon="fa fa-trash" class="fa fa-trash"></i></button>
+                                   
+                                  </span>
+                                </div>
+
+                                <div class="form-group">
+                                    <span *ngFor="let selected of listOfFiles3;let index = index">
+                                            <span  class="fixed-text" pTooltip={{selected}}><i  icon="fa fa-file" class="fa fa-file"></i></span>
+                                        <button mat-icon-button (click)="removeSelectedFile3(selected,index)"><i  icon="fa fa-trash" class="fa fa-trash"></i></button>
+                                       
+                                      </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <span *ngFor="let selected of listOfFiles4;let index = index">
+                                                <span  class="fixed-text" pTooltip={{selected}}><i  icon="fa fa-file" class="fa fa-file"></i></span>
+                                            <button mat-icon-button (click)="removeSelectedFile4(selected,index)"><i  icon="fa fa-trash" class="fa fa-trash"></i></button>
+                                           
+                                          </span>
+                                        </div>
+                                        <div class="form-group">
+                                            <span *ngFor="let selected of listOfFiles5;let index = index">
+                                                    <span  class="fixed-text" pTooltip={{selected}}><i  icon="fa fa-file" class="fa fa-file"></i></span>
+                                                <button mat-icon-button (click)="removeSelectedFile5(selected,index)"><i  icon="fa fa-trash" class="fa fa-trash"></i></button>
+                                               
+                                              </span>
+                                            </div>
+                                            <div class="form-group">
+                                                <span *ngFor="let selected of listOfFiles6;let index = index">
+                                                        <span  class="fixed-text" pTooltip={{selected}}><i  icon="fa fa-file" class="fa fa-file"></i></span>
+                                                    <button mat-icon-button (click)="removeSelectedFile6(selected,index)"><i  icon="fa fa-trash" class="fa fa-trash"></i></button>
+                                                   
+                                                  </span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <span *ngFor="let selected of listOfFiles7;let index = index">
+                                                            <span  class="fixed-text" pTooltip={{selected}}><i  icon="fa fa-file" class="fa fa-file"></i></span>
+                                                        <button mat-icon-button (click)="removeSelectedFile7(selected,index)"><i  icon="fa fa-trash" class="fa fa-trash"></i></button>
+                                                       
+                                                      </span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <span *ngFor="let selected of listOfFiles8;let index = index">
+                                                                <span  class="fixed-text" pTooltip={{selected}}><i  icon="fa fa-file" class="fa fa-file"></i></span>
+                                                            <button mat-icon-button (click)="removeSelectedFile8(selected,index)"><i  icon="fa fa-trash" class="fa fa-trash"></i></button>
+                                                           
+                                                          </span>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <span *ngFor="let selected of listOfFiles9;let index = index">
+                                                                    <span  class="fixed-text" pTooltip={{selected}}><i  icon="fa fa-file" class="fa fa-file"></i></span>
+                                                                <button mat-icon-button (click)="removeSelectedFile9(selected,index)"><i  icon="fa fa-trash" class="fa fa-trash"></i></button>
+                                                               
+                                                              </span>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <span *ngFor="let selected of listOfFiles10;let index = index">
+                                                                        <span  class="fixed-text" pTooltip={{selected}}><i  icon="fa fa-file" class="fa fa-file"></i></span>
+                                                                    <button mat-icon-button (click)="removeSelectedFile10(selected,index)"><i  icon="fa fa-trash" class="fa fa-trash"></i></button>
+                                                                   
+                                                                  </span>
+                                                                </div>
+                    </div>
+                </div>
+<div class="row">
+                <div class='col-md-offset-2 col-sm-offset-2 col-md-4 col-xs-12 col-sm-5'>
+                    <div class="form-group text-center">
+                        <button class="btn btn-outline-rounded btn-info"  id="btncreate" (click)="Savevendor(AddQuotation)" style="border-radius: 0px; margin-bottom: 50px;"> Save </button>
+                       
+
+                    </div>
+                </div>
+                <div class='col-md-4 col-xs-12 col-sm-5'>
+                    <div class="form-group text-center">
+                        <button class="btn btn-outline-rounded btn-info"   (click)="FinalSubmit(AddQuotation)" id="btncreate" style="border-radius: 0px; margin-bottom: 50px;"> Submit </button>
+                        
+
+                    </div>
+                </div>
+            </div>
+                </div>
+
+            </div>
+    </div>
+</div>
+
+
+            </div> 
+            </form>
+</div>

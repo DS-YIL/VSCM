@@ -1,0 +1,24 @@
+<div class="header-container">
+  <div class="logo-container">
+    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle" *ngIf="currentUser">
+      <nb-icon icon="menu-2-outline"></nb-icon>
+    </a>
+    <a class="pointers" (click)="Login()"><img src="assets/Yokogawa1.png" height="50" width="194"></a>
+    <!-- <a class="logo" [routerLink]="['/VSCM/login']" routerLinkActive="active"><img src="assets/Yokogawa1.png" height="50" width="194"></a> -->
+  </div>
+ 
+</div>
+
+<div class="header-container">
+  <!-- <h6>SCM-SYSTEM</h6> -->
+  <nb-actions size="small">
+    
+    <nb-action class="user-action"  *ngIf="currentUser" >
+      <nb-user [nbContextMenu]="userMenu"
+               [onlyPicture]="userPictureOnly"
+               [name]="currentUser.UserName"
+               [picture]="picture1">
+      </nb-user>
+    </nb-action>
+  </nb-actions>
+</div>
