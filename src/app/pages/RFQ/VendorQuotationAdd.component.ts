@@ -27,10 +27,13 @@ export class VendorQuotationAddComponent implements OnInit {
 	public RFQTerms:RFQTerms;
 	public RfqRevisionId: number = 0;
 	public VendorQuotation; AddQuotation: FormGroup;
+	public AddQuotationforitem: FormGroup;
 	public dynamicData = new DynamicSearchResult();
 	public VQAddSubmitted: boolean = false;
 	public AddDialog: boolean;
+	public AddDialogforitem: boolean;
 	public showDiscount: string;
+	public showDiscountforitem: string;
 	public MultipleItems: string;
 	public showitemsdesc:string;
 	public responseAgree:string;
@@ -60,6 +63,7 @@ export class VendorQuotationAddComponent implements OnInit {
 mprdoc:MPRDocument=new MPRDocument();
 public docDetails: QuoteDetails;
 public DESkey:string;
+public rfqItemsresult: RfqItemModel;
 	ngOnInit() {
 		
 		this.Vendor= JSON.parse(localStorage.getItem("vendordetail"));
@@ -112,6 +116,35 @@ this.loaddocDetails();
 			MultipleItems:['', [Validators.required]],
 			ItemNameForMultiple:['', [Validators.required]],
 			ItemDescriptionForMultiple:['', [Validators.required]]
+		});
+		this.AddQuotationforitem = this.formBuilder.group({
+			Qty: ['', [Validators.required]],
+			UOM: ['', [Validators.required]],
+			CurrencyId: ['', [Validators.required]],
+			UnitPrice: ['', [Validators.required]],
+			DiscountOption: ['', [Validators.required]],
+			DiscountPercentage: ['', [Validators.required]],
+			Discount: ['', [Validators.required]],
+			HSNCode: ['', [Validators.required]],
+			VendorModelNo: ['', [Validators.required]],
+			MfgPartNo: ['', [Validators.required]],
+			MfgModelNo: ['', [Validators.required]],
+			//TaxDutyOption: ['', [Validators.required]],
+			//CustomDuty: ['', [Validators.required]],
+			//GST: ['', [Validators.required]],
+			//IGSTPercentage: ['', [Validators.required]],
+			CGSTPercentage: ['', [Validators.required]],
+			SGSTPercentage: ['', [Validators.required]],
+			PFPercentage: ['', [Validators.required]],
+			PFAmount: ['', [Validators.required]],
+			FreightPercentage: ['', [Validators.required]],
+			FreightAmount: ['', [Validators.required]],
+			DeliveryDate: ['', [Validators.required]],
+			Remarks: ['', [Validators.required]],
+			IGSTPercentage: ['', [Validators.required]],
+			// MultipleItems:['', [Validators.required]],
+			// ItemNameForMultiple:['', [Validators.required]],
+			// ItemDescriptionForMultiple:['', [Validators.required]]
 		});
 	}
 	removeSelectedFileForItem(filename:any,index) {
@@ -266,6 +299,20 @@ this.loaddocDetails();
 		this.AddQuotation.controls['DiscountPercentage'].updateValueAndValidity();
 		this.AddQuotation.controls['Discount'].updateValueAndValidity();
 	}
+	boolDiscount1(event) {
+		this.AddQuotationforitem.controls['DiscountPercentage'].setValue("");
+		this.AddQuotationforitem.controls['Discount'].setValue("");
+		if (this.showDiscount == 'true') {
+			this.AddQuotationforitem.controls['DiscountPercentage'].setValidators([Validators.required]);
+			this.AddQuotationforitem.controls['Discount'].setValidators([Validators.required]);
+		}
+		else if (this.showDiscount == 'false') {
+			this.AddQuotationforitem.controls['DiscountPercentage'].clearValidators();
+			this.AddQuotationforitem.controls['Discount'].clearValidators();
+		}
+		this.AddQuotationforitem.controls['DiscountPercentage'].updateValueAndValidity();
+		this.AddQuotationforitem.controls['Discount'].updateValueAndValidity();
+	}
 
   DiscountPercentageEntered(event) {
 		if (this.AddQuotation.controls['DiscountPercentage'].value != "") {
@@ -274,6 +321,13 @@ this.loaddocDetails();
         }
     this.AddQuotation.controls['Discount'].updateValueAndValidity();
   }
+  DiscountPercentageEntered1(event) {
+	if (this.AddQuotationforitem.controls['DiscountPercentage'].value != "") {
+		this.AddQuotationforitem.controls['Discount'].setValue("")
+		this.AddQuotationforitem.controls['Discount'].clearValidators();
+	}
+this.AddQuotationforitem.controls['Discount'].updateValueAndValidity();
+}
   DiscountEntered(event) {
     if (this.AddQuotation.controls['Discount'].value != "") {
       this.AddQuotation.controls['DiscountPercentage'].setValue("");
@@ -281,13 +335,27 @@ this.loaddocDetails();
     }
     this.AddQuotation.controls['DiscountPercentage'].updateValueAndValidity();
   }
+  DiscountEntered1(event) {
+    if (this.AddQuotationforitem.controls['Discount'].value != "") {
+      this.AddQuotationforitem.controls['DiscountPercentage'].setValue("");
+      this.AddQuotationforitem.controls['DiscountPercentage'].clearValidators();
+    }
+    this.AddQuotationforitem.controls['DiscountPercentage'].updateValueAndValidity();
+  }
 
-	PFPercentage(event) {
+	PFPercentage() {
 		if (this.AddQuotation.controls['PFPercentage'].value != "") {
 			this.AddQuotation.controls['PFAmount'].setValue("");
 			this.AddQuotation.controls['PFAmount'].clearValidators();
 		}
 		this.AddQuotation.controls['PFAmount'].updateValueAndValidity();
+	}
+	PFPercentage1() {
+		if (this.AddQuotationforitem.controls['PFPercentage'].value != "") {
+			this.AddQuotationforitem.controls['PFAmount'].setValue("");
+			this.AddQuotationforitem.controls['PFAmount'].clearValidators();
+		}
+		this.AddQuotationforitem.controls['PFAmount'].updateValueAndValidity();
 	}
 
 	PFAmount() {
@@ -297,6 +365,13 @@ this.loaddocDetails();
 		}
 		this.AddQuotation.controls['PFPercentage'].updateValueAndValidity();
 	}
+	PFAmount1() {
+		if (this.AddQuotationforitem.controls['PFAmount'].value != "") {
+			this.AddQuotationforitem.controls['PFPercentage'].setValue("");
+			this.AddQuotationforitem.controls['PFPercentage'].clearValidators();
+		}
+		this.AddQuotationforitem.controls['PFPercentage'].updateValueAndValidity();
+	}
 
 	FreightPercentage() {
 		if (this.AddQuotation.controls['FreightPercentage'].value != "") {
@@ -305,13 +380,26 @@ this.loaddocDetails();
 		}
 		this.AddQuotation.controls['FreightAmount'].updateValueAndValidity();
 	}
-
-	FreightAmount(event) {
+	FreightPercentage1() {
+		if (this.AddQuotationforitem.controls['FreightPercentage'].value != "") {
+			this.AddQuotationforitem.controls['FreightAmount'].setValue("");
+			this.AddQuotationforitem.controls['FreightAmount'].clearValidators();
+		}
+		this.AddQuotationforitem.controls['FreightAmount'].updateValueAndValidity();
+	}
+	FreightAmount() {
 		if (this.AddQuotation.controls['FreightAmount'].value != "") {
 			this.AddQuotation.controls['FreightPercentage'].setValue("");
 			this.AddQuotation.controls['FreightPercentage'].clearValidators();
 		}
 		this.AddQuotation.controls['FreightPercentage'].updateValueAndValidity();
+	}
+	FreightAmount1() {
+		if (this.AddQuotationforitem.controls['FreightAmount'].value != "") {
+			this.AddQuotationforitem.controls['FreightPercentage'].setValue("");
+			this.AddQuotationforitem.controls['FreightPercentage'].clearValidators();
+		}
+		this.AddQuotationforitem.controls['FreightPercentage'].updateValueAndValidity();
 	}
 	getDocType(docType:number)
     {
@@ -369,7 +457,17 @@ this.loaddocDetails();
 			this.AddQuotation.controls['CGSTPercentage'].updateValueAndValidity();
 			//this.AddQuotation.controls['CGSTPercentage'].clearValidators();
 			//alert("data");
-		}
+		  }
+		// if (this.AddQuotation.controls['IGSTPercentage'].value != ""){
+		// 	this.AddQuotation.controls['SGSTPercentage'].setValue("");
+		// 	//this.AddQuotation.controls['CGSTPercentage'].setValue("");
+		// 	this.AddQuotation.controls['SGSTPercentage'].clearValidators();
+		// 	this.AddQuotation.controls['CGSTPercentage'].clearValidators();
+		// 	this.AddQuotation.controls['SGSTPercentage'].updateValueAndValidity();
+		// 	this.AddQuotation.controls['CGSTPercentage'].updateValueAndValidity();
+		// 	//this.AddQuotation.controls['CGSTPercentage'].clearValidators();
+		// 	//alert("data");
+		// }
 		
 	}
 	IGSTEnablefromCGST(){
@@ -377,7 +475,7 @@ this.loaddocDetails();
 		{
 			this.AddQuotation.controls['IGSTPercentage'].setValue("");
 			this.AddQuotation.controls['IGSTPercentage'].clearValidators();
-			
+			this.AddQuotation.controls['IGSTPercentage'].updateValueAndValidity();
 		}	
 	}
 	IGSTEnablefromSGST(){
@@ -451,6 +549,122 @@ this.listOfFiles1=documents;
 		});
 		 
 	  }
+	  boolDiscountonload(event) {
+		if(this.rfqItemInfo.Discount=="0" && this.rfqItemInfo.DiscountPercentage=="0")
+		{
+		this.AddQuotation.controls['DiscountPercentage'].setValue("");
+	   this.AddQuotation.controls['Discount'].setValue("");
+		}
+		
+		if (this.showDiscount == 'true') {
+		  this.AddQuotation.controls['DiscountPercentage'].setValidators([Validators.required]);
+		  this.AddQuotation.controls['Discount'].setValidators([Validators.required]);
+  
+		}
+		else if (this.showDiscount == 'false') {
+		   this.AddQuotation.controls['DiscountPercentage'].setValue("");
+	   this.AddQuotation.controls['Discount'].setValue("");
+		  this.AddQuotation.controls['DiscountPercentage'].clearValidators();
+		  this.AddQuotation.controls['Discount'].clearValidators();
+		}
+		// this.AddQuotation.controls['DiscountPercentage'].updateValueAndValidity();
+		// this.AddQuotation.controls['Discount'].updateValueAndValidity();
+	  }
+	  parseDate(dateString: string): Date {
+		if (dateString) {
+		  return new Date(dateString);
+		}
+		return null;
+	  }
+	  ShowAddDialogitem(quoteDetail:any) {
+		 this.loadUOM();
+		this.rfqItemInfo.ItemName=quoteDetail.ItemName;
+		this.rfqItemInfo.ItemDescription=quoteDetail.ItemDescription;
+		this.quoteDetails["RemoteRFQItems_N"][0].RemoteRFQItemsInfo_N
+		this.rfqItemInfo.DiscountPercentage=quoteDetail["DiscountPercentage"];
+		this.rfqItemInfo.Discount=quoteDetail["Discount"];
+		if(this.rfqItemInfo.Discount=="0" && this.rfqItemInfo.DiscountPercentage=="0")
+		{
+		  this.showDiscount = 'true';
+		  this.boolDiscountonload(event);
+		  //this.rfqItemInfo.DiscountOption=false;
+		}
+		else{
+		  this.showDiscount = 'false';
+		  this.boolDiscountonload(event);
+		  //this.rfqItemInfo.DiscountOption=true;
+		}
+		
+		this.AddDialogforitem = true;
+		var defaultValue = 0;
+		this.rfqItemInfo.Quantity=quoteDetail["Qty"];
+		console.log("show data", this.rfqItemInfo.Quantity);
+		this.rfqItemInfo.Remarks=quoteDetail["Remarks"];
+		this.rfqItemInfo.UnitPrice=quoteDetail["UnitPrice"];
+	   this.rfqItemInfo.RFQItemsId=quoteDetail.RfqItemsId;
+	   this.rfqItem.HSNCode=this.quoteDetails["RemoteRFQItems_N"][0].HSNCode;
+	  // this.rfqItemInfo.Quantity=quoteDetail["Qty"].toInt32(defaultValue);
+	this.rfqItemInfo.RFQSplitItemId=quoteDetail["RFQSplitItemId"];
+	this.rfqItemInfo.UOM=quoteDetail["UOM"];
+	this.rfqItemInfo.CurrencyId=quoteDetail["CurrencyId"];
+	this.rfqItemInfo.DeliveryDate=quoteDetail.DeliveryDate;
+	
+	this.rfqItem.MfgPartNo=this.quoteDetails["RemoteRFQItems_N"][0].MfgPartNo;
+	this.rfqItem.MfgModelNo=this.quoteDetails["RemoteRFQItems_N"][0].MfgModelNo;
+	this.rfqItem.VendorModelNo=this.quoteDetails["RemoteRFQItems_N"][0].VendorModelNo;
+	this.rfqItem.PFAmount=this.quoteDetails["RemoteRFQItems_N"][0].PFAmount;
+	this.rfqItem.CGSTPercentage=this.quoteDetails["RemoteRFQItems_N"][0].CGSTPercentage;
+	this.rfqItem.IGSTPercentage=this.quoteDetails["RemoteRFQItems_N"][0].IGSTPercentage;
+	this.rfqItem.SGSTPercentage=this.quoteDetails["RemoteRFQItems_N"][0].SGSTPercentage;
+	this.rfqItem.PFPercentage=this.quoteDetails["RemoteRFQItems_N"][0].PFPercentage;
+	this.rfqItem.FreightAmount=quoteDetail.FreightAmount;
+	this.rfqItem.FreightPercentage=quoteDetail.FreightPercentage;
+	if(this.rfqItem.FreightAmount!=""){
+		this.AddQuotationforitem.controls['FreightPercentage'].setValue("");
+		this.AddQuotationforitem.controls['FreightPercentage'].clearValidators();
+		this.AddQuotationforitem.controls['FreightPercentage'].updateValueAndValidity();
+	}
+	 if(this.rfqItem.FreightPercentage!=""){
+		this.AddQuotationforitem.controls['FreightAmount'].setValue("");
+		this.AddQuotationforitem.controls['FreightAmount'].clearValidators();
+		this.AddQuotationforitem.controls['FreightAmount'].updateValueAndValidity();
+	 }
+	if(this.rfqItem.PFAmount!=null){
+	  this.AddQuotationforitem.controls['PFPercentage'].setValue("");
+	  this.AddQuotationforitem.controls['PFPercentage'].clearValidators();
+	  this.AddQuotationforitem.controls['PFPercentage'].updateValueAndValidity();
+	}
+	else if(this.rfqItem.PFPercentage!=null){
+	  this.AddQuotationforitem.controls['PFAmount'].setValue("");
+	  this.AddQuotationforitem.controls['PFAmount'].clearValidators();
+	  this.AddQuotationforitem.controls['PFAmount'].updateValueAndValidity();  
+	}
+	if(this.rfqItem.CGSTPercentage!=null)
+	{
+	  this.AddQuotationforitem.controls['IGSTPercentage'].setValue("");
+	  this.AddQuotationforitem.controls['IGSTPercentage'].clearValidators();
+	  this.AddQuotationforitem.controls['IGSTPercentage'].updateValueAndValidity();
+	}
+	else if(this.rfqItem.IGSTPercentage!=null){
+	  this.AddQuotationforitem.controls['SGSTPercentage'].setValue("");
+	  this.AddQuotationforitem.controls['SGSTPercentage'].clearValidators();
+	  this.AddQuotationforitem.controls['SGSTPercentage'].updateValueAndValidity();
+	  this.AddQuotationforitem.controls['CGSTPercentage'].setValue("");
+	  this.AddQuotationforitem.controls['CGSTPercentage'].clearValidators();
+	  this.AddQuotationforitem.controls['CGSTPercentage'].updateValueAndValidity();
+	}
+	
+			//this.AddQuotation.reset();
+			this.showDiscount = "";
+			this.showTaxDuty = "";
+			this.VQAddSubmitted = false;//Removes the Validation error when attempted to click the Add button
+	
+			
+			//this.UOMModel.UnitID = 0;
+	
+			this.loadCurrency();
+		//	this.currncyModel.CurrencyId = 0;
+	  }
 	InsertQuotation() {
 		this.VQAddSubmitted = true;
 		if (this.AddQuotation.invalid) {
@@ -491,8 +705,10 @@ this.listOfFiles1=documents;
 	this.listOfFiles1.push(revid+"\\"+file.name)
 	
 	}
-	this.RfqService.InsertDocument(formData).subscribe(data => { 
-		this.RfqService.InsertDocumentToYSCM(formData).subscribe(data=>{
+	this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => { 
+		this.Documents.Path=data;
+		
+		this.RfqService.InsertDocument(formData).subscribe(data=>{
 			if(data!=null){
 				this.loadQuotationDetails();
 				this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully to YSCM' });
@@ -565,6 +781,37 @@ fileattached(event: any, formName: string) {
   }
 	Cancel() {
 		this.AddDialog = false;
+  }
+  Cancelforitem() {
+	this.AddDialogforitem = false;
+}
+InsertQuotationforitem() {
+	this.VQAddSubmitted = true;
+	if (this.AddQuotationforitem.invalid) {
+	  return;
+	}
+	else {
+	  //this.rfqItemInfo.UOM = 1;//this.UOMModel.UnitID;
+	  //this.rfqItem.iteminfo = [];
+	   this.rfqItem.RFQSplitItemId=this.rfqItemInfo.RFQSplitItemId;
+	   this.rfqItem.RFQItemId=this.rfqItemInfo.RFQItemsId;
+	//    this.rfqItem.RFQVendorbomItemId=this.rfqItemInfo.RFQVendorbomItemId;
+	  this.rfqItem.iteminfo.push(this.rfqItemInfo);
+	  this.rfqItem.RFQRevisionId = this.RfqRevisionId;
+		 // this.quoteDetails = [];
+	  this.RfqService.editRfqItemInfo(this.rfqItem).subscribe(data => {
+		this.rfqItemsresult = data;
+		this.AddDialog = false;
+		if(this.rfqItemsresult[0]["errormsg"]=="Success")
+			  {
+	   
+				  this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Updated sucessfully' });
+		this.loadQuotationDetails();
+	  }
+			  //this.quoteDetails = data;
+			  //this.loadQuotationDetails();
+	  });
+	}
   }
   onChangedoctype(id:string) {
 	if(id!="0")

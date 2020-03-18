@@ -26,7 +26,7 @@
 			</div>
 			<br>
 		</div>
-<br>
+	<br>
 		<p-table [value]="item.RemoteRFQItemsInfo_N">
 
 			<ng-template pTemplate="header" >
@@ -53,7 +53,8 @@
           <td class="text-right">{{rowData.UnitPrice}}</td>
           <td class="text-right">{{rowData.Qty * rowData.UnitPrice}}</td>
           <td class="text-center">
-            <button pButton type="button" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" class="ui-button-danger" (click)="onRFQItemInfo(rowData,item.RFQItemsId,ri)"></button>
+			<button pButton type="button" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" class="ui-button-danger" (click)="onRFQItemInfo(rowData,item.RFQItemsId,ri)"></button>
+			
           </td>
 		</tr>
 		<tr *ngIf="item.RemoteRfqVendorBOMs.length>0">
@@ -76,7 +77,8 @@
 			<td class="text-right">{{items.UnitPrice}}</td>
 			<td class="text-right">{{items.Qty * items.UnitPrice}}</td>
 			<td class="text-center">
-			  <button pButton type="button" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" class="ui-button-danger" (click)="onRFQItemInfo1(item.RFQItemsId,items,ri)"></button>
+			  <button pButton type="button" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" class="ui-button-danger" (click)="onRFQItemInfo1(item.RFQItemsId,items,ri)"></button>&nbsp;&nbsp;&nbsp;
+			<button type="button" pButton icon="fa fa-edit" class="ui-button-edit" (click)="ShowAddDialogitem(items)"  pTooltip="Edit"></button>
 			</td>
 		  </tr>
 		
@@ -234,7 +236,7 @@
 	  
 <form [formGroup]="AddQuotation" style="height: 5px; overflow-y: scroll">
 	<p-dialog header="Add Quotation" [(visible)]="AddDialog" [contentStyle]="{'overflow-y': 'auto', 'overflow-x': 'hidden', 'max-height': '80vh','min-height':'250px'}" showEffect="fade" [modal]="true" [responsive]="true" [style]="{width: '1024px'}">
-		<!--[closable]="false"-->
+		
 		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
 			<div class="col-lg-2 col-md-2 col-sm-2">
 				<label class="form-label">Rfq Item Id :</label>
@@ -374,21 +376,21 @@
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2">
 				<input type="text" class="form-control" ngModel maxlength="50" formControlName="VendorModelNo" [(ngModel)]="rfqItem.VendorModelNo"  />
-				<!-- <span *ngIf="VQAddSubmitted && AddQuotation.controls.VendorModelNo.errors" class="invalid-feedback">Please enter Vendor Model No.</span> -->
+				
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2">
 				<label class="form-label">Mfg Part No. :</label>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2">
 				<input type="text" class="form-control" ngModel maxlength="100" formControlName="MfgPartNo" [(ngModel)]="rfqItem.MfgPartNo"  />
-				<!-- <span *ngIf="VQAddSubmitted && AddQuotation.controls.MfgPartNo.errors" class="invalid-feedback">Please enter Mfg Part No.</span> -->
+				
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2">
 				<label class="form-label">Mfg Model No. :</label>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2">
 				<input type="text" class="form-control" ngModel maxlength="100" formControlName="MfgModelNo" [(ngModel)]="rfqItem.MfgModelNo"  />
-				<!-- <span *ngIf="VQAddSubmitted && AddQuotation.controls.MfgModelNo.errors" class="invalid-feedback">Please enter Mfg Model No.</span> -->
+				
 			</div>
 		</div>
 		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
@@ -445,7 +447,7 @@
 				<label class="form-label">Freight Amount :</label>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2">
-				<input type="text" class="form-control" [attr.disabled]="rfqItem.FreightPercentage=='' || rfqItem.FreightPercentage==undefined?null:true" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="7" formControlName="FreightAmount" [(ngModel)]="rfqItem.FreightAmount" (change)="FreightAmount('event')" />
+				<input type="text" class="form-control" [attr.disabled]="rfqItem.FreightPercentage=='' || rfqItem.FreightPercentage==undefined?null:true" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="7" formControlName="FreightAmount" [(ngModel)]="rfqItem.FreightAmount" (change)="FreightAmount()" />
 			</div>
 		</div>
 		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
@@ -455,7 +457,7 @@
 				<label class="form-label">P &amp; F Percentage :</label>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2">
-				<input type="text" class="form-control" [attr.disabled]="rfqItem.PFAmount=='' || rfqItem.PFAmount==undefined?null:true" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="5" formControlName="PFPercentage" [(ngModel)]="rfqItem.PFPercentage" (change)="PFPercentage('event')" />
+				<input type="text" class="form-control" [attr.disabled]="rfqItem.PFAmount=='' || rfqItem.PFAmount==undefined?null:true" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="5" formControlName="PFPercentage" [(ngModel)]="rfqItem.PFPercentage" (change)="PFPercentage()" />
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2">
 				<label class="form-label">Delivery Date :</label>
@@ -482,7 +484,7 @@
         <label class="form-label">File :</label>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-4">
-		<!-- <input type="file" class="form-control" (change)="fileattachedforitem1($event)" placeholder="Select Technical File" accept=".pdf,.doc,.docx,.xlsx" multiple> -->
+		
 		
 		<button class="attachedbtn"  mat-raised-button  (click)="fileInput1.click()">Select File</button> 
 			  <input style="display: none"  #attachments type="file" (change)="fileattachedforitem($event)" accept=".pdf,.doc,.docx,.xlsx" #fileInput1 multiple="true"> 
@@ -500,6 +502,244 @@
 			<div class="ui-dialog-buttonpane ui-helper-clearfix">
 				<button type="button" pButton icon="fa fa-check" class="ui-button-success" (click)="InsertQuotation()" label="Insert"></button>
 				<button type="button" pButton icon="fa fa-close" class="ui-button-danger" (click)="Cancel()" label="Cancel"></button>
+			</div>
+		</p-footer>
+	</p-dialog>
+</form>
+<form [formGroup]="AddQuotationforitem" style="height: 5px; overflow-y: scroll">
+	<p-dialog header="Add Quotation" [(visible)]="AddDialogforitem" [contentStyle]="{'overflow-y': 'auto', 'overflow-x': 'hidden', 'max-height': '80vh','min-height':'250px'}" showEffect="fade" [modal]="true" [responsive]="true" [style]="{width: '1024px'}">
+		
+		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<label class="form-label">Rfq Item Id :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<span class="valueEdit" [(ngModel)]="rfqItemInfo.RFQItemsId">{{rfqItemInfo.RFQItemsId}}</span>
+			</div>
+			
+			<div class="col-lg-1 col-md-1 col-sm-1">
+			  <label class="form-label">Item code :</label>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-3">
+			  <span class="valueEdit font-weight-bold">{{rfqItemInfo.ItemName}}</span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+			  <label class="form-label ">Item Description :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+			  <span class="valueEdit font-weight-bold">{{rfqItemInfo.ItemDescription}}</span>
+			</div>
+	  
+		</div>
+		<div>
+		  <hr />
+		</div>
+		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<label class="form-label">Qty :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<input type="text" [value]="rfqItemInfo.Quantity"  class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="7" formControlName="Qty" [(ngModel)]="rfqItemInfo.Quantity" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotationforitem.controls.Qty.errors}" />
+			   
+				<!-- <span *ngIf="VQAddSubmitted && AddQuotation.controls.Qty.errors" class="invalid-feedback">Please enter Qty.</span> -->
+			</div>
+			
+			 <div class="col-lg-2 col-md-2 col-sm-2">
+				<label class="form-label">UOM :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<select class="form-control dropdown" formControlName="UOM" [(ngModel)]="rfqItemInfo.UOM"   [ngClass]="{'is-invalid': VQAddSubmitted && (AddQuotationforitem.controls.UOM.value=='0' || AddQuotationforitem.controls.UOM.value==null)}">
+					<option selected value="0">Select</option>
+					<option *ngFor="let ua of UOMArray" [ngValue]="ua.UnitID">{{ua.UnitName}}</option>
+					
+				</select>
+				<span style="color:red" *ngIf="VQAddSubmitted && (AddQuotationforitem.controls.UOM.value=='0' || AddQuotationforitem.controls.UOM.value==null)" class="invalid-feedback">Please select UOM.</span>
+			</div> 
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<label class="form-label">Currency :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<select class="form-control dropdown" formControlName="CurrencyId" [(ngModel)]="rfqItemInfo.CurrencyId"   [ngClass]="{ 'is-invalid': VQAddSubmitted && (AddQuotationforitem.controls.CurrencyId.value=='0' || AddQuotationforitem.controls.CurrencyId.value==null)}">
+					<option selected value="0">Select</option>
+					
+					<option *ngFor="let ca of currncyArray" [ngValue]="ca.CurrenyId">{{ca.CurrencyName}}</option>
+				</select>
+				<span style="color:red" *ngIf="VQAddSubmitted && (AddQuotationforitem.controls.CurrencyId.value=='0' || AddQuotationforitem.controls.CurrencyId.value==null)" class="invalid-feedback">Please select Currency.</span>
+			</div> 
+		</div>
+		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<label class="form-label">Unit Price :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				
+				<input type="text" class="form-control" [value]="rfqItemInfo.UnitPrice" ngModel maxlength="9" formControlName="UnitPrice" [(ngModel)]="rfqItemInfo.UnitPrice" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotationforitem.controls.UnitPrice.errors}" />
+				<span *ngIf="VQAddSubmitted && AddQuotationforitem.controls.UnitPrice.errors" class="invalid-feedback">Please enter Unit Price.</span>
+			</div>
+		
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<label class="form-label">HSN Code :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<input type="text" class="form-control" oninput="this.value = this.value.replace(/[^0-9.a-z]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="8" formControlName="HSNCode" [(ngModel)]="rfqItem.HSNCode" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotationforitem.controls.HSNCode.errors }" />
+				<span *ngIf="VQAddSubmitted && AddQuotationforitem.controls.HSNCode.errors" class="invalid-feedback">Please enter HSN Code.</span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+			  <label class="form-label">Is there a Discount?</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2" [ngClass]="{ 'is-invalid': VQAddSubmitted && !showDiscount}">
+			  <p-radioButton name="discount" value="true" label="Yes" formControlName="DiscountOption" [(ngModel)]="showDiscount" (click)="boolDiscount1('event')"></p-radioButton>&nbsp;&nbsp;
+			  <p-radioButton name="discount" value="false" label="No"  formControlName="DiscountOption" [(ngModel)]="showDiscount" (click)="boolDiscount1('event')"></p-radioButton>
+			  <span *ngIf="VQAddSubmitted && !showDiscount" class="invalid-feedback" style="display: contents !important">Is there is Discount?</span>
+			</div>
+			
+		
+		</div>
+		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+		
+		</div>
+		<div *ngIf="showDiscount=='true'" class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+		   <div class="col-lg-2 col-md-2 col-sm-2">
+			<label class="form-label text-nowrap">Discount Percentage :</label>
+		</div>
+		<div class="col-lg-2 col-md-2 col-sm-2">
+			<input type="text" class="form-control" [attr.disabled]="rfqItemInfo.Discount=='' || rfqItemInfo.Discount==undefined ?null:true" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="5" formControlName="DiscountPercentage" [(ngModel)]="rfqItemInfo.DiscountPercentage" (change)="DiscountPercentageEntered1()" [ngClass]="{ 'is-invalid': VQAddSubmitted && showDiscount=='true' && rfqItemInfo.Discount=='' && AddQuotationforitem.controls.DiscountPercentage.errors }" />
+			<span *ngIf="VQAddSubmitted && showDiscount=='true' && rfqItemInfo.Discount=='' && AddQuotationforitem.controls.DiscountPercentage.errors" class="invalid-feedback">Please enter Discount Percentage.</span>
+		</div>
+		
+		<div class="col-lg-2 col-md-2 col-sm-2">
+			<label class="form-label text-nowrap">Discount :</label>
+		</div>
+		<div class="col-lg-2 col-md-2 col-sm-2">
+			<input type="text" class="form-control" [attr.disabled]="rfqItemInfo.DiscountPercentage=='' || rfqItemInfo.DiscountPercentage==undefined?null:true" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="7" formControlName="Discount" [(ngModel)]="rfqItemInfo.Discount" (change)="DiscountEntered1()" [ngClass]="{ 'is-invalid': VQAddSubmitted && showDiscount=='true' && rfqItemInfo.DiscountPercentage=='' && AddQuotationforitem.controls.Discount.errors }" />
+			<span *ngIf="VQAddSubmitted && showDiscount=='true' && rfqItemInfo.DiscountPercentage=='' && AddQuotation.controls.Discount.errors" class="invalid-feedback">Please enter Discount Lumpsum.</span>
+		</div>
+		</div>
+		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+		
+		</div>
+		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<label class="form-label">Vendor Model No. :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<input type="text" class="form-control"[value]="rfqItem.VendorModelNo" ngModel maxlength="50" formControlName="VendorModelNo" [(ngModel)]="rfqItem.VendorModelNo"  />
+			   
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<label class="form-label">Mfg Part No. :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<input type="text" class="form-control" [value]="rfqItem.MfgPartNo" ngModel maxlength="100" formControlName="MfgPartNo" [(ngModel)]="rfqItem.MfgPartNo"  />
+				
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<label class="form-label">Mfg Model No. :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<input type="text" class="form-control" [value]="rfqItem.MfgModelNo" ngModel maxlength="100" formControlName="MfgModelNo" [(ngModel)]="rfqItem.MfgModelNo"  />
+				
+			</div>
+		</div>
+		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+			
+		</div>
+		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+		
+		</div>
+		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+		  <div class="col-lg-2 col-md-2 col-sm-2">
+			<label class="form-label">CGST Percentage :</label>
+		  </div>
+		  <div class="col-lg-2 col-md-2 col-sm-2">
+			<input type="text" class="form-control"  [attr.disabled]="rfqItem.IGSTPercentage=='' || rfqItem.IGSTPercentage==undefined?null:true"  class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="5" formControlName="CGSTPercentage" [(ngModel)]="rfqItem.CGSTPercentage" (change)="IGSTEnablefromCGST()" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotationforitem.controls.CGSTPercentage.errors }" />
+			<span *ngIf="VQAddSubmitted && AddQuotationforitem.controls.CGSTPercentage.errors" class="invalid-feedback">Please enter CGST Percentage.</span>
+		  </div>
+		  
+		  <div class="col-lg-2 col-md-2 col-sm-2">
+			<label class="form-label">SGST Percentage :</label>
+		  </div>
+		  <div class="col-lg-2 col-md-2 col-sm-2">
+			<input type="text"  [attr.disabled]="rfqItem.IGSTPercentage=='' || rfqItem.IGSTPercentage==undefined?null:true" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="5" formControlName="SGSTPercentage" [(ngModel)]="rfqItem.SGSTPercentage" (change)="IGSTEnablefromSGST()" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotationforitem.controls.SGSTPercentage.errors }" />
+			<span *ngIf="VQAddSubmitted && AddQuotationforitem.controls.SGSTPercentage.errors" class="invalid-feedback">Please enter SGST Percentage.</span>
+		  </div>
+		  <div class="col-lg-2 col-md-2 col-sm-2">
+			<label class="form-label">IGST Percentage :</label>
+		  </div>
+		  <div class="col-lg-2 col-md-2 col-sm-2">
+			<input type="text" [attr.disabled]="rfqItem.CGSTPercentage=='' || rfqItem.CGSTPercentage==undefined?null:true || rfqItem.SGSTPercentage==''" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="7" formControlName="IGSTPercentage" [(ngModel)]="rfqItem.IGSTPercentage" (change)="IGSTPercentageenable()" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotationforitem.controls.IGSTPercentage.errors }" />
+			<span *ngIf="VQAddSubmitted && AddQuotationforitem.controls.IGSTPercentage.errors" class="invalid-feedback">Please enter IGST Percentage.</span>
+		  </div>
+		</div>
+		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+			
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<label class="form-label">P &amp; F Amount :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<input type="text" class="form-control" [value]="rfqItem.PFAmount" [attr.disabled]="rfqItem.PFPercentage=='' || rfqItem.PFPercentage==undefined?null:true" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="7" formControlName="PFAmount" [(ngModel)]="rfqItem.PFAmount" (change)="PFAmount1()" />
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2 text-nowrap">
+				<label class="form-label">Freight Percentage :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<input type="text" class="form-control" [value]="rfqItem.FreightPercentage" [attr.disabled]="rfqItem.FreightAmount=='' || rfqItem.FreightAmount==undefined?null:true" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="5" formControlName="FreightPercentage" [(ngModel)]="rfqItem.FreightPercentage" (change)="FreightPercentage1()" />
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<label class="form-label">Freight Amount :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<input type="text" class="form-control" [value]="rfqItem.FreightAmount" [attr.disabled]="rfqItem.FreightPercentage=='' || rfqItem.FreightPercentage==undefined?null:true" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="7" formControlName="FreightAmount" [(ngModel)]="rfqItem.FreightAmount" (change)="FreightAmount1()" />
+			</div>
+		</div>
+		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+		
+
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<label class="form-label">P &amp; F Percentage :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<input type="text" class="form-control" [value]="rfqItem.PFPercentage" [attr.disabled]="rfqItem.PFAmount=='' || rfqItem.PFAmount==undefined?null:true" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="5" formControlName="PFPercentage" [(ngModel)]="rfqItem.PFPercentage" (change)="PFPercentage1()" />
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<label class="form-label">Delivery Date :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<input type="date" #myDate class="form-control" style="padding-right: 0px;" formControlName="DeliveryDate"  [(ngModel)]="rfqItemInfo.DeliveryDate" [value]="rfqItemInfo.DeliveryDate | date:'yyyy-MM-dd'" (input)="rfqItemInfo.DeliveryDate=parseDate($event.target.value)"  [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotationforitem.controls.DeliveryDate.errors }" />
+				<span *ngIf="VQAddSubmitted && AddQuotation.controls.DeliveryDate.errors" class="invalid-feedback">Please select Delivery Date.</span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<label class="form-label">Remarks :</label>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<textarea class="form-control" ngModel maxlength="500" formControlName="Remarks" [(ngModel)]="rfqItemInfo.Remarks" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotationforitem.controls.Remarks.errors }"></textarea>
+				<span *ngIf="VQAddSubmitted && AddQuotationforitem.controls.Remarks.errors" class="invalid-feedback">Please enter Remarks.</span>
+			</div>
+			
+		</div>
+		<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+			
+		</div>
+
+	<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+	  <div class="col-lg-2 col-md-2 col-sm-2">
+		<label class="form-label">File :</label>
+	  </div>
+	  <div class="col-lg-8 col-md-8 col-sm-8">
+	  
+		<button class="attachedbtn" mat-raised-button  (click)="fileInput.click()">Select Technical File</button>
+		<input style="display: none"  #attachments type="file" (change)="fileattachedforitem($event)" accept=".pdf,.doc,.docx,.xlsx" #fileInput multiple="true">
+		<span *ngFor="let selected of listOfFiles1;let index = index">
+			<span  class="fixed-text" pTooltip={{selected}}><i  icon="fa fa-file" class="fa fa-file"></i></span>
+		<button mat-icon-button (click)="removeSelectedFile(selected,index)"><i  icon="fa fa-trash" class="fa fa-trash"></i></button>
+	   
+	  </span>
+	  </div>
+	</div>
+		<p-footer>
+			<div class="ui-dialog-buttonpane ui-helper-clearfix">
+				<button type="button" pButton icon="fa fa-check" class="ui-button-success" (click)="InsertQuotationforitem()" label="Update"></button>
+				<button type="button" pButton icon="fa fa-close" class="ui-button-danger" (click)="Cancelforitem()" label="Cancel"></button>
 			</div>
 		</p-footer>
 	</p-dialog>
