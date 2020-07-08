@@ -200,6 +200,7 @@ export class RFQUnitMasters {
   Isdeleted: boolean;
 }
 export class RfqItemModel {
+  RFQVendorbomItemId:number;
    RFQSplitItemId:number;
   PhysicalPath:string;
   MfgModelNo:string;

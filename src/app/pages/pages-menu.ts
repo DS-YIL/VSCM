@@ -7,12 +7,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   link: '/VSCM/Dashboard',
   //   home: true,
   // },
-  {
-    title: 'Registration',
-    icon: 'home-outline',
-    link: '/VSCM/Vendorregister',
-    home: true,
-  },
+  // {
+  //   title: 'Registration',
+  //   icon: 'home-outline',
+  //   link: '/VSCM/Vendorregister',
+  //   home: true,
+  // },
   {
     title: 'RFQ',
     icon: 'keypad-outline',

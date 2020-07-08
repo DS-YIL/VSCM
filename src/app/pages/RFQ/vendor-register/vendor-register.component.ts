@@ -366,7 +366,7 @@ onChange4(id:string) {
 Savevendor(form: any) {
   
   // if(form.status!="INVALID"){
-  //   this.VQAddSubmitted =false;
+     this.VQAddSubmitted =false;
     
   let name=this.VendorData.VendorName;
   let street=this.VendorData.street;

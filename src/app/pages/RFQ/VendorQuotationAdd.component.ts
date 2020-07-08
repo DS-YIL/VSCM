@@ -18,7 +18,7 @@ export class VendorQuotationAddComponent implements OnInit {
 	termsedited: boolean;
 	constructor(private messageService: MessageService,private formBuilder: FormBuilder, private cdRef: ChangeDetectorRef, public RfqService: RfqService, public constants: constants, private route: ActivatedRoute) { }
 	@ViewChild('attachments',{static: false}) attachment: any;
-
+	//@ViewChild('attachment',{static: false}) attach: any;
 	selectedFile: File;
 	fileList: File[] = [];
 	listOfFiles: any[] = [];
@@ -167,6 +167,14 @@ this.loaddocDetails();
 	   })
 	   
 	   }
+	   viewDocument(path: string, documentname: string) {
+		//this.doc = this.sanitizer.bypassSecurityTrustResourceUrl("http://10.29.15.68:90/SCMDocs/2.xlsx");
+		var path1 = path.replace(/\\/g, "/");
+		path1 = this.constants.Documnentpath + path1;
+		window.open(path1);
+		//window.open("http://10.29.15.68:90/SCMDocs/2.xlsx");
+		//this.showFileViewer = true;   
+	  }
 	   removeSelectedFile(filename:any,index) {
 		// Delete the item from fileNames list
 		this.listOfFiles.splice(index, 1);
@@ -176,9 +184,9 @@ this.loaddocDetails();
 		
 		this.mprdoc.UploadedBy=this.Vendor.VUniqueId;
 		let path=filename.Path.split('\\');
-		let path1=path[0].split('_');
-		this.mprdoc.DocumentName=path[1];
-		this.mprdoc.Path=filename;
+		let path1=path[2].split('_');
+		this.mprdoc.DocumentName=path[3];
+		this.mprdoc.Path=filename.Path;
 		this.mprdoc.ItemDetailsId=path1[1];
 	   this.RfqService.DeleteFile(this.Registration).subscribe(data=>{
 		this.RfqService.DeleteFileFrmYSCM(this.mprdoc).subscribe(data=>{
@@ -285,6 +293,25 @@ this.loaddocDetails();
 			});
 			
 		}
+		multipleitem(event) {
+			this.AddQuotation.controls['ItemNameForMultiple'].setValue("");
+			this.AddQuotation.controls['ItemDescriptionForMultiple'].setValue("");
+			if (this.MultipleItems == 'true') {
+				this.AddQuotation.controls['ItemNameForMultiple'].setValidators([Validators.required]);
+				this.AddQuotation.controls['ItemDescriptionForMultiple'].setValidators([Validators.required]);
+			//document.getElementById('singleitem').style.display='none';
+			}
+			else if (this.MultipleItems == 'false') {
+				this.AddQuotation.controls['ItemNameForMultiple'].clearValidators();
+				this.AddQuotation.controls['ItemDescriptionForMultiple'].clearValidators();
+				this.AddQuotation.controls['ItemNameForMultiple'].setValue("");
+			this.AddQuotation.controls['ItemDescriptionForMultiple'].setValue("");
+			//document.getElementById('multipleitem').style.display='none';
+				
+			}
+			this.AddQuotation.controls['ItemNameForMultiple'].updateValueAndValidity();
+			this.AddQuotation.controls['ItemDescriptionForMultiple'].updateValueAndValidity();
+		}
 	boolDiscount(event) {
 		this.AddQuotation.controls['DiscountPercentage'].setValue("");
 		this.AddQuotation.controls['Discount'].setValue("");
@@ -295,6 +322,9 @@ this.loaddocDetails();
 		else if (this.showDiscount == 'false') {
 			this.AddQuotation.controls['DiscountPercentage'].clearValidators();
 			this.AddQuotation.controls['Discount'].clearValidators();
+			this.AddQuotation.controls['DiscountPercentage'].setValue("");
+		this.AddQuotation.controls['Discount'].setValue("");
+			
 		}
 		this.AddQuotation.controls['DiscountPercentage'].updateValueAndValidity();
 		this.AddQuotation.controls['Discount'].updateValueAndValidity();
@@ -309,6 +339,8 @@ this.loaddocDetails();
 		else if (this.showDiscount == 'false') {
 			this.AddQuotationforitem.controls['DiscountPercentage'].clearValidators();
 			this.AddQuotationforitem.controls['Discount'].clearValidators();
+			this.AddQuotationforitem.controls['DiscountPercentage'].updateValueAndValidity();
+		this.AddQuotationforitem.controls['Discount'].updateValueAndValidity();
 		}
 		this.AddQuotationforitem.controls['DiscountPercentage'].updateValueAndValidity();
 		this.AddQuotationforitem.controls['Discount'].updateValueAndValidity();
@@ -417,6 +449,8 @@ this.AddQuotationforitem.controls['Discount'].updateValueAndValidity();
 			
 			this.quoteDetails = data;
 			console.log("data",data);
+			this.quoteDetails.RemoteRFQItems_N["RemoteRfqVendorBOMs"].length>0
+			this.rfqItem.multipleitem='no';
 			// if(data.length!=0)
 			// {
 			// 	this.istermsdisplay=true;
@@ -486,6 +520,22 @@ this.AddQuotationforitem.controls['Discount'].updateValueAndValidity();
 		}	
 	}
 	ShowAddDialog(rfqItemId: any,QuotationQty:any,documents:any,item:any) {
+		this.RfqService.checkrfqitemsid(rfqItemId).subscribe(
+			data=>{
+				if(data==true)
+				{
+				this.MultipleItems="true";
+				}
+				else{
+					this.MultipleItems="false";
+					this.AddQuotation.controls['ItemNameForMultiple'].clearValidators();
+				this.AddQuotation.controls['ItemDescriptionForMultiple'].clearValidators();
+				this.AddQuotation.controls['ItemNameForMultiple'].setValue("");
+			this.AddQuotation.controls['ItemDescriptionForMultiple'].setValue("");
+					
+				}
+			}
+		)
 		this.AddDialog = true;
 		this.rfqItemInfo.RFQItemsId = rfqItemId;
 		this.rfqItemInfo.ItemName=item.ItemName;
@@ -671,10 +721,13 @@ this.listOfFiles1=documents;
 			return;
 		}
 		else {
+			
 			//this.rfqItemInfo.UOM = this.UOMModel.UnitID;
 			//this.rfqItem.iteminfo = [];
 			this.rfqItem.iteminfo.push(this.rfqItemInfo);
 			this.rfqItem.RFQRevisionId = this.RfqRevisionId;
+			if(this.MultipleItems=='true')
+			this.rfqItem.multipleitem='yes';
           //this.quoteDetails 
 			this.RfqService.InsertRfqItemInfo(this.rfqItem).subscribe(data => {
 			  this.rfqItem = data;
@@ -747,7 +800,7 @@ this.listOfFiles1=documents;
     
 //   }
 
-fileattached(event: any, formName: string) {
+fileattached(event: any, formName: string,data:string) {
 	let fileList: FileList = event.target.files;
 	let formData: FormData = new FormData();
 	  if (fileList.length > 0) {
@@ -843,7 +896,7 @@ InsertQuotationforitem() {
     //   if (data == true)
 		//this.rfqItem.ite.splice(index, 1);
 		this.quoteDetails["RemoteRFQItems_N"][0].RemoteRFQItemsInfo_N.splice(index,1);
-		//this.loadQuotationDetails();
+	this.loadQuotationDetails();
     })
   }
 }

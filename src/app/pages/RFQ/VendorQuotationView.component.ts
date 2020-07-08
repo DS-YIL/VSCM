@@ -87,12 +87,20 @@ public DESkey:string;
      
     });
   }
-  
+  viewDocument(path: string, documentname: string) {
+		//this.doc = this.sanitizer.bypassSecurityTrustResourceUrl("http://10.29.15.68:90/SCMDocs/2.xlsx");
+		var path1 = path.replace(/\\/g, "/");
+		path1 = this.constants.Documnentpath + path1;
+		window.open(path1);
+		//window.open("http://10.29.15.68:90/SCMDocs/2.xlsx");
+		//this.showFileViewer = true;   
+	  }
   loadQuotationDetails() {
     this.RfqService.GetRfqDetailsById(this.encrytedrfqid).subscribe(data => {
       this.quoteDetails = data;
-this.quoteDetails.rfqmaster["RfqNo"]= this.quoteDetails["RemoteRFQMaster"]["RFQNo"];
-console.log("this.quoteDetails",this.quoteDetails["RemoteRFQMaster"]["RFQNo"],this.quoteDetails.RfqNo)
+//this.quoteDetails.rfqmaster["RfqNo"]= this.quoteDetails["RemoteRFQMaster"]["RFQNo"];
+//console.log("rfqnumber",this.quoteDetails.rfqmaster["RfqNo"]);
+//console.log("this.quoteDetails",this.quoteDetails["RemoteRFQMaster"]["RFQNo"],this.quoteDetails.RfqNo)
       let docs=this.quoteDetails.RemoteRFQDocuments.length;
       console.log("data",this.quoteDetails);
       if(docs!=0)

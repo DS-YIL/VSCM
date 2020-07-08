@@ -34,7 +34,7 @@ export class ForgetpasswordComponent implements OnInit {
       this.dynamicData.EmailId=email.EmailId;
       this.rfqService.checkemail(this.dynamicData).subscribe(data=>{
 if(data==false){
-  this.errormsg=true;
+  //this.errormsg=true;
   this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Email Id is not correct,please enter valid email Id' });
 }
 else{

@@ -44,7 +44,7 @@ private subscription:Subscription;
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Logout' },{ title: 'Profile' },{ title: 'Change Password' }  ];
+  userMenu = [ { title: 'Logout' },{ title: 'Change Password' }  ];//{ title: 'Profile' }
 
 public employee:Employee;
   constructor(private sidebarService: NbSidebarService, private router: Router,
