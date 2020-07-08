@@ -5,14 +5,17 @@ import { searchParams } from '../Models/mpr';
   providedIn: 'root'
 }) 
 export class constants {
- 
-//  public url = 'http://vscm-1089815394.ap-south-1.elb.amazonaws.com/api/Api/';
-//  public tokenurl='http://vscm-1089815394.ap-south-1.elb.amazonaws.com/api/';
+  // public url="http://10.29.15.68:92/Api/";
+  // public tokenurl='http://10.29.15.68:92/';
+   // public url = 'http://vscm-1089815394.ap-south-1.elb.amazonaws.com/api/Api/';
+  //public tokenurl='http://vscm-1089815394.ap-south-1.elb.amazonaws.com/api/';
 public yscmurl='http://10.29.15.183:90/Api/mpr/'
  public url = 'http://localhost:49659/Api/';
  public tokenurl='http://localhost:49659/';
   public dateFormat = "MM/dd/yyyy";
   public RequisitionId: string="";
+  public Documnentpath = "http://vscm-1089815394.ap-south-1.elb.amazonaws.com/attachment/attachments/";
+  //public Documnentpath = "http://10.29.15.183:90/SCMDocs/";
   public DepartmentId: searchParams = { tableName: 'MPRDepartments', fieldId: 'DepartmentId', fieldName: 'Department', condition: "", fieldAliasName: "DepartmentName" };
   public ProjectManager: searchParams = { tableName: 'Employee', fieldId: 'EmployeeNo', fieldName: 'Name', condition: "Grade='m2' and ", fieldAliasName: "ProjectManagerName" };
   public ClientName: searchParams = { tableName: 'CustomerMasterYGS', fieldId: 'CustomerId', fieldName: 'CustomerName1', condition: "CustomerMasterTypeId=1 and ", fieldAliasName: "ClientName" };

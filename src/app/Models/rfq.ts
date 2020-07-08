@@ -209,6 +209,7 @@ export class RfqItemModel {
   RFQRevisionId: number;
   MPRItemDetailsId: number;
   ItemName: string;
+  multipleitem:string="no";
   ItemDescription: string;
   QuotationQty: string;
   VendorModelNo: string;
