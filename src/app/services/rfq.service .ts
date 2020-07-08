@@ -291,5 +291,9 @@ export class RfqService {
 		const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json'}) };
 		return this.http.post<any>(this.url + 'Forgetpassword/checkforgetpasswordlink/', JSON.stringify(vendorList), httpOptions);
 	}
-			  
+		
+	checkrfqitemsid(rfqitemsid:any): Observable<any> {
+		const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json','Authorization':"bearer "+this.accessToken}) };
+		return this.http.get<any>(this.url + 'RFQ/checkrfqitemsid?rfqitemsid='+rfqitemsid,httpOptions);
+	}
 }
