@@ -1,0 +1,337 @@
+<h4 style="text-align: center;">Edit Advanced Shipment Notice</h4>
+<!--<p-tabMenu [model]="items"></p-tabMenu>-->
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-tabView>
+  <p-tabPanel header="Shipment Header">
+    <div class="container">
+     
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">PO/Reference No:<span style="color:red">*</span></label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.PO_ReferenceNo" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Invoice No:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.InvoiceNo" />
+        </div>
+      </div>
+      <label style="padding-left:15px"><b>Shipment Information</b></label>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">ASN No.:<span style="color:red">*</span></label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.ASNNo" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Inbound Delivery No.:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.InboundDeliveryNo" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Shipping Date:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="date" #myDate class="form-control" [value]="asnItem.ShippingDate | date:'yyyy-MM-dd'" [(ngModel)]="asnItem.ShippingDate" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Delivery Date:<span style="color:red">*</span></label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="date" #myDate class="form-control" [value]="asnItem.DeliveryDate | date:'yyyy-MM-dd'" [(ngModel)]="asnItem.DeliveryDate" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Document Date:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="date" #myDate class="form-control" [value]="asnItem.DocumentDate | date:'yyyy-MM-dd'" [(ngModel)]="asnItem.DocumentDate" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Qty:<span style="color:red">*</span></label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.Qty" />
+        </div>
+      </div>
+      <label style="padding-left:15px"><b>Freight Information</b></label>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Freight Inv. No.:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.FreightInvNo" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Grouping ID:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.GroupingId" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Carrier Party:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.CarrierParty" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Carrier (SCAC) ID:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.Carrier_SCAC_Id" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Incoterm Loc.:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.IncotermLoc" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Incoterm:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.Incoterm" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Means of Transport:<span style="color:red">*</span></label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.MeansOfTransport" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Total gross weight:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.TotalGrossWeight_Kgs" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Total Net weight:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.TotalNetWeight_Kgs" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Total Volumn:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.TotalVolume" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Shipment Assignment:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.ShipmentAssignment" />
+        </div>
+      </div>
+    </div>
+
+  </p-tabPanel>
+  <p-tabPanel header="Shipment Lines">
+    <div class="container">
+    
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Ship From:<span style="color:red">*</span></label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.ShipFrom" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Ship To:<span style="color:red">*</span></label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.ShipTo" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Customer Location:<span style="color:red">*</span></label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.CustomerLocation" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Countainer Number:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.ContainerNumber" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Country of Origin:<span style="color:red">*</span></label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.CountryOfOrigin" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Truck Number :</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.TruckNo" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Comments :</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.Comment" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Packing Slip :</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.PackingShip" />
+        </div>
+      </div>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Status">
+    <div class="container">
+
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">ASN Status:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.ASNStatus" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Validation Status:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.ValidationStatus" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Acceptance Status:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.AcceptanceStatus" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">TPOP Indicator:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.TPOPIndicator" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Inbound Delivery Status:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.InboundDeliveryStatus" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Original System</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.OriginalSystem" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Split:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.Split" />
+        </div>
+      </div>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Item Details">
+    <div class="container">
+    
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Supplier Cumulative Quantity:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.SupplierCumulativeQuantity" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Customer Cumulative Quantity:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.CustomerCumulativeQuantity" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Purchasing Document Number:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.PurchasingDocumentNo" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Original Purchase Order Number</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.OriginalPONumber" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Original Purchase Order Item:<span style="color:red">*</span></label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.OriginalPOItem" />
+        </div>
+
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Total Gross Weight:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.TotalGrossWt" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Total Net Weight:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.TotalNetWt" />
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Customer Batch Number:<span style="color:red">*</span></label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.CustomerBatchNo" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Supplier Batch Number:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="text" class="form-control" [(ngModel)]="asnItem.SupplierBatchNo" />
+        </div>
+      </div>
+    </div>
+  </p-tabPanel>
+</p-tabView>
+<div style="margin-left: 43%">
+  <button type="submit" class="btn btn-outline-rounded btn-info" (click)="EditAsn()">Submit</button>
+</div>

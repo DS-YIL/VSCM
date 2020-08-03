@@ -1,0 +1,312 @@
+<h4 class="text-center">Invoice </h4>
+
+<div class="row form-control">
+  <p-table #dt [value]="lstPONumbers" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-center">S.No</th>
+        <th class="text-center">PO/Reference No</th>
+        <th class="text-center">Invoice</th>
+        <th class="text-center">Add Invoice</th>
+        <th class="text-center">Edit Invoice</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-ri="rowIndex" let-rindex=0>
+      <tr>
+        <td class="text-center">{{ri +1}}</td>
+        <td class="text-center">{{rowData.purchdoc}}</td>
+        <td class="text-center"><a (click)="ShowViewDialog(rowData.invoiceNo)">  {{rowData.invoiceNo}}</a>
+        </td>
+      <!--<td class="text-center" *ngFor="let item of particularInvoice">
+        {{rowData[item.InvoiceNo]}}
+      </td>-->
+        <td class="text-center">
+          <button type="button" pButton icon="fa fa-plus" pTooltip="Add" class="ui-button-info" (click)="ShowAddDialog(rowData.purchdoc)"></button>
+        </td>
+        <td class="text-center">
+          <button type="button" pButton icon="fa fa-plus" pTooltip="Edit" class="ui-button-info" (click)="ShowEditDialog(rowData.invoiceNo)"></button>
+        </td>
+
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+
+<!--<table border="1">
+  <thead>
+    <td>Name</td>
+    <td>Total</td>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of (users$ | async) as users; let first = first"> 
+      <td>
+        {{ user.name }}
+      </td>
+      <td *ngIf="first" [attr.rowspan]="users.length">
+        {{ users.length }}
+      </td>
+    </tr>
+  </tbody>
+</table>-->
+
+<!--<form [formGroup]="AddInvoice">-->
+
+<!--<form [formGroup]="PONumbers" style="height: 5px; overflow-y: scroll">-->
+  <!--<p-dialog header="Add Quotation" [(visible)]="AddDialog" [contentStyle]="{'overflow-y': 'auto', 'overflow-x': 'hidden', 'max-height': '80vh','min-height':'250px'}" showEffect="fade" [modal]="true" [responsive]="true" [style]="{width: '1024px'}">-->
+
+
+    <div>
+      <p-dialog header="Add Invoice" [(visible)]="AddDialogforitem" showEffect="fade" [modal]="true" [responsive]="true" [style]="{width: '50%'}">
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">PO/Reference No:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <span class="valueEdit"  [(ngModel)]="poNumber">{{poNumber}}</span>
+          </div>
+
+        </div>
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Invoice No:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <input type="text" class="form-control" [value]="txtInvoice" id="txtInvoice" name="PO.InvoiceNo"   [(ngModel)]="PO.InvoiceNo" />
+          </div>
+        </div>
+
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-3 col-lg-3 col-sm-3'>
+            <label class="form-label" style="font-weight:600">Documents:</label>
+          </div>
+        </div>
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Invoice:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <!--<input type="file" accept=".pdf,.doc,.docx,.xlsx">-->
+            <button class="attachedbtn" [disabled]="isDisableddoctype" mat-raised-button (click)="fileInput1.click()">Select File</button>
+            <input style="display: none" #attachment type="file" (change)="fileattached_Invoice($event)" accept=".pdf,.doc,.docx,.xlsx" #fileInput1 multiple="false">
+
+            <span *ngFor="let selected of listOfFiles_Invoice;let index = index">
+            <span class="fixed-text" pTooltip={{listOfFiles_Invoice[0]}}><i icon="fa fa-file" class="fa fa-file"></i></span>
+            </span>
+
+          </div>
+        </div>
+        <br />
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Tax Document:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <button class="attachedbtn" [disabled]="isDisableddoctype" mat-raised-button (click)="fileInput2.click()">Select File</button>
+            <input style="display: none" #attachment type="file" (change)="fileattached_Tax($event)" accept=".pdf,.doc,.docx,.xlsx" #fileInput2 multiple="false">
+            <span *ngFor="let selected of listOfFiles_Tax;let index = index">
+              <span class="fixed-text" pTooltip={{selected.DocumentName}}><i icon="fa fa-file" class="fa fa-file"></i></span>
+            </span>
+          </div>
+
+        </div>
+        <br />
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Other Document:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <!--<input type="file" accept=".pdf,.doc,.docx,.xlsx" />-->
+            <input type="text" class="form-control" name="PO.DocumentName" [(ngModel)]="PO.DocumentName"/>
+            <button class="attachedbtn" [disabled]="isDisableddoctype" mat-raised-button (click)="fileInput3.click()">Select File</button>
+            <input style="display: none" #attachment type="file" (change)="fileattached_Other($event)" accept=".pdf,.doc,.docx,.xlsx" #fileInput3>
+            <span *ngFor="let selected of listOfFiles_Other;let index = index">
+              <span class="fixed-text" pTooltip={{selected.DocumentName}}><i icon="fa fa-file" class="fa fa-file"></i></span>
+            </span>
+          </div>
+        </div>
+        <br />
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Remarks:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <textarea rows="4" class="form-control" name="PO.Remarks" [(ngModel)]="PO.Remarks"></textarea>
+          </div>
+        </div>
+
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <button  style="margin-left:43%" type="submit" class="btn btn-outline-rounded btn-info" (click)="CreateInvoice()">Submit</button>
+        </div>
+      </p-dialog>
+    </div>
+  
+    <!--</form>-->
+
+
+    <div>
+      <p-dialog header="View Invoice" [(visible)]="ViewDialogforitem" showEffect="fade" [modal]="true" [responsive]="true" [style]="{width: '50%'}">
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">PO/Reference No:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <span class="valueEdit" name="PO.PONumber" [(ngModel)]="PO.PONumber">{{PO.PONumber}}</span>
+          </div>
+
+        </div>
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Invoice No:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <span class="valueEdit" name="PO.InvoiceNo" [(ngModel)]="PO.InvoiceNo">{{PO.InvoiceNo}}</span>
+          </div>
+        </div>
+
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-3 col-lg-3 col-sm-3'>
+            <label class="form-label" style="font-weight:600">Documents:</label>
+          </div>
+        </div>
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Invoice:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <!--<input type="file" accept=".pdf,.doc,.docx,.xlsx">-->
+            <button class="attachedbtn" [disabled]="isDisableddoctype" mat-raised-button (click)="fileInput1.click()">Select File</button>
+            <input style="display: none" #attachment type="file" (change)="fileattached_Invoice($event)" accept=".pdf,.doc,.docx,.xlsx" #fileInput1 multiple="false">
+
+            <!--<span *ngFor="let selected of listOfFiles_Invoice;let index = index">-->
+            <span class="fixed-text" pTooltip={{listOfFiles_Invoice[0]}}><i icon="fa fa-file" class="fa fa-file"></i></span>
+            <!--</span>-->
+
+          </div>
+        </div>
+        <br />
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Tax Document:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <button class="attachedbtn" [disabled]="isDisableddoctype" mat-raised-button (click)="fileInput2.click()">Select File</button>
+            <input style="display: none" #attachment type="file" (change)="fileattached_Tax($event)" accept=".pdf,.doc,.docx,.xlsx" #fileInput2 multiple="false">
+            <span *ngFor="let selected of listOfFiles_Tax;let index = index">
+              <span class="fixed-text" pTooltip={{selected.DocumentName}}><i icon="fa fa-file" class="fa fa-file"></i></span>
+            </span>
+          </div>
+
+        </div>
+        <br />
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Other Document:</label>
+          </div>
+          <div class='col-md-3 col-lg-3 col-sm-3'>
+            <!--<input type="file" accept=".pdf,.doc,.docx,.xlsx" />-->
+            <button class="attachedbtn" [disabled]="isDisableddoctype" mat-raised-button (click)="fileInput3.click()">Select File</button>
+            <input style="display: none" #attachment type="file" (change)="fileattached_Other($event)" accept=".pdf,.doc,.docx,.xlsx" #fileInput3>
+            <span *ngFor="let selected of listOfFiles_Other;let index = index">
+              <span class="fixed-text" pTooltip={{selected.DocumentName}}><i icon="fa fa-file" class="fa fa-file"></i></span>
+            </span>
+          </div>
+        </div>
+        <br />
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Remarks:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <span class="valueEdit" name="PO.Remarks" [(ngModel)]="PO.Remarks">{{PO.Remarks}}</span>
+          </div>
+        </div>
+      </p-dialog>
+    </div>
+
+    <div>
+      <p-dialog header="Edit Invoice" [(visible)]="EditDialogforitem" showEffect="fade" [modal]="true" [responsive]="true" [style]="{width: '50%'}">
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">PO/Reference No:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <span class="valueEdit" name="PO.PONumber" [(ngModel)]="PO.PONumber">{{PO.PONumber}}</span>
+          </div>
+
+        </div>
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Invoice No:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <span class="valueEdit" id="txtInvoice" name="PO.InvoiceNo" [(ngModel)]="PO.InvoiceNo">{{PO.InvoiceNo}}</span>
+          </div>
+        </div>
+
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-3 col-lg-3 col-sm-3'>
+            <label class="form-label" style="font-weight:600">Documents:</label>
+          </div>
+        </div>
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Invoice:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <!--<input type="file" accept=".pdf,.doc,.docx,.xlsx">-->
+            <button class="attachedbtn" [disabled]="isDisableddoctype" mat-raised-button (click)="fileInput1.click()">Select File</button>
+            <input style="display: none" #attachment type="file" (change)="fileattached_Invoice($event)" accept=".pdf,.doc,.docx,.xlsx" #fileInput1 multiple="false">
+
+            <!--<span *ngFor="let selected of listOfFiles_Invoice;let index = index">-->
+            <span class="fixed-text" pTooltip={{listOfFiles_Invoice[0]}}><i icon="fa fa-file" class="fa fa-file"></i></span>
+            <!--</span>-->
+
+          </div>
+        </div>
+        <br />
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Tax Document:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <button class="attachedbtn" [disabled]="isDisableddoctype" mat-raised-button (click)="fileInput2.click()">Select File</button>
+            <input style="display: none" #attachment type="file" (change)="fileattached_Tax($event)" accept=".pdf,.doc,.docx,.xlsx" #fileInput2 multiple="false">
+            <span *ngFor="let selected of listOfFiles_Tax;let index = index">
+              <span class="fixed-text" pTooltip={{selected.DocumentName}}><i icon="fa fa-file" class="fa fa-file"></i></span>
+            </span>
+          </div>
+
+        </div>
+        <br />
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Other Document:</label>
+          </div>
+          <div class='col-md-3 col-lg-3 col-sm-3'>
+            <!--<input type="file" accept=".pdf,.doc,.docx,.xlsx" />-->
+
+            <button class="attachedbtn" [disabled]="isDisableddoctype" mat-raised-button (click)="fileInput3.click()">Select File</button>
+            <input style="display: none" #attachment type="file" (change)="fileattached_Other($event)" accept=".pdf,.doc,.docx,.xlsx" #fileInput3>
+            <span *ngFor="let selected of listOfFiles_Other;let index = index">
+              <span class="fixed-text" pTooltip={{selected.DocumentName}}><i icon="fa fa-file" class="fa fa-file"></i></span>
+            </span>
+          </div>
+        </div>
+        <br />
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <label class="form-label">Remarks:</label>
+          </div>
+          <div class='col-md-6 col-lg-6 col-sm-6'>
+            <!--<span class="valueEdit" name="PO.Remarks" [(ngModel)]="PO.Remarks">{{PO.Remarks}}</span>-->
+            <textarea rows="4" class="form-control" name="PO.Remarks" [(ngModel)]="PO.Remarks"></textarea>
+          </div>
+        </div>
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+          <button style="margin-left:43%" type="submit" class="btn btn-outline-rounded btn-info" (click)="EditInvoice()">Submit</button>
+        </div>
+      </p-dialog>
+    </div>
+
+

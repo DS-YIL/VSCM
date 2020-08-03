@@ -13,7 +13,6 @@ import { RoleAccessComponent } from './Authorization/RoleAccess.component';
 import { ViewAccessComponent } from './Authorization/ViewAccess.component';
 import { RFQListComponent } from './RFQ/RFQList.component';
 import { VendorQuotationListComponent } from './RFQ/VendorQuotationList.component';
-
 import { GenerateRFQComponent } from './RFQ/GenerateRFQ.component';
 import { RFQComparisionComponent } from './RFQ/RFQComparision.component';
 import { VendorQuotationViewComponent } from './RFQ/VendorQuotationView.component';
@@ -42,8 +41,15 @@ import {  VendorQuotationAddComponent} from './RFQ/VendorQuotationAdd.component'
 import { RFQEditComponent } from './rfqedit/rfqedit.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-
+import { ResetPasswordComponent } from '../../reset-password/reset-password.component';
+import { CreateAsnComponent } from './ASN/create-asn/create-asn.component';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { TabViewModule } from 'primeng/tabview';
+import { AsnListComponent } from './ASN/asn-list/asn-list.component';
+import { AsnViewComponent } from './ASN/asn-view/asn-view.component';
+import { EditasnComponent } from './ASN/editasn/editasn.component';
+import { POListComponent } from './PO/polist/polist.component';
+import { ViewInvoiceComponent } from './PO/view-invoice/view-invoice.component';
 
 @NgModule({
   imports: [
@@ -71,7 +77,9 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     MatButtonModule,
     ConfirmDialogModule,
     MatExpansionModule,
-    NbMenuModule
+    NbMenuModule,
+    TabMenuModule,
+    TabViewModule
 
   ],
   declarations: [
@@ -81,24 +89,26 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     ConfigComponent,
     RoleAccessComponent,
     LoginComponent,
-    ViewAccessComponent,
-  
+    ViewAccessComponent,  
     RFQListComponent,
-    VendorQuotationListComponent,
-  
+    VendorQuotationListComponent,  
     GenerateRFQComponent,
     RFQComparisionComponent,
     VendorQuotationViewComponent,
     ConfirmationDialogComponent,
     SelectfilterPipe,
     VendorRegisterComponent,
- VendorQuotationAddComponent,
- RFQEditComponent,
- ChangepasswordComponent,
+    VendorQuotationAddComponent,
+    RFQEditComponent,
+    ChangepasswordComponent,
  ForgetpasswordComponent,
- ResetPasswordComponent
-    
-    
+    ResetPasswordComponent,
+    CreateAsnComponent,
+    AsnListComponent,
+    AsnViewComponent,
+    EditasnComponent,
+    POListComponent,
+    ViewInvoiceComponent
   ],
   providers:[MessageService, ConfirmationService],
   entryComponents:[ConfirmationDialogComponent]

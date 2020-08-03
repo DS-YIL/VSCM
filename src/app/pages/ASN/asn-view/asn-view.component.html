@@ -1,0 +1,358 @@
+<h4 style="text-align: center;"> Advanced Shipment Notice</h4>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-tabView>
+  <p-tabPanel header="Shipment Header">
+    <div class="container" >
+          <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">PO/Reference No:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.PO_ReferenceNo}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Invoice No:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.InvoiceNo}}</label>
+        </div>
+      </div>
+      <label style="padding-left:15px"><b>Shipment Information</b></label>
+
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">ASN No.:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.ASNNo}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Inbound Delivery No.:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.InboundDeliveryNo}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Shipping Date:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.ShippingDate | date : 'dd/MM/yyyy'}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Delivery Date:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          
+          <label class="form-label">{{asnItem.DeliveryDate | date : 'dd/MM/yyyy'}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Document Date:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.DocumentDate | date : 'dd/MM/yyyy'}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Qty:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.Qty}}</label>  
+        </div>
+      </div>
+      <label style="padding-left:15px"><b>Freight Information</b></label>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Freight Inv. No.:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.FreightInvNo}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Grouping ID:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.GroupingId}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Carrier Party:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.CarrierParty}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Carrier (SCAC) ID:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.Carrier_SCAC_Id}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Incoterm Loc.:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.IncotermLoc}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Incoterm:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.Incoterm}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Means of Transport:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+        
+          <label class="form-label">{{asnItem.MeansOfTransport}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Total gross weight:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+        
+          <label class="form-label">{{asnItem.TotalGrossWeight_Kgs}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Total Net weight:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.TotalNetWeight_Kgs}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Total Volumn:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.TotalVolume}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Shipment Assignment:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.ShipmentAssignment}}</label>
+        </div>
+      </div>
+    </div>
+
+  </p-tabPanel>
+  <p-tabPanel header="Shipment Lines">
+    <div class="container">
+    
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Ship From:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.ShipFrom}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Ship To:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.ShipTo}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Customer Location:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.CustomerLocation}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Countainer Number:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+        
+          <label class="form-label">{{asnItem.ContainerNumber}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Country of Origin:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+        
+          <label class="form-label">{{asnItem.CountryOfOrigin}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Truck Number :</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+        
+          <label class="form-label">{{asnItem.TruckNo}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Comments :</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.Comment}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Packing Slip :</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.PackingShip}}</label>
+        </div>
+      </div>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Status">
+    <div class="container">
+     
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">ASN Status:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.ASNStatus}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Validation Status:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+        
+          <label class="form-label">{{asnItem.ValidationStatus}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Acceptance Status:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+        
+          <label class="form-label">{{asnItem.AcceptanceStatus}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">TPOP Indicator:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.TPOPIndicator}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Inbound Delivery Status:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+       
+          <label class="form-label">{{asnItem.InboundDeliveryStatus}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Original System</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.OriginalSystem}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Split:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+        
+          <label class="form-label">{{asnItem.Split}}</label>
+        </div>
+      </div>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Item Details">
+    <div class="container">
+    
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Supplier Cumulative Quantity:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.SupplierCumulativeQuantity}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Customer Cumulative Quantity:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.CustomerCumulativeQuantity}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Purchasing Document Number:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.PurchasingDocumentNo}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Original Purchase Order Number</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+         
+          <label class="form-label">{{asnItem.OriginalPONumber}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Original Purchase Order Item:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.OriginalPOItem}}</label>
+        </div>
+
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Total Gross Weight:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.TotalGrossWt}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Total Net Weight:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.TotalNetWt}}</label>
+        </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Customer Batch Number:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.CustomerBatchNo}}</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Supplier Batch Number:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">{{asnItem.SupplierBatchNo}}</label>
+        </div>
+      </div>
+    </div>
+  </p-tabPanel>
+</p-tabView>

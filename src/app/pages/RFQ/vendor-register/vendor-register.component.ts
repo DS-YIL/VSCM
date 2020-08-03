@@ -396,8 +396,8 @@ Savevendor(form: any) {
  hideandshowdiv(){
    if(this.returnId==null || this.returnId=="" || this.returnId==undefined)
    {
-     document.getElementById("docdetailsid").style.display="none";
-     document.getElementById("docdetailsid1").style.display="none";
+     document.getElementById("docdetailsid").style.display="block";
+     document.getElementById("docdetailsid1").style.display ="block";
    }
    else{
     document.getElementById("docdetailsid").style.display="block";

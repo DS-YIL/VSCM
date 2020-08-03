@@ -23,7 +23,13 @@ import { auth2StrategyOptions } from '@nebular/auth';
 import { RFQEditComponent } from './rfqedit/rfqedit.component';
 import {ChangepasswordComponent} from './changepassword/changepassword.component';
 import {ForgetpasswordComponent} from './forgetpassword/forgetpassword.component';
-import {ResetPasswordComponent} from './reset-password/reset-password.component'
+import { ResetPasswordComponent } from '../../reset-password/reset-password.component';
+import { CreateAsnComponent } from './ASN/create-asn/create-asn.component';
+import { AsnListComponent } from './ASN/asn-list/asn-list.component';
+import { AsnViewComponent } from './ASN/asn-view/asn-view.component';
+import { EditasnComponent } from './ASN/editasn/editasn.component';
+import { POListComponent } from './PO/polist/polist.component';
+
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -54,7 +60,12 @@ const routes: Routes = [{
     {path:'RFQEdit/:RFQRevisionId',component:RFQEditComponent},
     {path:'changepassword',component:ChangepasswordComponent},
     {path:'forgetpassword',component:ForgetpasswordComponent},
-    {path:'resetpassword/:EmailId/:Token',component:ResetPasswordComponent}
+    { path: 'resetpassword/:EmailId/:Token', component: ResetPasswordComponent },
+    { path: 'CreateASN', component: CreateAsnComponent },
+    { path: 'ASN', component: AsnListComponent },
+    { path: 'AsnDetails/:ASNNo', component: AsnViewComponent },
+    { path: 'AsnEdit/:ASNNo', component: EditasnComponent },
+    { path:  'Invoice', component: POListComponent }
     // {
     //      path: '',
     //      redirectTo: 'Login',

@@ -34,6 +34,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { ThemeModule } from './@theme/theme.module';
 import { NbSidebarModule, NbMenuModule, NbDatepickerModule, NbDialogModule, NbWindowModule, NbToastrModule, NbChatModule } from '@nebular/theme';
 import { CoreModule } from './@core/core.module';
+import { TabViewModule } from 'primeng/tabview';
 //import { ChangepasswordComponent } from './changepassword/changepassword.component';
 //import { RFQEditComponent } from './rfqedit/rfqedit.component';
 //import { LoginComponent } from './Login/Login.component';
@@ -85,6 +86,7 @@ import { CoreModule } from './@core/core.module';
     CalendarModule,
     DataViewModule,
     ToastModule,
+    TabViewModule,
     NgxSpinnerModule,
     Ng2SearchPipeModule,
     MatDialogModule,
@@ -92,7 +94,6 @@ import { CoreModule } from './@core/core.module';
     ConfirmDialogModule,
     MatExpansionModule,
     ThemeModule.forRoot(),
-
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDatepickerModule.forRoot(),
