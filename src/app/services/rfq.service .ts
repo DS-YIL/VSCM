@@ -77,18 +77,7 @@ export class RfqService {
 
   }
 
-  updateVendorQuotes(vendorQuoteList: any, termsList: any): Observable<any> {
-    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
-    var Data = {
-      RFQQuoteViewList: vendorQuoteList,
-      TermsList: termsList
-    }
-    return this.http.post<any>(this.url + 'RFQ/updateVendorQuotes', JSON.stringify(Data), httpOptions);
-  }
-  getRFQCompareItems(MPRRevisionId: number): Observable<any> {
-    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
-    return this.http.get<any>(this.url + 'RFQ/getRFQCompareItems/' + MPRRevisionId, httpOptions);
-  }
+
 
   statusUpdate(vendorList: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
@@ -158,7 +147,7 @@ export class RfqService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.post<any>(this.url + 'RFQ/SaveVendorDetails/', JSON.stringify(vendorList), httpOptions);
   }
-  getvendordetails(vendorid: number): Observable<any> {
+  getvendordetails(vendorid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.get<any>(this.url + 'RFQ/Getvendordetails/' + vendorid, httpOptions);
   }
@@ -201,6 +190,11 @@ export class RfqService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.post<any>(this.url + 'RFQ/deleteAttachedDocuments/', JSON.stringify(vendorList), httpOptions);
   }
+  deleteRegAttachedfile(redDoc: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.post<any>(this.url + 'RFQ/deleteRegAttachedfile/', redDoc, httpOptions);
+  }
+
   changepassword(vendorList: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.post<any>(this.url + 'RFQ/changepassword/', JSON.stringify(vendorList), httpOptions);
@@ -295,8 +289,16 @@ export class RfqService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.get<any>(this.url + 'RFQ/checkrfqitemsid?rfqitemsid=' + rfqitemsid, httpOptions);
   }
-
+  GetListItems(search: DynamicSearchResult): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any>(this.url + 'MPR/GetListItems/', search, httpOptions);
+  }
   //Asn services
+  getPONumbersbyVendor(vendorId: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.get<any>(this.url + 'ASN/getPONumbersByVendor/' + vendorId, httpOptions);
+  }
+
   InsertAsn(asnList: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.url + 'ASN/CreateAsn', JSON.stringify(asnList), httpOptions);
@@ -306,5 +308,57 @@ export class RfqService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.get<any>(this.url + 'ASN/getAsnList/', httpOptions);
 
+  }
+
+  getInvoiceByInvoiceNo(InvoiceNo: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.get<any>(this.url + 'ASN/GetInvoiceDetails/' + InvoiceNo, httpOptions);
+
+  }
+
+  getAsnByAsnno(asnNo: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.get<any>(this.url + 'ASN/getAsnDetails/' + asnNo, httpOptions);
+  }
+
+  editAsn(asnList: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.post<any>(this.url + 'ASN/EditAsn', JSON.stringify(asnList), httpOptions)
+      .pipe(map(data => { return data }));
+  };
+
+  UpdateInvoice(PO: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.post<any>(this.url + 'ASN/UpdateInvoice', JSON.stringify(PO), httpOptions)
+      .pipe(map(data => { return data }));
+  }
+
+  EditInvoice(PO: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.post<any>(this.url + 'ASN/EditInvoice', JSON.stringify(PO), httpOptions)
+      .pipe(map(data => { return data }));
+  }
+
+  uploadFileInvoice(formdata: FormData): Observable<any> {
+    const customHeaders = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.accessToken,
+      'Accepted-Encoding': 'application/json'
+    });
+    const customOptions = {
+      headers: customHeaders,
+      reportProgress: true,
+    };
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.post<any>(this.url + 'ASN/UploadFileInvoice/', formdata, customOptions)
+      .pipe(map(data => {
+        console.log(data);
+        //  alert(data);
+        return data;
+      }))
+  }
+
+  DeleteFileInvoice(): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.post<any>(this.url + 'RFQ/deleteAttachedDocuments/', httpOptions);
   }
 }

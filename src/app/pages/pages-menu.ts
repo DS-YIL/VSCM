@@ -7,23 +7,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //   link: '/VSCM/Dashboard',
   //   home: true,
   // },
-   {
-     title: 'Registration',
-     icon: 'home-outline',
+  {
+    title: 'Registration',
+    icon: 'home-outline',
     link: '/VSCM/Vendorregister',
-     home: true,
+    home: true,
   },
   {
     title: 'RFQ',
     icon: 'keypad-outline',
     expanded: false,
-    children: [     
+    children: [
       {
         title: 'RFQ List',
         //link: ['/VSCM/vendorquotationlist',this.VendorId],
-        link:'/VSCM/vendorquotationlist/',
+        link: '/VSCM/vendorquotationlist/',
         icon: 'list-outline'
-        
+
       }
     ],
 
@@ -75,7 +75,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //  ],
   //},
 
- 
+
   // {
   //   title: 'Masters',
   //   icon: 'people-outline',
@@ -111,10 +111,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //       link: '/VSCM/ProjectManager',
   //       icon: 'list-outline'
   //     }
-      
+
   //   ],
-    
-    
+
+
   // },
 
   // {
@@ -142,10 +142,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //       link: '/VSCM/Authorizationitem',
   //       icon:'layers-outline'
   //     }
-      
+
   //   ],
-    
-    
+
+
   // },
-  
+
 ];

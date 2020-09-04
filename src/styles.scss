@@ -343,6 +343,9 @@ a.disabled {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.fixed-text_new {
+  margin-left: 6px;
+}
 
 .panel-heading {
   border-bottom: 0 !important;
@@ -361,6 +364,17 @@ a.disabled {
   color: #598bff;
   cursor:pointer;
 }
+
+.mprltbldata > th {
+  background: #428bca !important;
+  color: #fff !important;
+  font-size: 12px !important;
+}
+
+.mprltbldata > td {
+  font-size: 12px !important;
+}
+
 
 @-moz-keyframes blinker {
   0% {

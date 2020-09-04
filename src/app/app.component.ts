@@ -2,7 +2,6 @@ import { Component,OnInit } from '@angular/core';
 import {AnalyticsService} from './@core/utils/analytics.service';
 import {NbMenuService} from '@nebular/theme';
 import { Router } from '@angular/router';
-import { MprService } from './services/mpr.service';
 import { RfqService } from './services/rfq.service ';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RfqService } from '../../services/rfq.service ';
+import { RfqService } from 'src/app/services/rfq.service ';
 import { AsnModels, PONumbers } from '../create-asn/asn';
 import { MessageService } from 'primeng/api';
 import { Vendor } from '../../../Models/mpr';

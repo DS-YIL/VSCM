@@ -12,4 +12,13 @@ export class ViewInvoiceComponent implements OnInit {
   ngOnInit() {
   }
 
+  fileattached_Tax() {
+
+  }
+  fileattached_Other() {
+
+  }
+  fileattached_Invoice(event:any) {
+
+  }
 }

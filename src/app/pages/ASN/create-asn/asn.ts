@@ -52,8 +52,6 @@ export class PONumbers {
   VendorId: string;
   VuniqueId: string;
   invoiceNo: number;
-  DocDetailsLists: Array<DocDetailsList> = [];
-  particularInvoice: Array<ParticularInvoice> = [];
   DocumentName: string;
   DocumentTypeId: number;
   filedata: FormData;
@@ -61,19 +59,35 @@ export class PONumbers {
   PONumber: any;
 }
 
-export class ParticularInvoice {
-  POMasterTableId: any;
-  InvoiceNo: string;
+
+export class stagPoNumbers {
+  stageid: number;
+  purchdoc: string;
+  InvoiceDetails: InvoiceDetails;
+
 }
 
-export class DocDetailsList {
+export class InvoiceDetails {
+  InvoiceId: number;
+  InvoiceNo: string;
+  PONO: string;
+  VendorId: string;
+  CreatedDate: Date;
+  CreatedBy: string;
+  ModifiedDate: Date;
+  ModifiedBy
+  Remarks: string;
+  InvoiceDocuments: Array<InvoiceDocuments> = [];
+}
+
+
+export class InvoiceDocuments {
   DocumentId: string;
-  ItemDetailsId: number;
+  InvoiceId: number;
   DocumentName: string;
-  UploadedBy: string;
-  UplaodedDate: Date
+  Path: string;
   DocumentTypeId: number;
-  Deleteflag: boolean
-  PhysicalPath: string;
-  uniqueid: number;
+  UploadedBy: string;
+  UploadedDate: Date;
+  IsDeleted: boolean
 }

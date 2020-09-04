@@ -13,15 +13,15 @@
 
 .strike > span:before,
 .strike > span:after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 9999px;
-    /* Here is the modification */
-    height: 2px; /* space between lines */
-    margin-top: -2px; /* adjust vertical align */
-    border-top: 1px solid red;
-    border-bottom: 1px solid red;
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 9999px;
+  /* Here is the modification */
+  height: 2px; /* space between lines */
+  margin-top: -2px; /* adjust vertical align */
+  border-top: 1px solid orange;
+  border-bottom: 1px solid orange;
 }
 
 .strike > span:before {

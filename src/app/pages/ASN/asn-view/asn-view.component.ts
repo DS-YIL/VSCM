@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RfqService } from '../../services/rfq.service ';
+import { RfqService } from 'src/app/services/rfq.service ';
 import { AsnModels } from '../create-asn/asn';
 import { ActivatedRoute } from '@angular/router';
 

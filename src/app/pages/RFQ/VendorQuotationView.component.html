@@ -15,9 +15,9 @@
       <label>Supplier :</label>&nbsp;<span *ngIf="quoteDetails.rfqmaster">{{quoteDetails.rfqmaster.Vendor.VendorName}}</span>
     </div> -->
   </div>
-  <div class="row  pl-0">
+  <div class="row  pl-0" *ngIf="quoteDetails">
     <div class="col-lg-4 col-md-4 col-sm-4 pt-2">
-      <label>RFQ No :</label>&nbsp;<span><label>{{quoteDetails["RemoteRFQMaster"]["RFQNo"]}}</label></span>
+      <label>RFQ No :</label>&nbsp;<span><label *ngIf="quoteDetails.RemoteRFQMaster">{{quoteDetails.RemoteRFQMaster.RFQNo}}</label></span>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-4 pt-2">
       <label>RFQ Date :</label>&nbsp;<span>{{quoteDetails.CreatedDate | date : constants.dateFormat}}</span>
@@ -194,3 +194,6 @@
 </div>
 
 
+
+</div>
+  </div>

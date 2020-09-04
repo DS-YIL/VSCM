@@ -54,9 +54,9 @@ export class VendorDetails {
   Insurance: string;
 }
 export class RfqItemInfoModel {
-  street:string;
-  State:number;
-  NaturOfBusiness:number;
+  street: string;
+  State: number;
+  NaturOfBusiness: number;
   FreightPercentage: string;
   FreightAmount: string;
   RFQSplitItemId: number;
@@ -74,96 +74,114 @@ export class RfqItemInfoModel {
   DeleteFlag: boolean;
   SyncDate: Date;
   SyncStatus: boolean;
-  ItemName:string;
-  ItemDescription:string;
-  DiscountOption:boolean;
-  MultipleItems:boolean;
-  ItemNameForMultiple:string;
- ItemDescriptionForMultiple:string;
- RFQVendorbomItemId:number;
+  ItemName: string;
+  ItemDescription: string;
+  DiscountOption: boolean;
+  MultipleItems: boolean;
+  ItemNameForMultiple: string;
+  ItemDescriptionForMultiple: string;
+  RFQVendorbomItemId: number;
 }
-export class forgetpassword{
-  EmailId:string;
-  errormsg:string;
+export class forgetpassword {
+  EmailId: string;
+  errormsg: string;
 }
-export class VendorRegistration{
-  NaturOfBusiness:number;
-  email:string;
-  PhoneExn:string;
-  vendorId:number;
-  VendorCode:string;
-    UniqueId:number;
-    Onetimevendor:boolean;
-    EvaluationRequired:boolean;
-    VendorNoInSAP:string;
-    RequestedOn:Date;
-    VendorName:string;
-    VendorAddress:string;
-    PostalCode:string;
-    City:string;
-    LocalBranchOffice:string;
-    PhoneAndExtn:string;
-    Fax:string;
-    ContactPerson:string;
-    Phone:string;
-    GSTNo:string;
-    NatureofBusiness:number;
-    PANNo:string;
-    CINNo:string;
-    TanNo:string;
-    PaymentTerms:string;
-    street:string;
-    BusinessArea:string;
-    Mobile:string;
-    EmailId:string;
-    contPhone:string;
-    BankDetails:string;
-    BankerName:string;
-    LocationOrBranch:string;
-    AccNo:string;
-    IFSCCode:string;
-    PhysicalPath:string;
-    DocumentTypeId:number;
-    fileattach1:string;
-    stateid:string;
-    isDisabled:false;
-    filedata:FormData;
-   DocDetailsLists: Array<DocDetailsList> = [];
-    ppath:File;
-    deleteId:string;
-    AccountHolderName:string;
-    State:number;
-    LocalBranch:string;
-  }
-  export class DocDetailsList {
-   
-    ItemDetailsId: number;
-    DocumentName: string;
-    UploadedBy: string;
-    UplaodedDate: Date
-    DocumentTypeId: number;
-    Deleteflag: boolean
-    PhysicalPath:string;
-    uniqueid:number;
-  }
-  export class StateList
-  {
-    StateName:string;
-    StateId:number;
-  }
-  export class NaturOfBusiness
-  {
-    NatureofbusinessName:string;
-    NaturofBusinessId:number;
-  }
-  export class DocumentList
-  {
-    DocumentName:string;
-    DocId:number;
-  }
+//export class VendorRegistration {
+//  NaturOfBusiness: number;
+//  Email: string;
+//  AltEmail: string;
+//  PhoneExn: string;
+//  vendorId: number;
+//  VendorId: number;
+//  VendorCode: string;
+//  UniqueId: number;
+//  Onetimevendor: boolean;
+//  EvaluationRequired: boolean;
+//  PerformanceVerificationRequired: boolean;
+//  MSMERequired: boolean;
+//  BusinessArea: string;
+//  VendorNoInSAP: string;
+//  RequestedOn: Date;
+//  VendorName: string = "";
+//  VendorAddress: string;
+//  PostalCode: string;
+//  City: string;
+//  LocalBranchOffice: string;
+//  PhoneAndExtn: string;
+//  Fax: string;
+//  ContactPerson: string;
+//  Phone: string;
+//  ContactPersonForSales: string;
+//  PhoneNumberForSales: string;
+//  EmailIdForSales: string;
+//  AltEmailidForSales: string;
+//  ContactPersonForOperations: string;
+//  PhoneNumberForOperations: string;
+//  EmailIdForOperations: string;
+//  AltEmailidForOperations: string;
+//  ContactPersonForLogistics: string;
+//  PhoneNumberForLogistics: string;
+//  EmailIdForLogistics: string;
+//  AltEmailidForLogistics: string;
+//  ContactPersonForAccounts: string;
+//  PhoneNumberForAccounts: string;
+//  EmailIdForAccounts: string;
+//  AltEmailidForAccounts: string;
+//  GSTNo: string;
+//  NatureofBusiness: number;
+//  SpecifyNatureOfBusiness: string;
+//  PANNo: string;
+//  CINNo: string;
+//  TanNo: string;
+//  PaymentTerms: string;
+//  Street: string;
+//  Mobile: string;
+//  contPhone: string;
+//  BankDetails: string;
+//  BankerName: string;
+//  LocationOrBranch: string;
+//  AccNo: string;
+//  IFSCCode: string;
+//  PhysicalPath: string;
+//  DocumentationTypeId: number;
+//  fileattach1: string;
+//  stateid: string;
+//  isDisabled: false;
+//  filedata: FormData;
+//  DocDetailsLists: Array<DocDetailsList> = [];
+//  ppath: File;
+//  deleteId: string;
+//  AccountHolderName: string;
+//  StateId: number;
+//  State: string;
+//  LocalBranch: string;
+//}
+export class DocDetailsList {
+  Id: number;
+  ItemDetailsId: number;
+  DocumentName: string;
+  UploadedBy: string;
+  UplaodedDate: Date
+  DocumentationTypeId: number;
+  Deleteflag: boolean
+  PhysicalPath: string;
+  uniqueid: number;
+}
+export class StateList {
+  StateName: string;
+  StateId: number;
+}
+export class NaturOfBusiness {
+  NatureofbusinessName: string;
+  NaturofBusinessId: number;
+}
+export class DocumentList {
+  DocumentName: string;
+  DocId: number;
+}
 export class RFQMasters {
-  rfqMastersModel:Array<any>;
-  Result:Array<any>=[];
+  rfqMastersModel: Array<any>;
+  Result: Array<any> = [];
   RfqMasterId: number;
   MPRRevisionId: number;
   RFQNo: string;
@@ -175,12 +193,12 @@ export class RFQMasters {
   SyncDate: Date;
   SyncStatus: string;
   RFQRevisions: Array<RFQRevisionData> = [];
-  rfqRevisionId:number;
+  rfqRevisionId: number;
 }
-export class RFQfilter{
+export class RFQfilter {
   RFQNo: string;
   CreatedDate: Date;
-  VendorId:string;
+  VendorId: string;
   RfqValidDate: Date;
 }
 export class RFQCurrencyMaster {
@@ -200,16 +218,17 @@ export class RFQUnitMasters {
   Isdeleted: boolean;
 }
 export class RfqItemModel {
-  RFQVendorbomItemId:number;
-   RFQSplitItemId:number;
-  PhysicalPath:string;
-  MfgModelNo:string;
-  MfgPartNo:string;
+  RFQVendorbomItemId: number;
+  RFQSplitItemId: number;
+  PhysicalPath: string;
+  MfgModelNo: string;
+  MfgPartNo: string;
+  ManufacturerName: string;
   RFQItemId: number;
   RFQRevisionId: number;
   MPRItemDetailsId: number;
   ItemName: string;
-  multipleitem:string="no";
+  multipleitem: string = "no";
   ItemDescription: string;
   QuotationQty: string;
   VendorModelNo: string;
@@ -228,9 +247,9 @@ export class RfqItemModel {
   SyncDate: Date;
   SyncStatus: boolean;
   iteminfo: Array<RfqItemInfoModel> = [];
-  filedata:FormData;
+  filedata: FormData;
   DocDetailsLists: Array<RFQDocuments> = [];
- 
+
 }
 export class MPRDocument {
   MprDocId: number;
@@ -256,18 +275,18 @@ export class rfqFilterParams {
 }
 export class QuoteDetails {
   RfqNo: string;
-  RemoteRFQItems_N:Array<any>;
-  RemoteRFQDocuments:Array<any>;
-  RemoteRFQItemsInfo_N:any[];
-  RemoteRFQMaster:any[];
+  RemoteRFQItems_N: Array<any>;
+  RemoteRFQDocuments: Array<any>;
+  RemoteRFQItemsInfo_N: any[];
+  RemoteRFQMaster: any[];
   CreatedDate: Date;
   RfqValidDate: Date;
   rfqmaster: RFQMaster[];
   rfqitem: Array<any>;
   RFQTerms: Array<RFQTerms>;
-  itemDetails:Array<RfqItemModel>
-  documents:Array<RFQDocuments>;
-  Rfqiteminfo:Array<any>
+  itemDetails: Array<RfqItemModel>
+  documents: Array<RFQDocuments>;
+  Rfqiteminfo: Array<any>
 }
 export class RFQMaster {
   RfqNo: string;
@@ -286,17 +305,17 @@ export class RFQDocuments {
   Status: string;
   StatusDate: Date;
   StatusBy: string;
-  filedata:FormData;
+  filedata: FormData;
 }
-export class RFQTerms{
-  VRfqTermsid:string;
-  VendorResponse:number;
-  Remarks:string;
+export class RFQTerms {
+  VRfqTermsid: string;
+  VendorResponse: number;
+  Remarks: string;
 }
 export class VendorCommunication {
- RFQCCId: number;
+  RFQCCId: number;
   RFQRevisionId: number;
-  RFQItemsId:number;
+  RFQItemsId: number;
   Remarks: string = "";
   RemarksFrom: string;
   SendEmail: boolean = false;
@@ -305,13 +324,13 @@ export class VendorCommunication {
   RemarksDate: Date;
   DeleteFlag: boolean;
 
- // MPRReminderTrackings: Array<MPRReminderTracking> = [];
+  // MPRReminderTrackings: Array<MPRReminderTracking> = [];
 }
-export class Changepassword{
-  CurrentPassword:String;
-  NewPassword:string;
-  ConfirmPassword:string;
-  vendorId:number;
-  emailId:string;
-  Token:string;
+export class Changepassword {
+  CurrentPassword: String;
+  NewPassword: string;
+  ConfirmPassword: string;
+  vendorId: number;
+  emailId: string;
+  Token: string;
 }

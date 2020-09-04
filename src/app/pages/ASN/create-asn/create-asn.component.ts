@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { AsnModels, PONumbers } from './asn';
-import { RfqService } from '../../services/rfq.service ';
+import { RfqService } from 'src/app/services/rfq.service ';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -56,12 +56,13 @@ export class CreateAsnComponent implements OnInit {
 
 
   submitAsn() {
-    debugger;
+    //debugger;
   
    // alert("insude submit" + this.lstPONumbers);
     
     if (this.asnItem.PO_ReferenceNo == null || this.asnItem.PO_ReferenceNo == "") {
-      alert("Please enter  PO Reference No. ");
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Enter PO Reference No.' });
+      //alert("Please enter  PO Reference No. ");
       return;
     }
     else if (this.asnItem.PO_ReferenceNo != null && this.asnItem.PO_ReferenceNo != "") {
@@ -76,47 +77,58 @@ export class CreateAsnComponent implements OnInit {
         }
       }
       if (this.ponumber == null || this.ponumber == undefined || this.ponumber == "") {
-        alert("Invalid PO/Reference Number");
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Invalid PO/Reference Number' });
+        //alert("Invalid PO/Reference Number");
         return;
       }
       else if (this.asnItem.ASNNo == null || this.asnItem.ASNNo == "") {
-        alert("Please enter  ASN No. ");
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Enter  ASN No.' });
+        //alert("Please enter  ASN No. ");
         return;
       }
       else if (this.asnItem.DeliveryDate == null) {
-        alert("Please enter  Delivery Date. ");
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Enter Delivery Date.' });
+        //alert("Please enter  Delivery Date. ");
         return;
       }
       else if (this.asnItem.Qty == null || this.asnItem.Qty == 0) {
-        alert("Please enter  Qty. ");
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Enter Quantity' });
+        //alert("Please enter  Qty. ");
         return;
       }
       else if (this.asnItem.MeansOfTransport == null || this.asnItem.MeansOfTransport == "") {
-        alert("Please enter  Means of Transport. ");
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Enter Means of Transport. ' });
+        //alert("Please enter  Means of Transport. ");
         return;
       }
       else if (this.asnItem.ShipFrom == null || this.asnItem.ShipFrom == "") {
-        alert("Please enter  Ship From in Shipment Lines. ");
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Enter Ship From in Shipment Lines.' });
+        //alert("Please enter  Ship From in Shipment Lines. ");
         return;
       }
       else if (this.asnItem.ShipTo == null || this.asnItem.ShipTo == "") {
-        alert("Please enter  Ship To in Shipment Lines. ");
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Enter Ship To in Shipment Lines.' });
+       // alert("Please enter  Ship To in Shipment Lines. ");
         return;
       }
       else if (this.asnItem.CustomerLocation == null || this.asnItem.CustomerLocation == "") {
-        alert("Please enter  Customer Location in Shipment Lines ");
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Customer Location in Shipment Lines' });
+       // alert("Please enter  Customer Location in Shipment Lines ");
         return;
       }
       else if (this.asnItem.CountryOfOrigin == null || this.asnItem.CountryOfOrigin == "") {
-        alert("Please enter Country Of Origin in Shipment Lines. ");
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Country Of Origin in Shipment Lines.' });
+        //alert("Please enter Country Of Origin in Shipment Lines. ");
         return;
       }
       else if (this.asnItem.OriginalPOItem == null || this.asnItem.OriginalPOItem == "") {
-        alert("Please enter Original PO Item in Item Details. ");
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Enter Original PO Item in Item Details.' });
+        //alert("Please enter Original PO Item in Item Details. ");
         return;
       }
       else if (this.asnItem.CustomerBatchNo == null || this.asnItem.CustomerBatchNo == "") {
-        alert("Please enter Customer Batch No in Item Details. ");
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Enter Customer Batch No in Item Details.' });
+        //alert("Please enter Customer Batch No in Item Details. ");
         return;
       }
       else {
