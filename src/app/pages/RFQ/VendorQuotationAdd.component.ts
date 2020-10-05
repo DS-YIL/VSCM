@@ -437,9 +437,9 @@ export class VendorQuotationAddComponent implements OnInit {
     this.AddQuotationforitem.controls['FreightPercentage'].updateValueAndValidity();
   }
   getDocType(docType: number) {
-    if (docType == 1)
+    if (docType == 6)
       return "Technical File";
-    else if (docType == 2) {
+    else if (docType == 7) {
       return "Commercial File";
     }
     else {
@@ -465,7 +465,7 @@ export class VendorQuotationAddComponent implements OnInit {
 
     });
   }
- 
+
   loaddocDetails() {
     this.RfqService.GetdocDetailsById(this.RfqRevisionId).subscribe(data => {
       this.listOfFiles = data;
@@ -746,31 +746,32 @@ export class VendorQuotationAddComponent implements OnInit {
     let listfile: FileList = event.target.files;
     let formData: FormData = new FormData();
     if (listfile.length > 0) {
-      let revid = "Technical" + this.RfqRevisionId + "_" + this.rfqItemInfo.RFQItemsId + "_" + this.Vendor.VUniqueId;
+      let revid = "Technical" + this.RfqRevisionId + "_" + this.rfqItemInfo.RFQItemsId + "_" + this.Vendor.VUniqueId + "_" + "VendorquoteAdd";
       for (let i = 0; i <= listfile.length - 1; i++) {
         this.Documents = new RFQDocuments();
         let file: File = listfile[i];
-        formData.append(revid, file, file.name);
-        this.Documents.DocumentName = revid + "\\" + file.name;
+        formData.append(revid, file, revid + "_" + file.name);
+        this.Documents.DocumentName = revid + "_" + file.name;
         this.Registration.filedata = formData;
         this.Registration.filedata;
         //this.Documents.uniqueid=this.uniqueid;
         this.Registration.DocDetailsLists.push(this.Documents);
         //var selectedFile = this.file[i].filename;//event.target.files[i];
         this.fileList1.push(file);
-        this.listOfFiles1.push(revid + "\\" + file.name)
+        this.listOfFiles1.push(revid + "_" + file.name)
 
       }
-      this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
-        this.Documents.Path = data;
-        this.RfqService.InsertDocument(formData).subscribe(data => {
-          if (data != null) {
-            this.loadQuotationDetails();
-            this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully to YSCM' });
-            //alert("Sucessfully updated in YSCM");
-          }
-        })
+      //this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
+
+      this.RfqService.InsertDocument(formData).subscribe(data => {
+        if (data != null) {
+          this.Documents.Path = data;
+          this.loadQuotationDetails();
+          this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully to YSCM' });
+          //alert("Sucessfully updated in YSCM");
+        }
       })
+      // })
     }
 
   }
@@ -807,28 +808,29 @@ export class VendorQuotationAddComponent implements OnInit {
     let formData: FormData = new FormData();
     if (fileList.length > 0) {
       let doctypeid = document.getElementById('DocTypeid')["value"];
-      let revid = this.RfqRevisionId + "_" + doctypeid + "_" + this.Vendor.VUniqueId;
+      let revid = this.RfqRevisionId + "_" + doctypeid + "_" + this.Vendor.VUniqueId + "_" + "VendorquoteAdd";
       for (let i = 0; i <= fileList.length - 1; i++) {
         this.Documents = new RFQDocuments();
         let file: File = fileList[i];
-        formData.append(revid, file, file.name);
-        this.Documents.DocumentName = revid + "\\" + file.name;
+        formData.append(revid, file, revid + "_" + file.name);
+        this.Documents.DocumentName = revid + "_" + file.name;
         this.Registration.filedata = formData;
         this.Registration.filedata;
         //this.Documents.uniqueid=this.uniqueid;
         this.Registration.DocDetailsLists.push(this.Documents);
         //var selectedFile = this.file[i].filename;//event.target.files[i];
         this.fileList.push(file);
-        this.listOfFiles.push(revid + "\\" + file.name)
+        this.listOfFiles.push(revid + "_" + file.name)
 
       }
       this.RfqService.InsertDocument(formData).subscribe(data => {
-        this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
-          if (data != null) {
-            //alert("Sucessfully updated in YSCM");
-            this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully to YSCM' });
-          }
-        })
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully' });
+        // this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
+        //if (data != null) {
+        //alert("Sucessfully updated in YSCM");
+        //this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully to YSCM' });
+        //}
+        //})
       })
     }
 

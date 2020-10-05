@@ -90,6 +90,7 @@ export class POListComponent implements OnInit {
       let file: File = fileList[0];
       formData.append(idanddocid, file, idanddocid + "_" + file.name);
       this.RfqService.uploadFile(formData).subscribe(data => {
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted' });
         this.InvoiceDocuments = new InvoiceDocuments();
         this.InvoiceDocuments.UploadedBy = this.VendorDetails.VUniqueId;
         this.InvoiceDocuments.DocumentName = idanddocid + "_" + file.name;
@@ -97,13 +98,13 @@ export class POListComponent implements OnInit {
         this.InvoiceDocuments.Path = data;
         this.InvoiceDetails.InvoiceDocuments.push(this.InvoiceDocuments);
         this.diablesDocs();
-        this.spinner.show();
-        this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
-          this.spinner.hide();
-          if (data != null) {
-            this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted' });
-          }
-        })
+        //this.spinner.show();
+        //this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
+        //  this.spinner.hide();
+        //  if (data != null) {
+        //    this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted' });
+        //  }
+        //})
       })
     }
   }

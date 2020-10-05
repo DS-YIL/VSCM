@@ -117,9 +117,9 @@ export class VendorQuotationViewComponent implements OnInit {
   }
 
   getDocType(docType: number) {
-    if (docType == 1)
+    if (docType == 6)
       return "Technical File";
-    else if (docType == 2) {
+    else if (docType == 7) {
       return "Commercial File";
     }
     else {

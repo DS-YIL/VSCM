@@ -20,6 +20,7 @@ export class VendorRegisterComponent implements OnInit {
   public VendorData: VendorRegistration;
   public VendorDetails: Vendor;
   StateList: any[] = [];
+  CurrencyList: any[] = [];
   NaturOfBusinessList: any[] = [];
   DocumentList: any[] = [];
   uniqueid: string;
@@ -52,6 +53,7 @@ export class VendorRegisterComponent implements OnInit {
     this.VendorDetails = JSON.parse(localStorage.getItem("vendordetail"));
     this.VendorData.DocDetailsLists = [];
     this.StateListdata();
+    this.getCurrencyData();
     this.NOfBusinessListdata();
     this.DocumentListdata();
     //this.hideandshowdiv();
@@ -98,11 +100,13 @@ export class VendorRegisterComponent implements OnInit {
       AccountHolderName: ['', [Validators.required]],
       NaturOfBusiness: ['', [Validators.required]],
       SpecifyNatureOfBusiness: ['', [Validators.required]],
+      SwiftCode: ['', [Validators.required]],
+      Currency: ['', [Validators.required]],
       //BankDetails: ['', [Validators.required]],
     });
     //remove validation for unwanted fields.
     this.VendorRegister.controls['Fax'].clearValidators();
-    this.VendorRegister.controls['PhoneExn'].clearValidators();
+    //this.VendorRegister.controls['PhoneExn'].clearValidators();
     this.VendorRegister.controls['AltEmailidForSales'].clearValidators();
     this.VendorRegister.controls['AltEmailidForOperations'].clearValidators();
     this.VendorRegister.controls['AltEmailidForLogistics'].clearValidators();
@@ -119,7 +123,8 @@ export class VendorRegisterComponent implements OnInit {
     this.VendorRegister.controls['CINNo'].clearValidators();
     this.VendorRegister.controls['TanNo'].clearValidators();
     this.VendorRegister.controls['SpecifyNatureOfBusiness'].clearValidators();
-
+    this.VendorRegister.controls['SwiftCode'].clearValidators();
+    
     this.getvendordetails();
   }
   //Get StateList Data
@@ -138,6 +143,13 @@ export class VendorRegisterComponent implements OnInit {
           }
           this.StateList = _list;
         });
+  }
+
+  //get Currency master
+  getCurrencyData() {
+    this.RFQservice.GetAllMasterCurrency().subscribe(data => {
+      this.CurrencyList = data;
+    });
   }
 
   //get Documnet ty
@@ -231,6 +243,7 @@ export class VendorRegisterComponent implements OnInit {
     }
     else {
       this.VendorData.State = this.StateList.filter(li => li.StateId == this.VendorData.StateId)[0].StateName;
+      this.VendorData.MSMERequired == true ? this.VendorData.MSMERequired = true : this.VendorData.MSMERequired = false;
 
       this.spinner.show();
       this.RFQservice.VendorregisterSave(this.VendorData).subscribe(data => {
@@ -257,7 +270,8 @@ export class VendorRegisterComponent implements OnInit {
       //}
       this.spinner.show();
       this.RFQservice.uploadFile(formData).subscribe(data => {
-
+        this.spinner.hide();
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted' });
         this.vendorDocuments = new VendorDocDetailsList();
         this.vendorDocuments.UploadedBy = this.VendorDetails.VUniqueId;
         this.vendorDocuments.DocumentName = idanddocid + "_" + file.name;
@@ -265,14 +279,13 @@ export class VendorRegisterComponent implements OnInit {
         this.vendorDocuments.VendorId = this.VendorData.VendorId;
         this.vendorDocuments.PhysicalPath = data;
         this.VendorData.DocDetailsLists.push(this.vendorDocuments);
-        this.spinner.show();
-        this.RFQservice.InsertDocumentToYSCM(formData).subscribe(data => {
-          this.spinner.hide();
-          if (data != null) {
-            //alert("Sucessfully updated in YSCM");
-            this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted' });
-          }
-        })
+        //this.spinner.show();
+        //this.RFQservice.InsertDocumentToYSCM(formData).subscribe(data => {
+        //  this.spinner.hide();
+        //  if (data != null) {
+        //    this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted' });
+        //  }
+        //})
       })
     }
   }

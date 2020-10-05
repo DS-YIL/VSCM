@@ -69,6 +69,8 @@ export class VendorRegistration {
   StateId: number;
   State: string;
   LocalBranch: string;
+  CurrencyId: number;
+  Currency: string;
 }
 
 export class VendorDocDetailsList {

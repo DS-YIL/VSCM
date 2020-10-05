@@ -17,7 +17,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 })
 export class RFQEditComponent implements OnInit {
   orders = [];
-  constructor(private messageService: MessageService, private formBuilder: FormBuilder, private spinner: NgxSpinnerService,public constants: constants, private route: ActivatedRoute, public RfqService: RfqService, private router: Router) { }
+  constructor(private messageService: MessageService, private formBuilder: FormBuilder, private spinner: NgxSpinnerService, public constants: constants, private route: ActivatedRoute, public RfqService: RfqService, private router: Router) { }
   @ViewChild('attachments', { static: false }) attachment: any;
   isDisableddoctype: boolean = true;
   selectedFile: File;
@@ -137,6 +137,7 @@ export class RFQEditComponent implements OnInit {
       console.log(e);
     }
   }
+
   // IGSTPercentageenable(){
   //   if (this.AddQuotation.controls['IGSTPercentage'].value != ""){
   //     this.AddQuotation.controls['SGSTPercentage'].setValue("");
@@ -330,28 +331,29 @@ export class RFQEditComponent implements OnInit {
     let listfile: FileList = event.target.files;
     let formData: FormData = new FormData();
     if (listfile.length > 0) {
-      let revid = "Technical" + this.RfqRevisionId + "_" + this.rfqItemInfo.RFQItemsId + "_" + this.Vendor.VUniqueId;
+      let revid = "Technical" + this.RfqRevisionId + "_" + this.rfqItemInfo.RFQItemsId + "_" + this.Vendor.VUniqueId + "_" + "rfqEdit";
       for (let i = 0; i <= listfile.length - 1; i++) {
         this.Documents = new RFQDocuments();
         let file: File = listfile[i];
-        formData.append(revid, file, file.name);
-        this.Documents.DocumentName = revid + "\\" + file.name;
+        formData.append(revid, file, revid + "_" + file.name);
+        this.Documents.DocumentName = revid + "_" + file.name;
         this.Registration.filedata = formData;
         this.Registration.filedata;
         //this.Documents.uniqueid=this.uniqueid;
         this.Registration.DocDetailsLists.push(this.Documents);
         //var selectedFile = this.file[i].filename;//event.target.files[i];
         this.fileList1.push(file);
-        this.listOfFiles1.push(revid + "\\" + file.name)
+        this.listOfFiles1.push(revid + "_" + file.name)
 
       }
       this.RfqService.InsertDocument(formData).subscribe(data => {
-        this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
-          if (data != null) {
-            //alert("Sucessfully updated in YSCM");
-            this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully to YSCM' });
-          }
-        })
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully' });
+        //this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
+        //  if (data != null) {
+        //    //alert("Sucessfully updated in YSCM");
+        //    this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully to YSCM' });
+        //  }
+        //})
       })
     }
 
@@ -361,11 +363,11 @@ export class RFQEditComponent implements OnInit {
     let formData: FormData = new FormData();
     if (fileList.length > 0) {
       let doctypeid = document.getElementById('DocTypeid')["value"];
-      let revid = this.RfqRevisionId + "_" + doctypeid + "_" + this.Vendor.VUniqueId;
+      let revid = this.RfqRevisionId + "_" + doctypeid + "_" + this.Vendor.VUniqueId + "_" + "rfqEdit";
       for (let i = 0; i <= fileList.length - 1; i++) {
         this.Documents = new RFQDocuments();
         let file: File = fileList[i];
-        formData.append(revid, file, file.name);
+        formData.append(revid, file, revid + "_" + file.name);
         this.Documents.DocumentName = revid + "_" + file.name;
         this.Registration.filedata = formData;
         this.Registration.filedata;
@@ -378,12 +380,13 @@ export class RFQEditComponent implements OnInit {
       }
       this.RfqService.InsertDocument(formData).subscribe(data => {
         if (data[0]["errmsg"] == "OK") {
-          this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
-            if (data != null) {
-              //alert("Sucessfully updated in YSCM");
-              this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully to YSCM' });
-            }
-          })
+          this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully' });
+          //this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
+          // if (data != null) {
+          //alert("Sucessfully updated in YSCM");
+          // this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully to YSCM' });
+          //}
+          // })
           this.loadQuotationDetails();
         }
       })
@@ -391,9 +394,9 @@ export class RFQEditComponent implements OnInit {
 
   }
   getDocType(docType: number) {
-    if (docType == 1)
+    if (docType == 6)
       return "Technical File";
-    else if (docType == 2) {
+    else if (docType == 7) {
       return "Commercial File";
     }
     else {
