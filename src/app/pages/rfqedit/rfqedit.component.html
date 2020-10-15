@@ -26,7 +26,7 @@
       <label>RFQ Valid Date :</label>&nbsp;<span>{{quoteDetails.RfqValidDate | date : constants.dateFormat}}</span>
     </div>
   </div>
-  <div class="form-control" style="height:100%;" *ngFor="let item of quoteDetails.RemoteRFQItems_N">
+  <div class="form-control" style="height:100%;" *ngFor="let item of quoteDetails.RemoteRFQItems_N;let k=index">
 
     <div class="row" style="margin-left: 0px; margin-right: 0px">
       <div class="col-lg-3 col-md-3 col-sm-3 form-group table-bordered">
@@ -101,7 +101,7 @@
                 <!-- <td colspan="2"> {{rowData.Path}}</td> -->
                 <td class="text-center"> {{getDocType(rowData.DocumentType)}}</td>
                 <td class="text-center">
-                  <button pButton type="button" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" (click)="removeFile(rowData.Path,ri)" class="ui-button-danger"></button>&nbsp;
+                  <button pButton type="button" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" (click)="removeFile(rowData,ri,'Technical',k)" class="ui-button-danger"></button>&nbsp;
                   <!-- <button pButton type="button" pDeleteEditableRow icon="pi pi-plus" pTooltip="Add" (click)="Adddoc()" class="ui-button-add"></button> -->
                 </td>
               </tr>
@@ -167,7 +167,7 @@
           <!-- <td colspan="2"> {{rowData.Path}}</td> -->
           <td class="text-center">{{getDocType(rowData.DocumentType)}}</td>
           <td class="text-center">
-            <button pButton type="button" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" (click)="removeFile(rowData.Path,ri)" class="ui-button-danger"></button>&nbsp;
+            <button pButton type="button" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" (click)="removeFile(rowData,ri,'Other','')" class="ui-button-danger"></button>&nbsp;
             <button pButton type="button" pDeleteEditableRow icon="pi pi-plus" pTooltip="Add" (click)="Adddoc()" class="ui-button-add"></button>
           </td>
 
@@ -252,11 +252,11 @@
           <label class="form-label">Currency :</label>&nbsp;<span style="color:red">*</span>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-2">
-          <select class="form-control dropdown" formControlName="CurrencyId" [(ngModel)]="rfqItemInfo.CurrencyId" [ngClass]="{ 'is-invalid': VQAddSubmitted && (AddQuotation.controls.CurrencyId.value=='0' || AddQuotation.controls.CurrencyId.value==null)}">
-            <option selected value="0">Select</option>
+          <select class="form-control dropdown" formControlName="CurrencyId" [(ngModel)]="rfqItemInfo.CurrencyId" [ngClass]="{ 'is-invalid': VQAddSubmitted && !AddQuotation.controls.CurrencyId.value}">
+            <!--<option selected value="0">Select</option>-->
             <option *ngFor="let ca of currncyArray" [ngValue]="ca.CurrenyId">{{ca.CurrencyName}}</option>
           </select>
-          <span style="color:red" *ngIf="VQAddSubmitted && (AddQuotation.controls.CurrencyId.value=='0' || AddQuotation.controls.CurrencyId.value==null)" class="invalid-feedback">Please select Currency.</span>
+          <span style="color:red" *ngIf="VQAddSubmitted && !AddQuotation.controls.CurrencyId.value" class="invalid-feedback">Please select Currency.</span>
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
@@ -409,8 +409,8 @@
       <div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
         <div class="col-lg-6 col-md-6 col-sm-6">
           <span *ngFor="let selected of listOfFiles1;let index = index">
-            <span class="fixed-text" pTooltip={{selected}}><i icon="fa fa-file" class="fa fa-file"></i></span>
-            <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
+            <span class="fixed-text" pTooltip={{selected.DocumentName}}><i icon="fa fa-file" class="fa fa-file"></i></span>&nbsp;
+            <!--<button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>-->
           </span>
         </div>
       </div>

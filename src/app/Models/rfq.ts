@@ -249,6 +249,7 @@ export class RfqItemModel {
   iteminfo: Array<RfqItemInfoModel> = [];
   filedata: FormData;
   DocDetailsLists: Array<RFQDocuments> = [];
+  Id: number;
 
 }
 export class MPRDocument {
@@ -272,6 +273,7 @@ export class rfqFilterParams {
   RFQNo: string;
   VendorId: string;
   DocumentNo: string;
+  StatusId: number=0;
 }
 export class QuoteDetails {
   RfqNo: string;

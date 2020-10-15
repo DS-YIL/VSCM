@@ -6,45 +6,51 @@
     <i class="fa fa-plus-square expand" aria-hidden="true" (click)="showHideFilterBlock()" pTooltip="Expand"></i>
   </div>
 </div><br />
-<form [formGroup]="RFQfilterForm">
-  <div *ngIf="showFilterBlock" class="form-control" style="height:100%;border-radius:0px;">
-    <div class="row" style="margin-top:10px">
-      <div class="col-lg-3 col-md-3 col-sm-3 form-group">
-        <label class="form-label">RFQ Filter</label><br />
-        <select class="form-control dropdown" name="comptype" [(ngModel)]="rfqFilterParams.typeOfFilter" formControlName="typeOfFilter">
-          <option value="select" selected>Select</option>
-          <option value=true>RFQ Valid Date</option>
-          <option value=false>RFQ Created Date</option>
-        </select>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-3 form-group">
-        <label class="form-label">From Date</label><br />
-        <p-calendar formControlName="FromDate" [(ngModel)]="fromDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2050"></p-calendar>
-      </div>
-
-      <div class="col-lg-3 col-md-3 col-sm-3 form-group">
-        <label class="form-label">To Date</label>&nbsp;<br />
-        <p-calendar formControlName="ToDate" [(ngModel)]="toDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2050"></p-calendar>
-      </div>
+<div *ngIf="showFilterBlock" class="form-control" style="height:100%;border-radius:0px;">
+  <div class="row" style="margin-top:10px">
+    <div class="col-lg-3 col-md-3 col-sm-3 form-group">
+      <label class="form-label">RFQ Filter</label><br />
+      <select class="form-control dropdown" name="comptype" [(ngModel)]="rfqFilterParams.typeOfFilter">
+        <option value="select" selected>Select</option>
+        <option value=true>RFQ Valid Date</option>
+        <option value=false>RFQ Created Date</option>
+      </select>
     </div>
-    <div class="row" style="margin-top:10px">
-
-      <div class="col-lg-3 col-md-3 col-sm-3 form-group">
-        <label for="SaleOrderNo" class="form-label">RFQ No</label>
-        <input class="form-control" formControlName="RFQNo" [(ngModel)]="rfqFilterParams.RFQNo">
-      </div>
-
-
+    <div class="col-lg-3 col-md-3 col-sm-3 form-group">
+      <label class="form-label">From Date</label><br />
+      <p-calendar [(ngModel)]="fromDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2050"></p-calendar>
     </div>
-    <div class="row">
-      <div class="ui-g-4 ui-md-4">
-      </div>
-      <div class="ui-g-4 ui-md-4">
-        <button type="button" class="btn btn-success" (click)="bindList()" label="Save">Submit</button>
-      </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-3 form-group">
+      <label class="form-label">To Date</label>&nbsp;<br />
+      <p-calendar [(ngModel)]="toDate" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2050"></p-calendar>
     </div>
-  </div><br />
-</form>
+  </div>
+  <div class="row" style="margin-top:10px">
+
+    <div class="col-lg-3 col-md-3 col-sm-3 form-group">
+      <label for="SaleOrderNo" class="form-label">RFQ No</label>
+      <input class="form-control" [(ngModel)]="rfqFilterParams.RFQNo">
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 form-group">
+      <label class="form-label">RFQ Status</label><br />
+      <select class="form-control dropdown" name="comptype" [(ngModel)]="rfqFilterParams.StatusId">
+        <option value="0">Select</option>
+        <option value=8>Responded</option>
+        <option value=7>Yet to Respond</option>
+      </select>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="ui-g-4 ui-md-4">
+    </div>
+    <div class="ui-g-4 ui-md-4">
+      <button type="button" class="btn btn-success" (click)="bindList()" label="Save">Submit</button>
+    </div>
+  </div>
+</div><br />
+
 
 
 
@@ -52,11 +58,12 @@
 <p-table [value]="rfqMastersModel.Result" [paginator]="true" [rows]="10" [resizableColumns]="true" [scrollable]="true" [lazy]="true">
   <ng-template pTemplate="header">
     <tr class="mprltbldata">
-      <th>S.No</th>
-      <th>Rfq No.</th>
-      <th>Rfq Date</th>
-      <th>Rfq Valid Date</th>
-      <th>View</th>
+      <th class="text-center">S.No</th>
+      <th class="text-center">Rfq No.</th>
+      <th class="text-center">Rfq Date</th>
+      <th class="text-center">Rfq Valid Date</th>
+      <th class="text-center">Status</th>
+      <th class="text-center">View</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex" let-rindex=0>
@@ -67,11 +74,15 @@
       </td>
       <!--<td class="ptable-cell"><a [routerLink]="['/SCM/VendorQuotationAdd',rowData.Revision[0].RfqRevisionId]" routerLinkActive="active">{{rowData.RfqNo}}</a></td>-->
       <td class="ptable-cell">
-        <button *ngIf="rowData.rfqRevisionId" type="button" class="btn btn-link" stye="font-size:14px" (click)="redirectToVendorQuotation(rowData)">{{rowData.RFQNo}}</button>
+        <button *ngIf="rowData.rfqRevisionId" type="button" class="btn btn-link" stye="font-size:14px" (click)="redirectToVendorQuotation(rowData)">{{rowData.RFQNo}}-{{rowData.RevisionNo}}</button>
         <!--<a [routerLink]="['/VSCM/VendorQuotation',encryptData(rowData.rfqRevisionId!=null?rowData.rfqRevisionId:'')]" routerLinkActive="active">{{rowData.RFQNo}}</a>-->
       </td>
       <td class="ptable-cell text-center">{{rowData.CreatedDate | date : constants.dateFormat}}</td>
-      <td class="ptable-cell text-center">{{rowData.RfqValidDate | date : constants.dateFormat}}</td>
+      <td class="ptable-cell text-center">{{rowData.RFQValidDate | date : constants.dateFormat}}</td>
+      <td class="ptable-cell text-center">
+        <span *ngIf="rowData.StatusId==7">Yet to Respond</span>
+        <span *ngIf="rowData.StatusId==8">Responded</span>
+      </td>
       <td class="text-center">
         <button *ngIf="rowData.rfqRevisionId" type="button" class="btn btn-secondary" style="cursor:pointer;height:25px;" pButton (click)="redirectTovendorquoteview(rowData)"><i class="fa fa-eye" aria-hidden="true"></i></button>
         <!--<a [routerLink]="['/VSCM/VendorQuoteView',encryptData(rowData.rfqRevisionId!=null?rowData.rfqRevisionId:'')]" routerLinkActive="active"><button type="button" pButton icon="fa fa-eye" class="ui-button-revision"></button></a>-->

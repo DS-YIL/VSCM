@@ -40,6 +40,8 @@ export class VendorRegisterComponent implements OnInit {
   isDisabledIncorporation: boolean = true;
   isDisabledPANChange: boolean = true;
   isDisableOtherDoc: boolean = true;
+  isDisableTaxDoc: boolean = true;
+  isDisableForm10Doc: boolean = true;
   errormsg: boolean = false;
   docid: number;
   file: string;
@@ -52,6 +54,7 @@ export class VendorRegisterComponent implements OnInit {
     this.VendorDetails = new Vendor();
     this.VendorDetails = JSON.parse(localStorage.getItem("vendordetail"));
     this.VendorData.DocDetailsLists = [];
+    this.VendorData.ESI = "1";
     this.StateListdata();
     this.getCurrencyData();
     this.NOfBusinessListdata();
@@ -62,6 +65,7 @@ export class VendorRegisterComponent implements OnInit {
       State: ['', [Validators.required]],
       street: ['', [Validators.required]],
       VendorName: ['', [Validators.required]],
+      Country: ['', [Validators.required]],
       City: ['', [Validators.required]],
       MSME: ['', [Validators.required]],
       LocalBranch: ['', [Validators.required]],
@@ -97,16 +101,19 @@ export class VendorRegisterComponent implements OnInit {
       LocationOrBranch: ['', [Validators.required]],
       AccNo: ['', [Validators.required]],
       IFSCCode: ['', [Validators.required]],
+      IncoTerms: ['', [Validators.required]],
       AccountHolderName: ['', [Validators.required]],
       NaturOfBusiness: ['', [Validators.required]],
       SpecifyNatureOfBusiness: ['', [Validators.required]],
       SwiftCode: ['', [Validators.required]],
       Currency: ['', [Validators.required]],
+      ESI: ['', [Validators.required]],
       //BankDetails: ['', [Validators.required]],
     });
     //remove validation for unwanted fields.
-    this.VendorRegister.controls['Fax'].clearValidators();
+    this.VendorRegister.controls['ESI'].clearValidators();
     //this.VendorRegister.controls['PhoneExn'].clearValidators();
+    this.VendorRegister.controls['Fax'].clearValidators();
     this.VendorRegister.controls['AltEmailidForSales'].clearValidators();
     this.VendorRegister.controls['AltEmailidForOperations'].clearValidators();
     this.VendorRegister.controls['AltEmailidForLogistics'].clearValidators();
@@ -124,7 +131,7 @@ export class VendorRegisterComponent implements OnInit {
     this.VendorRegister.controls['TanNo'].clearValidators();
     this.VendorRegister.controls['SpecifyNatureOfBusiness'].clearValidators();
     this.VendorRegister.controls['SwiftCode'].clearValidators();
-    
+
     this.getvendordetails();
   }
   //Get StateList Data
@@ -200,12 +207,36 @@ export class VendorRegisterComponent implements OnInit {
   getvendordetails() {
     this.RFQservice.getvendordetails(this.VendorDetails.vendorId).subscribe(data => {
       this.VendorData = data;
+      if (this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 8).length > 0)
+        this.VendorData.ESI = "1";
+      else
+        this.VendorData.ESI = "0";
       this.natureOfBusinessChange();
+      this.CheckValidations();
       //this.listOfFiles1 = this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 1);
       //this.VendorRegister.controls['Onetimevendor'].setValue(data["Onetimevendor"])
     })
   }
+  CheckValidations() {
+    if (this.VendorData.VendorType == true) {
+      this.VendorRegister.controls['MSME'].clearValidators();
+      this.VendorRegister.controls['State'].clearValidators();
+      this.VendorRegister.controls['GSTNo'].clearValidators();
+      this.VendorRegister.controls['PANNo'].clearValidators();
+      this.VendorRegister.controls['IFSCCode'].clearValidators();
 
+      this.VendorRegister.controls['MSME'].updateValueAndValidity();
+      this.VendorRegister.controls['State'].updateValueAndValidity();
+      this.VendorRegister.controls['GSTNo'].updateValueAndValidity();
+      this.VendorRegister.controls['PANNo'].updateValueAndValidity();
+      this.VendorRegister.controls['IFSCCode'].updateValueAndValidity();
+    }
+
+    if (this.VendorData.VendorType == false) {
+      this.VendorRegister.controls['Country'].clearValidators();
+      this.VendorRegister.controls['Country'].updateValueAndValidity();
+    }
+  }
 
   natureOfBusinessChange() {
     if (this.VendorData.NatureofBusiness == 4) {
@@ -229,25 +260,48 @@ export class VendorRegisterComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select Address Proof' });
       return;
     }
-    if (this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 2).length <= 0) {
+    //VendorType 0 - local vendor, 1- foreignvendor
+    if (this.VendorData.VendorType == false && this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 2).length <= 0) {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select GST Registration Certificate' });
       return;
     }
-    if (this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 3).length <= 0) {
+    if (this.VendorData.VendorType == false && this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 3).length <= 0) {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select PAN Copy' });
       return;
     }
-    if (this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 6).length <= 0) {
+    if (this.VendorData.VendorType == false && this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 6).length <= 0) {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select Cancelled Cheque Copy' });
       return;
     }
+    if (this.VendorData.VendorType == false && this.VendorData.MSMERequired == true && this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 15).length <= 0) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select MSME Document' });
+      return;
+    }
+    if (this.VendorData.VendorType == false && this.VendorData.ESI == "1" && this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 8).length <= 0) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select ESI/PF' });
+      return;
+    }
+
+    if (this.VendorData.VendorType == false && this.VendorData.ESI == "0" && this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 16).length <= 0) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select Declaration On Letter Head' });
+      return;
+    }
+
+    if (this.VendorData.VendorType == true && this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 5).length <= 0) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select Bank Mandate duly signed by banker' });
+      return;
+    }
+
     else {
-      this.VendorData.State = this.StateList.filter(li => li.StateId == this.VendorData.StateId)[0].StateName;
+      if (this.VendorData.VendorType == false)
+        this.VendorData.State = this.StateList.filter(li => li.StateId == this.VendorData.StateId)[0].StateName;
+      this.VendorData.CurrencyName = this.CurrencyList.filter(li => li.CurrencyId == this.VendorData.CurrencyId)[0].CurrencyName;
       this.VendorData.MSMERequired == true ? this.VendorData.MSMERequired = true : this.VendorData.MSMERequired = false;
 
       this.spinner.show();
       this.RFQservice.VendorregisterSave(this.VendorData).subscribe(data => {
         this.spinner.hide();
+        //this.getvendordetails();
         if (data) {
           this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Data Submitted' });
         }
@@ -257,9 +311,14 @@ export class VendorRegisterComponent implements OnInit {
 
   }
 
-  fileattached(event: any, docId: string) {
+  fileattached(event: any, docId: any) {
     let fileList: FileList = event.target.files;
-    var docTypeId = document.getElementById(docId)["value"];
+    var docTypeId;
+    if (docId == "15")
+      docTypeId = docId;
+    else
+      docTypeId = document.getElementById(docId)["value"];
+
     let idanddocid = this.VendorDetails.VUniqueId + "_" + this.VendorDetails.vendorId + "_" + docTypeId + "_" + "VendorReg";
     let formData: FormData = new FormData();
     if (fileList.length > 0) {

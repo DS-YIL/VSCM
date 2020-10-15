@@ -139,9 +139,9 @@ export class RfqService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.post<any[]>(this.url + 'RFQ/RFQTermUpdate/', JSON.stringify(vendorTermsList), httpOptions);
   }
-  FinalSumit(RFQRevisionId: number): Observable<any[]> {
+  FinalSumit(RFQRevisionId: number, updatedby: string): Observable<any[]> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
-    return this.http.get<any>(this.url + 'RFQ/finalsubmitfromVendor/' + RFQRevisionId, httpOptions);
+    return this.http.get<any>(this.url + 'RFQ/finalsubmitfromVendor/' + RFQRevisionId + '/' + updatedby, httpOptions);
   }
   VendorregisterSave(vendorList: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };

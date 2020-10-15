@@ -19,7 +19,6 @@ export class VendorQuotationListComponent implements OnInit {
   public VendorQuotationList: FormGroup;
   public rfqMastersModel: RFQMasters;
   public rfqRevisions: RFQRevisionData;
-  public RFQfilterForm: FormGroup;
   public Vendor: Vendor;
   public showFilterBlock: boolean = false;
 
@@ -31,7 +30,7 @@ export class VendorQuotationListComponent implements OnInit {
     }
 
     //this.typeOfList = this.route.routeConfig.path;
-    this.rfqFilterParams = new rfqFilterParams();
+    //this.rfqFilterParams = new rfqFilterParams();
     //  this.fromDate=new Date();
     // this.toDate=new Date(new Date().setDate(new Date().getDate() - 30));
 
@@ -44,16 +43,10 @@ export class VendorQuotationListComponent implements OnInit {
     this.rfqvendorobj = new RFQfilter();
     this.rfqFilterParams = new rfqFilterParams()
     this.rfqFilterParams.VendorId = this.Vendor.vendorId;
+    this.rfqFilterParams.StatusId = 7;
     this.rfqvendorobj.RFQNo = "";
     this.rfqMastersModel = new RFQMasters();
     this.rfqRevisions = new RFQRevisionData();
-    this.RFQfilterForm = this.formBuilder.group({
-      typeOfFilter: ['', [Validators.required]],
-      FromDate: ['', [Validators.required]],
-      ToDate: ['', [Validators.required]],
-      RFQNo: ['', [Validators.required]],
-      venderid: ['', [Validators.required]]
-    });
     this.bindList();
 
     //this.RfqService.getallrfqlist().subscribe(data => {

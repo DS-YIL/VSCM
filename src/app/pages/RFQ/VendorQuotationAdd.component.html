@@ -707,7 +707,7 @@
         <button class="attachedbtn" mat-raised-button (click)="fileInput.click()">Select Technical File</button>
         <input style="display: none" #attachments type="file" (change)="fileattachedforitem($event)" accept=".pdf,.doc,.docx,.xlsx" #fileInput multiple="true">
         <span *ngFor="let selected of listOfFiles1;let index = index">
-          <span class="fixed-text" pTooltip={{selected}}><i icon="fa fa-file" class="fa fa-file"></i></span>
+          <span class="fixed-text" pTooltip={{selected.DocumentName}}><i icon="fa fa-file" class="fa fa-file"></i></span>
           <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
 
         </span>

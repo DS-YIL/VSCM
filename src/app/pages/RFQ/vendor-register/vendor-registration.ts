@@ -13,6 +13,7 @@ export class VendorRegistration {
   EvaluationRequired: boolean;
   PerformanceVerificationRequired: boolean;
   MSMERequired: boolean;
+  ESI: string;
   BusinessArea: string;
   VendorNoInSAP: string;
   RequestedOn: Date;
@@ -56,6 +57,7 @@ export class VendorRegistration {
   LocationOrBranch: string;
   AccNo: string;
   IFSCCode: string;
+  IncoTerms: string;
   PhysicalPath: string;
   DocumentationTypeId: number;
   fileattach1: string;
@@ -70,7 +72,11 @@ export class VendorRegistration {
   State: string;
   LocalBranch: string;
   CurrencyId: number;
-  Currency: string;
+  CurrencyName: string;
+  SwiftCode: string = "";
+  VendorType: boolean;
+  Country: string;
+
 }
 
 export class VendorDocDetailsList {

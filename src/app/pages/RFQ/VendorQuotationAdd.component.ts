@@ -150,26 +150,7 @@ export class VendorQuotationAddComponent implements OnInit {
       // ItemDescriptionForMultiple:['', [Validators.required]]
     });
   }
-  removeSelectedFileForItem(filename: any, index) {
-    // Delete the item from fileNames list
-    this.listOfFiles1.splice(index, 1);
-    this.Registration.PhysicalPath = filename.Path;
-    this.fileList1.splice(index, 1);
-
-    this.mprdoc.RevisionId = this.RfqRevisionId;
-    this.mprdoc.UploadedBy = this.Vendor.VUniqueId;
-    let path = filename.Path.split('\\');
-    let path1 = path[0].split('_');
-    this.mprdoc.DocumentName = path[1];
-    this.mprdoc.Path = filename.Path;
-    this.mprdoc.ItemDetailsId = path1[1];
-    this.RfqService.DeleteFile(this.Registration).subscribe(data => {
-      this.RfqService.DeleteFileFrmYSCM(this.mprdoc).subscribe(data => {
-        this.loadQuotationDetails();
-      })
-    })
-
-  }
+  
   viewDocument(path: string, documentname: string) {
     //this.doc = this.sanitizer.bypassSecurityTrustResourceUrl("http://10.29.15.68:90/SCMDocs/2.xlsx");
     var path1 = path.replace(/\\/g, "/");
@@ -180,9 +161,10 @@ export class VendorQuotationAddComponent implements OnInit {
   }
   removeSelectedFile(filename: any, index) {
     // Delete the item from fileNames list
-    this.listOfFiles.splice(index, 1);
+   
     this.Registration.PhysicalPath = filename.Path;
-    this.fileList.splice(index, 1);
+    this.Registration.Id = filename.RfqDocId;
+
     this.mprdoc.RevisionId = this.RfqRevisionId;
 
     this.mprdoc.UploadedBy = this.Vendor.VUniqueId;
@@ -191,10 +173,44 @@ export class VendorQuotationAddComponent implements OnInit {
     this.mprdoc.DocumentName = path[3];
     this.mprdoc.Path = filename.Path;
     this.mprdoc.ItemDetailsId = path1[1];
+    this.spinner.show();
     this.RfqService.DeleteFile(this.Registration).subscribe(data => {
-      this.RfqService.DeleteFileFrmYSCM(this.mprdoc).subscribe(data => {
+      this.spinner.hide();
+      if (data) {
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File Deleted' });
+        this.listOfFiles.splice(index, 1);
+        //this.fileList.splice(index, 1);
+      }
+      //this.RfqService.DeleteFileFrmYSCM(this.mprdoc).subscribe(data => {
 
-      })
+      //})
+    })
+
+  }
+  removeSelectedFileForItem(filename: any, index) {
+    // Delete the item from fileNames list
+
+    this.Registration.PhysicalPath = filename.Path;
+    this.Registration.Id = filename.RfqDocId;
+
+    this.mprdoc.RevisionId = this.RfqRevisionId;
+    this.mprdoc.UploadedBy = this.Vendor.VUniqueId;
+    let path = filename.Path.split('\\');
+    let path1 = path[0].split('_');
+    this.mprdoc.DocumentName = path[1];
+    this.mprdoc.Path = filename.Path;
+    this.mprdoc.ItemDetailsId = path1[1];
+    this.spinner.show();
+    this.RfqService.DeleteFile(this.Registration).subscribe(data => {
+      this.spinner.hide();
+      if (data) {
+        this.listOfFiles1.splice(index, 1);
+        //this.fileList1.splice(index, 1);
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File Deleted' });
+        // this.RfqService.DeleteFileFrmYSCM(this.mprdoc).subscribe(data => {
+        this.loadQuotationDetails();
+        //})
+      }
     })
 
   }
@@ -595,7 +611,7 @@ export class VendorQuotationAddComponent implements OnInit {
         });
   }
   FinalSubmit() {
-    this.RfqService.FinalSumit(this.RfqRevisionId).subscribe(data => {
+    this.RfqService.FinalSumit(this.RfqRevisionId, this.Vendor.VUniqueId).subscribe(data => {
 
       if (data[0] == "true") {
         this.messageService.add({ severity: 'success', summary: 'Success Message', detail: ' Updated sucessfully' });
@@ -742,6 +758,43 @@ export class VendorQuotationAddComponent implements OnInit {
     }
   }
 
+  fileattached(event: any, formName: string, data: string) {
+    let fileList: FileList = event.target.files;
+    let formData: FormData = new FormData();
+    if (fileList.length > 0) {
+      let doctypeid = document.getElementById('DocTypeid')["value"];
+      let revid = this.RfqRevisionId + "_" + doctypeid + "_" + this.Vendor.VUniqueId + "_" + "VendorquoteAdd";
+      for (let i = 0; i <= fileList.length - 1; i++) {
+        this.Documents = new RFQDocuments();
+        let file: File = fileList[i];
+        formData.append(revid, file, revid + "_" + file.name);
+        this.Documents.DocumentName = revid + "_" + file.name;
+        this.Registration.filedata = formData;
+        this.Registration.filedata;
+        //this.Documents.uniqueid=this.uniqueid;
+        this.Registration.DocDetailsLists.push(this.Documents);
+        //var selectedFile = this.file[i].filename;//event.target.files[i];
+        //this.fileList.push(file);
+        this.listOfFiles.push(this.Documents)
+
+      }
+      this.spinner.show();
+      this.RfqService.InsertDocument(formData).subscribe(data => {
+        this.loadQuotationDetails();
+        this.loaddocDetails();
+        this.spinner.hide();
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully' });
+        // this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
+        //if (data != null) {
+        //alert("Sucessfully updated in YSCM");
+        //this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully to YSCM' });
+        //}
+        //})
+      })
+    }
+
+  }
+
   fileattachedforitem(event: any) {
     let listfile: FileList = event.target.files;
     let formData: FormData = new FormData();
@@ -757,16 +810,17 @@ export class VendorQuotationAddComponent implements OnInit {
         //this.Documents.uniqueid=this.uniqueid;
         this.Registration.DocDetailsLists.push(this.Documents);
         //var selectedFile = this.file[i].filename;//event.target.files[i];
-        this.fileList1.push(file);
-        this.listOfFiles1.push(revid + "_" + file.name)
+        //this.fileList1.push(file);
+        this.listOfFiles1.push(this.Documents)
 
       }
       //this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
-
+      this.spinner.show();
       this.RfqService.InsertDocument(formData).subscribe(data => {
-        if (data != null) {
+        this.spinner.hide();
+        if (data) {
           this.Documents.Path = data;
-          this.loadQuotationDetails();
+          this.loadQuotationDetails();         
           this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully to YSCM' });
           //alert("Sucessfully updated in YSCM");
         }
@@ -803,38 +857,7 @@ export class VendorQuotationAddComponent implements OnInit {
 
   //   }
 
-  fileattached(event: any, formName: string, data: string) {
-    let fileList: FileList = event.target.files;
-    let formData: FormData = new FormData();
-    if (fileList.length > 0) {
-      let doctypeid = document.getElementById('DocTypeid')["value"];
-      let revid = this.RfqRevisionId + "_" + doctypeid + "_" + this.Vendor.VUniqueId + "_" + "VendorquoteAdd";
-      for (let i = 0; i <= fileList.length - 1; i++) {
-        this.Documents = new RFQDocuments();
-        let file: File = fileList[i];
-        formData.append(revid, file, revid + "_" + file.name);
-        this.Documents.DocumentName = revid + "_" + file.name;
-        this.Registration.filedata = formData;
-        this.Registration.filedata;
-        //this.Documents.uniqueid=this.uniqueid;
-        this.Registration.DocDetailsLists.push(this.Documents);
-        //var selectedFile = this.file[i].filename;//event.target.files[i];
-        this.fileList.push(file);
-        this.listOfFiles.push(revid + "_" + file.name)
 
-      }
-      this.RfqService.InsertDocument(formData).subscribe(data => {
-        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully' });
-        // this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
-        //if (data != null) {
-        //alert("Sucessfully updated in YSCM");
-        //this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully to YSCM' });
-        //}
-        //})
-      })
-    }
-
-  }
   Cancel() {
     this.AddDialog = false;
   }
