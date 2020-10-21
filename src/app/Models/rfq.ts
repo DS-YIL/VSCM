@@ -250,7 +250,7 @@ export class RfqItemModel {
   filedata: FormData;
   DocDetailsLists: Array<RFQDocuments> = [];
   Id: number;
-
+  UpdatedBy: string;
 }
 export class MPRDocument {
   MprDocId: number;

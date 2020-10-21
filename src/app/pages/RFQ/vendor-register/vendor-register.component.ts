@@ -205,7 +205,9 @@ export class VendorRegisterComponent implements OnInit {
 
 
   getvendordetails() {
+    this.spinner.show();
     this.RFQservice.getvendordetails(this.VendorDetails.vendorId).subscribe(data => {
+      this.spinner.hide();
       this.VendorData = data;
       if (this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 8).length > 0)
         this.VendorData.ESI = "1";

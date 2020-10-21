@@ -1,4 +1,5 @@
 <!--<div class="container">-->
+<a href="http://vscm-1089815394.ap-south-1.elb.amazonaws.com/VSCMDocs/VendorUserGuide.pdf" target="_blank" style="color:blue !important;float:right">User Guide:</a><br />
 <div id="VendorQuotation">
   <div class="row  pl-0">
     <div class=" col-lg-4 col-md-4 col-sm-4 pt-2"></div>
@@ -17,13 +18,14 @@
   </div>
   <div class="row  pl-0" *ngIf="quoteDetails">
     <div class="col-lg-4 col-md-4 col-sm-4 pt-2">
-      <label>RFQ No :</label>&nbsp;<span><label *ngIf="quoteDetails.RemoteRFQMaster">{{quoteDetails.RemoteRFQMaster.RFQNo}}</label></span>
+      <label>RFQ No :</label>&nbsp;
+      <span><label *ngIf="quoteDetails.RemoteRFQMaster">{{quoteDetails.RemoteRFQMaster.RFQNo}}</label></span>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-4 pt-2">
       <label>RFQ Date :</label>&nbsp;<span>{{quoteDetails.CreatedDate | date : constants.dateFormat}}</span>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-4 pt-2">
-      <label>RFQ Valid Date :</label>&nbsp;<span>{{quoteDetails.RfqValidDate | date : constants.dateFormat}}</span>
+      <label>RFQ Valid Date :</label>&nbsp;<span>{{quoteDetails.RFQValidDate | date : constants.dateFormat}}</span>
     </div>
   </div>
   <div class="form-control" style="height:100%;" *ngFor="let item of quoteDetails.RemoteRFQItems_N;let k=index">
@@ -208,7 +210,7 @@
           <label class="form-label">Rfq Item Id :</label>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-2">
-          <span class="valueEdit" >{{rfqItemInfo.RFQItemsId}}</span>
+          <span class="valueEdit">{{rfqItemInfo.RFQItemsId}}</span>
         </div>
 
         <div class="col-lg-1 col-md-1 col-sm-1">

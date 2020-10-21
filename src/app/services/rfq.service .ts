@@ -111,9 +111,9 @@ export class RfqService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.get<any>(this.url + 'RFQ/GetAllMasterCurrency', httpOptions);
   }
-  InsertRfqItemInfo(rfqItem: RfqItemModel): Observable<any> {
+  InsertOrEditRfqItemInfo(rfqItem: RfqItemModel): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
-    return this.http.post<any>(this.url + 'RFQ/InsertRfqItemInfo/', rfqItem, httpOptions);
+    return this.http.post<any>(this.url + 'RFQ/InsertOrEditRfqItemInfo/', rfqItem, httpOptions);
   }
   editRfqItemInfo(rfqItem: RfqItemModel): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };

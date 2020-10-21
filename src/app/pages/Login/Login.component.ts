@@ -8,6 +8,7 @@ import { first } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
 import { NgxSpinnerService } from "ngx-spinner";
 import { VendorRegistration } from '../RFQ/vendor-register/vendor-registration';
+import { MENU_ITEMS } from '../pages-menu';
 
 @Component({
   selector: 'app-Login',
@@ -108,7 +109,10 @@ export class LoginComponent implements OnInit {
       .subscribe(data => {
         if (data)
           this.router.navigateByUrl('/VSCM/vendorquotationlist');
-        this.CheckReg(data.vendorid);
+        if (data.isRegister)
+          MENU_ITEMS[0].hidden = false;//registration
+        else
+          MENU_ITEMS[0].hidden = true;
         //console.log("vdetails",data);
         //localStorage.setItem("vendordetail",JSON.stringify(data));
       },
@@ -118,8 +122,13 @@ export class LoginComponent implements OnInit {
         }
       )
   }
-   //enable  registration when intiate from buyer
-  CheckReg(vendorid) {
-   
-  }
+  //enable  registration when intiate from buyer
+  //CheckReg(vendorid) {
+  //  this.rfqService.getvendordetails(vendorid).subscribe(data => {
+  //    if (data.VendorId)
+  //      MENU_ITEMS[0].hidden = false;//registration
+  //    else
+  //      MENU_ITEMS[0].hidden = true;
+  //  });
+  //}
 }

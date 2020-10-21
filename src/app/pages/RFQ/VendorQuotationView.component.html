@@ -1,4 +1,5 @@
 <!--<div class="container">  *ngIf="istermsdisplay"-->
+<a href="http://vscm-1089815394.ap-south-1.elb.amazonaws.com/VSCMDocs/VendorUserGuide.pdf" target="_blank" style="color:blue !important;float:right">User Guide:</a><br />
 <div id="VendorQuotation">
   <div class="row  pl-0">
     <div class=" col-lg-4 col-md-4 col-sm-4 pt-2"></div>
@@ -23,9 +24,9 @@
       <label>RFQ Date :</label>&nbsp;<span>{{quoteDetails.CreatedDate | date : constants.dateFormat}}</span>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-4 pt-2">
-      <label>RFQ Valid Date :</label>&nbsp;<span>{{quoteDetails.RfqValidDate | date : constants.dateFormat}}</span>
+      <label>RFQ Valid Date :</label>&nbsp;<span>{{quoteDetails.RFQValidDate | date : constants.dateFormat}}</span>
     </div>
-   
+
   </div>
   <div class="row form-control" style="height:100%; border-radius:0px;">
     <div class="row" style="margin-left: 0px; margin-right: 0px">
@@ -49,7 +50,7 @@
             <td>{{rowData.QuotationQty}}</td>
             <td>{{rowData.HSNCode}}</td>
             <td>{{rowData.ItemUnitPrice}}</td>
-            <td><button type="button"  [disabled]="communicationFormEdit" pButton icon="fa fa-plus" (click)="showCommunicationDialogToAddeachitem('displayCommunicationDialog',rowData.RFQItemID)"></button></td>
+            <td><button type="button" [disabled]="communicationFormEdit" pButton icon="fa fa-plus" (click)="showCommunicationDialogToAddeachitem('displayCommunicationDialog',rowData.RFQItemID)"></button></td>
           </tr>
         </ng-template>
       </p-table>
@@ -61,7 +62,7 @@
             <div class="ui-g-10">
               <label class="form-label">Remarks</label>&nbsp;
               <textarea type="text" formControlName="Remarks" [(ngModel)]="VendorCommunications.Remarks" [value]="vendorCommunicationForm.controls.Remarks.value" class="form-control" [ngClass]="{ 'is-invalid': VendorCommunicationSubmitted && vendorCommunicationForm.controls.Remarks.errors }"></textarea>
-              
+
             </div>
             <div class="ui-g-2 form-inline">
               <span style="color:red" *ngIf="VendorCommunicationSubmitted && (vendorCommunicationForm.controls.Remarks.value==null)" class="invalid-feedback">Please enter remarks.</span>
@@ -82,118 +83,119 @@
         <p-table [value]="quoteDetails.RemoteRFQDocuments">
           <ng-template pTemplate="header">
             <tr class="text-center">
-               <th>Sl.No</th>
+              <th>Sl.No</th>
               <th colspan="3">File Name</th>
               <!-- <th colspan="2">Path</th>   -->
-               <th>DocType</th>
-               <th>View Document</th>
+              <th>DocType</th>
+              <th>View Document</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
             <tr>
-                <td>{{ri+1}}</td>
+              <td>{{ri+1}}</td>
               <td colspan="3">{{rowData.DocumentName}}</td>
               <!-- <td colspan="2"> {{rowData.Path}}</td> -->
               <td class="text-center"> {{getDocType(rowData.DocumentType)}}</td>
-              <td><i  class="fa fa-paperclip" (click)="viewDocument(rowData.Path,rowData.DocumentName)" aria-hidden="true" pTooltip="File Name: {{rowData.DocumentName}} Updated By: {{rowData.UploadedBy}} Updated On: {{rowData.UplaodedDate | date :  constants.dateFormat}}"></i></td>
+              <td><i class="fa fa-paperclip" (click)="viewDocument(rowData.Path,rowData.DocumentName)" aria-hidden="true" pTooltip="File Name: {{rowData.DocumentName}} Updated By: {{rowData.UploadedBy}} Updated On: {{rowData.UplaodedDate | date :  constants.dateFormat}}"></i></td>
             </tr>
-            
+
           </ng-template>
         </p-table><br />
 
       </div>
-    <div>
-      <!-- <h6 *ngIf="istermsdisplay"> Other Documents:</h6>
-      <div class="row" style="margin-left: 0px; margin-right: 0px" *ngIf="istermsdisplay">
-        <p-table [value]="docDetails">
+      <div>
+        <!-- <h6 *ngIf="istermsdisplay"> Other Documents:</h6>
+        <div class="row" style="margin-left: 0px; margin-right: 0px" *ngIf="istermsdisplay">
+          <p-table [value]="docDetails">
+            <ng-template pTemplate="header">
+              <tr class="text-center">
+                 <th>Sl.No</th>
+                <th colspan="3">File Name</th>
+
+                 <th>DocType</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+              <tr>
+                  <td>{{ri+1}}</td>
+                <td colspan="3">{{rowData.DocumentName}}</td>
+
+                <td class="text-center"> {{getDocType(rowData.DocumentType)}}</td>
+
+              </tr>
+
+            </ng-template>
+          </p-table><br />
+
+        </div> -->
+        
+
+        <h5>Terms & Conditions :</h5>
+        <div class="row" style="margin-left: 0px; margin-right: 0px">
+          <p-table [value]="VendorTermsList">
+            <ng-template pTemplate="header">
+              <tr class="text-center">
+                <th>Description</th>
+                <th>Agree</th>
+                <th>Not Agree</th>
+                <th>NA</th>
+                <th>Remarks</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+              <tr>
+                <td>{{rowData.Terms}}</td>
+                <td> <i [ngClass]="rowData.VendorResponse=='Agree'?'pi pi-check check-color':'pi pi-minus'"></i></td>
+                <td> <i [ngClass]="rowData.VendorResponse=='NotAgree'?'pi pi-times times-color':'pi pi-minus'"></i></td>
+                <td> <i [ngClass]="rowData.VendorResponse=='NotApplicable'?'pi pi-times times-color':'pi pi-minus'"></i></td>
+                <td>{{rowData.remarks}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <div class="ui-dialog-buttonpane ui-helper-clearfix" style="padding-top: 2%;">
+            &nbsp;&nbsp;&nbsp;
+            <button type="button" pButton icon="fa fa-edit" class="ui-button-edit" (click)="EditRFQ()" label="Edit"></button>&nbsp;&nbsp;&nbsp;
+            <!-- <button type="button" pButton icon="fa fa-edit" class="ui-button-revision"  label="Revise"></button>&nbsp;&nbsp;&nbsp; -->
+
+            <button type="button" [disabled]="communicationFormEdit" pButton icon="fa fa-plus" (click)="showCommunicationDialogToAdd('displayCommunicationDialog')"></button>&nbsp;&nbsp;
+            <label for="InchargeName" class="form-label">Add Communication </label>
+          </div>
+        </div><br />
+
+        <!-- <div class=" form-control">
+          <div class="row" style="margin-top:0px">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+              <label for="InchargeName" class="form-label">Add Communication </label>&nbsp;&nbsp;
+              <button type="button" [disabled]="communicationFormEdit" pButton icon="fa fa-plus" (click)="showCommunicationDialogToAdd('displayCommunicationDialog')"></button>
+            </div>
+
+          </div></div> -->
+        <br />
+      </div>
+      <h6 *ngIf="historydisplay">Communication History</h6>
+      <div class="row" style="margin-left: 0px; margin-right: 0px" *ngIf="historydisplay">
+        <p-table [value]="VendorCommunicationsList">
           <ng-template pTemplate="header">
             <tr class="text-center">
-               <th>Sl.No</th>
-              <th colspan="3">File Name</th>
-              
-               <th>DocType</th>
+              <th>Remarks</th>
+              <th>Remarks From</th>
+              <th>Remarks On</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
             <tr>
-                <td>{{ri+1}}</td>
-              <td colspan="3">{{rowData.DocumentName}}</td>
-             
-              <td class="text-center"> {{getDocType(rowData.DocumentType)}}</td>
-             
+              <td>{{rowData.Remarks}}</td>
+              <td> {{rowData.RemarksFrom}}</td>
+              <td> {{rowData.RemarksDate |date:'yyyy-MM-dd'}}</td>
+
             </tr>
-            
           </ng-template>
-        </p-table><br />
+        </p-table>
 
-      </div> -->
-      
+      </div><br />
+    </div>
 
-    <h5>Terms & Conditions :</h5>
-    <div class="row" style="margin-left: 0px; margin-right: 0px">
-      <p-table [value]="VendorTermsList">
-        <ng-template pTemplate="header">
-          <tr class="text-center">
-            <th>Description</th>
-            <th>Agree</th>
-            <th>Not Agree</th>
-            <th>NA</th>
-            <th>Remarks</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
-          <tr>
-            <td>{{rowData.Terms}}</td>
-            <td> <i [ngClass]="rowData.VendorResponse=='Agree'?'pi pi-check check-color':'pi pi-minus'"></i></td>
-            <td> <i [ngClass]="rowData.VendorResponse=='NotAgree'?'pi pi-times times-color':'pi pi-minus'"></i></td>
-            <td> <i [ngClass]="rowData.VendorResponse=='NotApplicable'?'pi pi-times times-color':'pi pi-minus'"></i></td>
-            <td>{{rowData.remarks}}</td>
-          </tr>
-        </ng-template>
-      </p-table>
-      <div class="ui-dialog-buttonpane ui-helper-clearfix" style="padding-top: 2%;">&nbsp;&nbsp;&nbsp;
-				<button type="button" pButton icon="fa fa-edit" class="ui-button-edit" (click)="EditRFQ()"  label="Edit"></button>&nbsp;&nbsp;&nbsp;
-				<!-- <button type="button" pButton icon="fa fa-edit" class="ui-button-revision"  label="Revise"></button>&nbsp;&nbsp;&nbsp; -->
-        
-        <button type="button" [disabled]="communicationFormEdit" pButton icon="fa fa-plus" (click)="showCommunicationDialogToAdd('displayCommunicationDialog')"></button>&nbsp;&nbsp;
-        <label for="InchargeName" class="form-label">Add Communication </label>
-      </div>
-    </div><br />
-    
-    <!-- <div class=" form-control">
-      <div class="row" style="margin-top:0px">
-        <div class="col-lg-4 col-md-4 col-sm-4">
-          <label for="InchargeName" class="form-label">Add Communication </label>&nbsp;&nbsp;
-          <button type="button" [disabled]="communicationFormEdit" pButton icon="fa fa-plus" (click)="showCommunicationDialogToAdd('displayCommunicationDialog')"></button>
-        </div>
-       
-      </div></div> -->
-      <br />
+
+
   </div>
-  <h6 *ngIf="historydisplay">Communication History</h6>
-  <div class="row" style="margin-left: 0px; margin-right: 0px"  *ngIf="historydisplay">
-    <p-table [value]="VendorCommunicationsList">
-      <ng-template pTemplate="header">
-        <tr class="text-center">
-          <th>Remarks</th>
-          <th>Remarks From</th>
-          <th>Remarks On</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
-        <tr>
-          <td>{{rowData.Remarks}}</td>
-          <td> {{rowData.RemarksFrom}}</td>
-          <td> {{rowData.RemarksDate |date:'yyyy-MM-dd'}}</td>
-          
-        </tr>
-      </ng-template>
-    </p-table>
-  
-  </div><br />
 </div>
-
-
-
-</div>
-  </div>

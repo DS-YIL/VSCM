@@ -466,6 +466,7 @@ export class RFQEditComponent implements OnInit {
       this.rfqItem.RFQItemId = this.rfqItemInfo.RFQItemsId;
       this.rfqItem.iteminfo.push(this.rfqItemInfo);
       this.rfqItem.RFQRevisionId = this.RfqRevisionId;
+      this.rfqItem.UpdatedBy = this.Vendor.VUniqueId;
       // this.quoteDetails = [];
       this.spinner.show();
       this.RfqService.editRfqItemInfo(this.rfqItem).subscribe(data => {

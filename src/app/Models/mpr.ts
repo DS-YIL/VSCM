@@ -268,7 +268,8 @@ export class Vendor{
   vendorId:string;
   VUniqueId:string;
   access_token:string;
-  UserName:string;
+  UserName: string;
+  isRegister: boolean;
 }
 export class MPRBuyerGroup {
   BuyerGroupId: number;
