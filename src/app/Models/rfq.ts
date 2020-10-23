@@ -277,10 +277,14 @@ export class rfqFilterParams {
 }
 export class QuoteDetails {
   RfqNo: string;
+  rfqMasterId: number;
+  ActiveRevision: boolean;
+  StatusId: number;
+  RFQValidDate: Date;
   RemoteRFQItems_N: Array<any>;
   RemoteRFQDocuments: Array<any>;
   RemoteRFQItemsInfo_N: any[];
-  RemoteRFQMaster: any[];
+  RemoteRFQMaster: RFQMaster;
   CreatedDate: Date;
   RfqValidDate: Date;
   rfqmaster: RFQMaster[];
@@ -288,11 +292,13 @@ export class QuoteDetails {
   RFQTerms: Array<RFQTerms>;
   itemDetails: Array<RfqItemModel>
   documents: Array<RFQDocuments>;
-  Rfqiteminfo: Array<any>
+  Rfqiteminfo: Array<any>;
+  RemoteRFQCommunications: Array<any>;
 }
 export class RFQMaster {
   RfqNo: string;
   Vendor: VendorDetails;
+  RemoteRFQCommunications: Array<any>;
 }
 
 export class RFQDocuments {
@@ -317,6 +323,7 @@ export class RFQTerms {
 export class VendorCommunication {
   RFQCCId: number;
   RFQRevisionId: number;
+  RfqMasterId: number;
   RFQItemsId: number;
   Remarks: string = "";
   RemarksFrom: string;

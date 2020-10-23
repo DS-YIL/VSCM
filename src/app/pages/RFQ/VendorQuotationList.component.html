@@ -27,7 +27,6 @@
     </div>
   </div>
   <div class="row" style="margin-top:10px">
-
     <div class="col-lg-3 col-md-3 col-sm-3 form-group">
       <label for="SaleOrderNo" class="form-label">RFQ No</label>
       <input class="form-control" [(ngModel)]="rfqFilterParams.RFQNo">
@@ -49,45 +48,44 @@
       <button type="button" class="btn btn-success" (click)="bindList()" label="Save">Submit</button>
     </div>
   </div>
-</div><br />
-
-
-
-
-<br />
-<p-table [value]="rfqMastersModel.Result" [paginator]="true" [rows]="10" [resizableColumns]="true" [scrollable]="true" [lazy]="true">
-  <ng-template pTemplate="header">
-    <tr class="mprltbldata">
-      <th class="text-center">S.No</th>
-      <th class="text-center">Rfq No.</th>
-      <th class="text-center">Rfq Date</th>
-      <th class="text-center">Rfq Valid Date</th>
-      <th class="text-center">Status</th>
-      <th class="text-center">View</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex" let-rindex=0>
-    <tr>
-      <td class="text-center">
-        {{ri+1}}
-
-      </td>
-      <!--<td class="ptable-cell"><a [routerLink]="['/SCM/VendorQuotationAdd',rowData.Revision[0].RfqRevisionId]" routerLinkActive="active">{{rowData.RfqNo}}</a></td>-->
-      <td class="ptable-cell">
-        <button *ngIf="rowData.rfqRevisionId" type="button" class="btn btn-link" stye="font-size:14px" (click)="redirectToVendorQuotation(rowData)">{{rowData.RFQNo}}-{{rowData.RevisionNo}}</button>
-        <!--<a [routerLink]="['/VSCM/VendorQuotation',encryptData(rowData.rfqRevisionId!=null?rowData.rfqRevisionId:'')]" routerLinkActive="active">{{rowData.RFQNo}}</a>-->
-      </td>
-      <td class="ptable-cell text-center">{{rowData.CreatedDate | date : constants.dateFormat}}</td>
-      <td class="ptable-cell text-center">{{rowData.RFQValidDate | date : constants.dateFormat}}</td>
-      <td class="ptable-cell text-center">
-        <span *ngIf="rowData.StatusId==7">Yet to Respond</span>
-        <span *ngIf="rowData.StatusId==8">Responded</span>
-      </td>
-      <td class="text-center">
-        <button *ngIf="rowData.rfqRevisionId" type="button" class="btn btn-secondary" style="cursor:pointer;height:25px;" pButton (click)="redirectTovendorquoteview(rowData)"><i class="fa fa-eye" aria-hidden="true"></i></button>
-        <!--<a [routerLink]="['/VSCM/VendorQuoteView',encryptData(rowData.rfqRevisionId!=null?rowData.rfqRevisionId:'')]" routerLinkActive="active"><button type="button" pButton icon="fa fa-eye" class="ui-button-revision"></button></a>-->
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
-<!--</div>-->
+</div>
+<div class="card compar-card mt-3">
+  <div class="card-body" style="overflow:auto !important">
+    <p-table [value]="rfqMastersModel.Result"[style]="{'width':'100%','overflow':'auto!important'}"
+             [responsive]="true" [rows]="50"
+             [resizableColumns]="true"
+             columnResizeMode="expand"
+             [paginator]="true" [rowsPerPageOptions]="[25,50,75,100]"
+             appendTo="body">
+      <ng-template pTemplate="header">
+        <tr class="mprltbldata">
+          <th class="text-center" style="width:100px">S.No</th>
+          <th class="text-center" style="width:100px">Rfq No.</th>
+          <th class="text-center" style="width:100px">Rfq Date</th>
+          <th class="text-center" style="width:100px">Rfq Valid Date</th>
+          <th class="text-center" style="width:100px">Status</th>
+          <th class="text-center" style="width:100px">View</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex" let-rindex=0>
+        <tr>
+          <td class="text-left">
+            {{ri+1}}
+          </td>
+          <td class="ptable-cell">
+            <button *ngIf="rowData.rfqRevisionId" type="button" class="btn btn-link" stye="font-size:14px" (click)="redirectToVendorQuotation(rowData)">{{rowData.RFQNo}}-{{rowData.RevisionNo}}</button>
+          </td>
+          <td class="ptable-cell">{{rowData.CreatedDate | date : constants.dateFormat}}</td>
+          <td class="ptable-cell">{{rowData.RFQValidDate | date : constants.dateFormat}}</td>
+          <td class="ptable-cell">
+            <span *ngIf="rowData.StatusId==7">Yet to Respond</span>
+            <span *ngIf="rowData.StatusId==8">Responded</span>
+          </td>
+          <td class="ptable-cell">
+            <button *ngIf="rowData.rfqRevisionId" type="button" class="btn btn-secondary" style="cursor:pointer;height:25px;" pButton (click)="redirectTovendorquoteview(rowData)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+</div>
+  </div>

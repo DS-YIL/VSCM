@@ -1,11 +1,11 @@
-import { Component, Input, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl, ValidatorFn } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DynamicSearchResult, Vendor } from '../../Models/mpr';
 import { constants } from '../../Models/MPRConstants';
 import { RfqService } from '../../services/rfq.service ';
 import { NgxSpinnerService } from "ngx-spinner";
-import { RfqItemModel, MPRDocument, RfqItemInfoModel, RFQUnitMasters, RFQCurrencyMaster, RFQDocuments, RFQTerms } from '../../Models/rfq';
+import { RfqItemModel, MPRDocument, RfqItemInfoModel, RFQUnitMasters, RFQCurrencyMaster, RFQDocuments, RFQTerms, VendorCommunication } from '../../Models/rfq';
 import { QuoteDetails } from 'src/app/Models/rfq';
 import { MessageService } from 'primeng/api';
 import * as CryptoJS from 'crypto-js';
@@ -17,19 +17,16 @@ import * as CryptoJS from 'crypto-js';
 
 export class VendorQuotationAddComponent implements OnInit {
   isDisableddoctype: boolean = true;
-  termsedited: boolean;
-  constructor(private messageService: MessageService, private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private cdRef: ChangeDetectorRef, public RfqService: RfqService, public constants: constants, private route: ActivatedRoute) { }
+  constructor(private messageService: MessageService, private router: Router, private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private cdRef: ChangeDetectorRef, public RfqService: RfqService, public constants: constants, private route: ActivatedRoute) { }
   @ViewChild('attachments', { static: false }) attachment: any;
   //@ViewChild('attachment',{static: false}) attach: any;
   selectedFile: File;
-  listOfFiles: any[] = [];
   listOfFiles1: any[] = [];
   public RFQTerms: RFQTerms;
   public RfqRevisionId: number = 0;
-  public VendorQuotation; AddQuotation: FormGroup;
-  public AddQuotationforitem: FormGroup;
+  public VendorQuotation; AddQuotation; AddQuotationforitem; vendorCommunicationForm: FormGroup;
   public dynamicData = new DynamicSearchResult();
-  public VQAddSubmitted: boolean = false;
+  public VQAddSubmitted; VendorCommunicationSubmitted; disableComBtn; disableOtherBtn; displayCommunicationDialog: boolean = false;
   public AddDialog: boolean;
   public AddDialogforitem: boolean;
   public showDiscount: string;
@@ -49,7 +46,6 @@ export class VendorQuotationAddComponent implements OnInit {
   public rfqItem: RfqItemModel;
   public rfqItemInfo: RfqItemInfoModel;
   public rfqItemId: string;
-  public termslist: boolean = false;
   TermsList: any[] = [];
   istermsdisplay; EditItem: boolean = false;
   DocumentListMaster: any[] = [];
@@ -64,16 +60,18 @@ export class VendorQuotationAddComponent implements OnInit {
   public docDetails: QuoteDetails;
   public DESkey: string;
   public rfqItemsresult: RfqItemModel;
-  ngOnInit() {
+  public DocTypeList: Array<any> = [];
+  public VendorCommunications: VendorCommunication;
+  public rfqrevisions: Array<any> = [];
 
+  ngOnInit() {
     this.Vendor = JSON.parse(localStorage.getItem("vendordetail"));
-    //debugger;
     this.route.params.subscribe(params => {
       if (params["RFQRevisionId"]) {
         this.RfqRevisionId = this.constants.decrypt(params["RFQRevisionId"]);
       }
     });
- 
+
     this.rfqItem = new RfqItemModel();
     this.rfqItemInfo = new RfqItemInfoModel();
     this.UOMArray = [];
@@ -85,11 +83,7 @@ export class VendorQuotationAddComponent implements OnInit {
     this.loadCurrency();
     this.GetdocumentListMaster();
     this.RFQTermListdata();
-
     this.loadQuotationDetails();
-    this.loaddocDetails();
-    //this.VendorQuotation = this.formBuilder.group({
-    //});
 
     this.AddQuotation = this.formBuilder.group({
       Qty: ['', [Validators.required]],
@@ -150,6 +144,17 @@ export class VendorQuotationAddComponent implements OnInit {
       // ItemNameForMultiple:['', [Validators.required]],
       // ItemDescriptionForMultiple:['', [Validators.required]]
     });
+
+    this.vendorCommunicationForm = this.formBuilder.group({
+      Remarks: ['', [Validators.required]],
+      setReminder: ['', [Validators.required]],
+      sendemail: ['', [Validators.required]],
+      ReminderDate: ['', [Validators.required]],
+      toEmail: ['', [Validators.required]],
+      ccEmail: ['', [Validators.required]]
+
+    })
+    this.VendorCommunications = new VendorCommunication();
   }
 
   loadQuotationDetails() {
@@ -157,57 +162,36 @@ export class VendorQuotationAddComponent implements OnInit {
     this.RfqService.GetRfqDetailsById(this.RfqRevisionId).subscribe(data => {
       this.spinner.hide();
       this.quoteDetails = data;
-    });
-  }
-
-  loaddocDetails() {
-    this.RfqService.GetdocDetailsById(this.RfqRevisionId).subscribe(data => {
-      this.listOfFiles = data;
+      // for rfq responded enable communication and disable other activities
+      if (this.quoteDetails.StatusId == 8) {
+        this.disableOtherBtn = true;
+        this.disableComBtn = false;
+      }
+       // for inactive revision disable communication and  other activities
+      if (this.quoteDetails.ActiveRevision == false) {
+        this.disableOtherBtn = true;
+        this.disableComBtn = true;
+      }
+      this.dynamicData = new DynamicSearchResult();
+      this.dynamicData.query = "select * from RFQRevisions_N where rfqMasterId=" + this.quoteDetails.rfqMasterId + "";
+      this.RfqService.getDBMastersList(this.dynamicData).subscribe(data => {
+        this.rfqrevisions = data;
+      })
     });
   }
 
   GetdocumentListMaster() {
-    this.RfqService.GetDocumentMasterList().
-      subscribe(
-        res => {
-          //this._list = res; //save posts in array
-          this.DocumentListMaster = res;
-          let _list: any[] = [];
-          for (let i = 0; i < (res.length); i++) {
-            _list.push({
-              DocumentTypeName: res[i].DocumentTypeName,
-              DocumenTypeId: res[i].DocumenTypeId
-            });
-          }
-          this.DocumentListMaster = _list;
-        });
+    this.RfqService.GetDocumentMasterList().subscribe(res => {
+      this.DocTypeList = res;
+      this.DocumentListMaster = this.DocTypeList.filter(li => li.UsedBYVendor == true);
+    });
   }
 
+  //get RFQ terms List
   RFQTermListdata() {
-    this.RfqService.GetTermsListForRFQ(this.RfqRevisionId).
-      subscribe(
-        res => {
-          //this._list = res; //save posts in array
-          this.TermsList = res;
-          console.log("termsid", res);
-          if (this.TermsList.length >= 1) {
-            this.istermsdisplay = true;
-            //document.getElementById('sunmittermsid').style.display="block";
-
-          }
-          else {
-            this.istermsdisplay = false;
-            //document.getElementById('sunmittermsid').style.display="none";
-          }
-          let _list: any[] = [];
-          for (let i = 0; i < (res.length); i++) {
-            _list.push({
-              Terms: res[i].Terms,
-              VRfqTermsid: res[i].VRfqTermsid
-            });
-          }
-          this.TermsList = _list;
-        });
+    this.RfqService.GetTermsListForRFQ(this.RfqRevisionId).subscribe(res => {
+      this.TermsList = res;
+    });
   }
 
   loadCurrency() {
@@ -447,60 +431,16 @@ export class VendorQuotationAddComponent implements OnInit {
       this.AddQuotation.controls['DiscountPercentage'].clearValidators();
       this.AddQuotation.controls['Discount'].clearValidators();
     }
-     this.AddQuotation.controls['DiscountPercentage'].updateValueAndValidity();
-     this.AddQuotation.controls['Discount'].updateValueAndValidity();
-  }
-  //on terms change
-  onChange(id: string, textid: string) {
-    this.termsedited = true;
-    this.isDisabledRemarks = false;
-    let disableid = "text_" + textid;
-    if (id == "NotAgree") {
-      (<HTMLInputElement>document.getElementById(disableid)).validity;// = false;
-
-      (<HTMLInputElement>document.getElementById(disableid)).disabled = false;
-      (<HTMLInputElement>document.getElementById(disableid)).required = true;
-      //console.log(disableid,"textid");
-    }
-    else {
-      (<HTMLInputElement>document.getElementById(disableid)).disabled = true;
-      (<HTMLInputElement>document.getElementById(disableid)).required = false;
-    }
-
+    this.AddQuotation.controls['DiscountPercentage'].updateValueAndValidity();
+    this.AddQuotation.controls['Discount'].updateValueAndValidity();
   }
 
+  //rfq terms submit
   SubmitTerms() {
-    for (let i = 0; i < this.TermsList.length; i++) {
-      this.drpdwnId = this.TermsList[i].VRfqTermsid;
-      document.getElementsByClassName(this.drpdwnId);
-      let textid = "text_" + this.drpdwnId;
-
-      var remarks = ((document.getElementById(textid) as HTMLInputElement).value);
-      let response = document.getElementById(this.drpdwnId)["value"];
-      if (response == "NotAgree") {
-        //textid.setValidators([Validators.required]);
-        document.getElementById(textid).setAttribute('Validators', 'required');
-
-      }
-      let newName = {
-        VRfqTermsid: this.drpdwnId,
-        VendorResponse: response,
-        Remarks: remarks,
-        RFQRevisionId: this.RfqRevisionId
-      };
-
-
-      this.quoteDetailsforterms.push(newName);
-
-    }
     this.spinner.show();
-    this.RfqService.VendorTermsUpdate(this.quoteDetailsforterms).subscribe(data => {
+    this.RfqService.VendorTermsUpdate(this.TermsList).subscribe(data => {
       this.spinner.hide();
-      this.quoteDetailsforterms = data;
-      if (this.quoteDetailsforterms[0]["errmsg"] == "OK") {
-        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Terms Updated sucessfully' });
-      }
-
+      this.TermsList = data;
     });
 
   }
@@ -516,11 +456,14 @@ export class VendorQuotationAddComponent implements OnInit {
           this.MultipleItems = "false";
           this.AddQuotation.controls['ItemNameForMultiple'].clearValidators();
           this.AddQuotation.controls['ItemDescriptionForMultiple'].clearValidators();
+          this.AddQuotation.controls['MultipleItems'].clearValidators();
           this.AddQuotation.controls['ItemNameForMultiple'].setValue("");
           this.AddQuotation.controls['ItemDescriptionForMultiple'].setValue("");
+          this.AddQuotation.controls['MultipleItems'].setValue("");
 
           this.AddQuotation.controls['ItemNameForMultiple'].updateValueAndValidity();
           this.AddQuotation.controls['ItemDescriptionForMultiple'].updateValueAndValidity();
+          this.AddQuotation.controls['MultipleItems'].updateValueAndValidity();
         }
       }
     )
@@ -530,10 +473,10 @@ export class VendorQuotationAddComponent implements OnInit {
     this.rfqItemInfo.RFQItemsId = rfqItemId;
     this.rfqItemInfo.ItemName = item.ItemName;
     this.rfqItemInfo.ItemDescription = item.ItemDescription;
-    this.rfqItemInfo.Quantity=QuotationQty;
+    this.rfqItemInfo.Quantity = QuotationQty;
     this.rfqItem.QuotationQty = QuotationQty;
     this.rfqItem.RFQItemId = rfqItemId;
-    
+
     this.showDiscount = "";
     this.showTaxDuty = "";
     this.VQAddSubmitted = false;//Removes the Validation error when attempted to click the Add button
@@ -575,16 +518,16 @@ export class VendorQuotationAddComponent implements OnInit {
     this.AddQuotation.controls['MultipleItems'].updateValueAndValidity();
     this.rfqItemInfo.ItemName = item.ItemName;
     this.rfqItemInfo.ItemDescription = item.ItemDescription;
-    
+
     this.rfqItemInfo.DiscountPercentage = quoteDetail.DiscountPercentage;
     this.rfqItemInfo.Discount = quoteDetail.Discount;
-    if (this.rfqItemInfo.Discount || this.rfqItemInfo.DiscountPercentage) 
+    if (this.rfqItemInfo.Discount || this.rfqItemInfo.DiscountPercentage)
       this.showDiscount = 'true';
     else
       this.showDiscount = 'false';
-      this.boolDiscountonload(event);
+    this.boolDiscountonload(event);
 
-    
+
 
     this.rfqItemInfo.Quantity = quoteDetail.Qty;
     this.rfqItemInfo.Remarks = quoteDetail.Remarks;
@@ -610,7 +553,7 @@ export class VendorQuotationAddComponent implements OnInit {
     this.rfqItem.PFPercentage = item.PFPercentage;
     this.rfqItem.FreightAmount = item.FreightAmount;
     this.rfqItem.FreightPercentage = item.FreightPercentage;
- 
+
     this.showTaxDuty = "";
     this.VQAddSubmitted = false;//Removes the Validation error when attempted to click the Add button
 
@@ -628,7 +571,7 @@ export class VendorQuotationAddComponent implements OnInit {
     if (item.CGSTPercentage || item.CGSTPercentage == "0")
       this.IGSTEnablefromCGST();
     if (item.SGSTPercentage || item.SGSTPercentage == "0")
-    this.IGSTEnablefromSGST();
+      this.IGSTEnablefromSGST();
   }
 
   ShowAddDialogitem(quoteDetail: any) {
@@ -715,7 +658,7 @@ export class VendorQuotationAddComponent implements OnInit {
 
     //this.UOMModel.UnitID = 0;
 
-    
+
     //	this.currncyModel.CurrencyId = 0;
   }
 
@@ -749,6 +692,84 @@ export class VendorQuotationAddComponent implements OnInit {
     }
   }
 
+  getTechnicalDocs(details: any) {
+    let docList: Array<any> = details;
+    return docList.filter(li => li.DocumentType == 6);
+  }
+
+  removeFile(filename: any, index: any, type: any, itemIndex: any) {
+    this.Registration.PhysicalPath = filename.Path;
+    this.Registration.Id = filename.RfqDocId;
+    this.rfqItem.iteminfo.splice(index, 1);
+    this.mprdoc.RevisionId = this.RfqRevisionId;
+    this.mprdoc.UploadedBy = this.Vendor.VUniqueId;
+    let path = filename.Path.split('\\');
+    let path1 = path[0].split('_');
+    this.mprdoc.DocumentName = path[1];
+    this.mprdoc.Path = filename.Path;
+    this.mprdoc.ItemDetailsId = path1[1];
+    this.spinner.show();
+    this.RfqService.DeleteFile(this.Registration).subscribe(data => {
+      this.spinner.hide();
+      if (data) {
+        if (type == "Other")
+          this.quoteDetails.RemoteRFQDocuments.splice(index, 1);
+        if (type == "Technical")
+          this.quoteDetails.RemoteRFQItems_N[itemIndex].RemoteRFQDocuments.splice(index, 1);
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File Deleted' });
+      }
+
+    })
+  }
+
+  removeSelectedFileForItem(filename: any, index) {
+    // Delete the item from fileNames list
+
+    this.Registration.PhysicalPath = filename.Path;
+    this.Registration.Id = filename.RfqDocId;
+
+    this.mprdoc.RevisionId = this.RfqRevisionId;
+    this.mprdoc.UploadedBy = this.Vendor.VUniqueId;
+    let path = filename.Path.split('\\');
+    let path1 = path[0].split('_');
+    this.mprdoc.DocumentName = path[1];
+    this.mprdoc.Path = filename.Path;
+    this.mprdoc.ItemDetailsId = path1[1];
+    this.spinner.show();
+    this.RfqService.DeleteFile(this.Registration).subscribe(data => {
+      this.spinner.hide();
+      if (data) {
+        this.listOfFiles1.splice(index, 1);
+        //this.fileList1.splice(index, 1);
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File Deleted' });
+        // this.RfqService.DeleteFileFrmYSCM(this.mprdoc).subscribe(data => {
+        this.loadQuotationDetails();
+        //})
+      }
+    })
+
+  }
+  //removeSelectedFile(filename: any, index) {
+  //  this.Registration.PhysicalPath = filename.Path;
+  //  this.Registration.Id = filename.RfqDocId;
+  //  this.mprdoc.RevisionId = this.RfqRevisionId;
+  //  this.mprdoc.UploadedBy = this.Vendor.VUniqueId;
+  //  let path = filename.Path.split('\\');
+  //  let path1 = path[2].split('_');
+  //  this.mprdoc.DocumentName = path[3];
+  //  this.mprdoc.Path = filename.Path;
+  //  this.mprdoc.ItemDetailsId = path1[1];
+  //  this.spinner.show();
+  //  this.RfqService.DeleteFile(this.Registration).subscribe(data => {
+  //    this.spinner.hide();
+  //    if (data) {
+  //      this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File Deleted' });
+  //      this.quoteDetails.RemoteRFQDocuments.splice(index, 1);
+  //    }
+  //  })
+
+  //}
+
   fileattached(event: any, formName: string, data: string) {
     let fileList: FileList = event.target.files;
     let formData: FormData = new FormData();
@@ -766,13 +787,12 @@ export class VendorQuotationAddComponent implements OnInit {
         this.Registration.DocDetailsLists.push(this.Documents);
         //var selectedFile = this.file[i].filename;//event.target.files[i];
         //this.fileList.push(file);
-        this.listOfFiles.push(this.Documents)
+        this.quoteDetails.RemoteRFQDocuments.push(this.Documents);
 
       }
       this.spinner.show();
       this.RfqService.InsertDocument(formData).subscribe(data => {
         this.loadQuotationDetails();
-        this.loaddocDetails();
         this.spinner.hide();
         this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted  sucessfully' });
         // this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
@@ -820,7 +840,7 @@ export class VendorQuotationAddComponent implements OnInit {
     }
 
   }
-  
+
 
   FinalSubmit() {
     this.spinner.show();
@@ -911,69 +931,59 @@ export class VendorQuotationAddComponent implements OnInit {
     //window.open("http://10.29.15.68:90/SCMDocs/2.xlsx");
     //this.showFileViewer = true;   
   }
-  removeSelectedFile(filename: any, index) {
-    // Delete the item from fileNames list
 
-    this.Registration.PhysicalPath = filename.Path;
-    this.Registration.Id = filename.RfqDocId;
+  // add communication against revision
+  showCommunicationDialogToAdd(dialogName: string) {
+    this[dialogName] = true;
+    this.VendorCommunications = new VendorCommunication();
+  }
 
-    this.mprdoc.RevisionId = this.RfqRevisionId;
 
-    this.mprdoc.UploadedBy = this.Vendor.VUniqueId;
-    let path = filename.Path.split('\\');
-    let path1 = path[2].split('_');
-    this.mprdoc.DocumentName = path[3];
-    this.mprdoc.Path = filename.Path;
-    this.mprdoc.ItemDetailsId = path1[1];
+  //add communication against item
+  showCommunicationDialogToAddeachitem(dialogName: string, rfqitem: any) {
+    this[dialogName] = true;
+    this.VendorCommunications = new VendorCommunication();
+    this.VendorCommunications.RFQItemsId = rfqitem;
+  }
+
+  dialogCancel(dialogName) {
+    this[dialogName] = false;
+  }
+
+  onCommnicationSubmit(dialogName: string) {
+    this.VendorCommunicationSubmitted = true
+    this.VendorCommunications.RemarksFrom = this.Vendor.VUniqueId;
+    this.VendorCommunications.RFQRevisionId = this.RfqRevisionId;
+    this.VendorCommunications.RfqMasterId = this.quoteDetails.rfqMasterId;
+    //this.quoteDetails.RemoteRFQCommunications.push(this.VendorCommunications);
     this.spinner.show();
-    this.RfqService.DeleteFile(this.Registration).subscribe(data => {
+    this.RfqService.InsertVendorCommunication(this.VendorCommunications).subscribe(data => {
       this.spinner.hide();
       if (data) {
-        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File Deleted' });
-        this.listOfFiles.splice(index, 1);
-        //this.fileList.splice(index, 1);
+        this.quoteDetails.RemoteRFQMaster.RemoteRFQCommunications = data;
+        this[dialogName] = false;
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Updated sucessfully' });
       }
-      //this.RfqService.DeleteFileFrmYSCM(this.mprdoc).subscribe(data => {
-
-      //})
-    })
+    });
+    console.log(this.VendorCommunications.Remarks, "remarks");
 
   }
-  removeSelectedFileForItem(filename: any, index) {
-    // Delete the item from fileNames list
 
-    this.Registration.PhysicalPath = filename.Path;
-    this.Registration.Id = filename.RfqDocId;
 
-    this.mprdoc.RevisionId = this.RfqRevisionId;
-    this.mprdoc.UploadedBy = this.Vendor.VUniqueId;
-    let path = filename.Path.split('\\');
-    let path1 = path[0].split('_');
-    this.mprdoc.DocumentName = path[1];
-    this.mprdoc.Path = filename.Path;
-    this.mprdoc.ItemDetailsId = path1[1];
-    this.spinner.show();
-    this.RfqService.DeleteFile(this.Registration).subscribe(data => {
-      this.spinner.hide();
-      if (data) {
-        this.listOfFiles1.splice(index, 1);
-        //this.fileList1.splice(index, 1);
-        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File Deleted' });
-        // this.RfqService.DeleteFileFrmYSCM(this.mprdoc).subscribe(data => {
-        this.loadQuotationDetails();
-        //})
-      }
-    })
-
-  }
+  //get document type
   getDocType(docType: number) {
-    if (docType == 6)
-      return "Technical File";
-    else if (docType == 7) {
-      return "Commercial File";
-    }
-    else {
-      return "Terms and conditions";
+    if (docType && this.DocTypeList.length > 0) {
+      return this.DocTypeList.filter(li => li.DocumenTypeId == docType)[0].DocumentTypeName;
     }
   }
+
+
+  //redirect to vendorquotation page
+  redirectToVendorQuotation(details: any) {
+    //this.router.navigate(['/VSCM/VendorQuotation', this.constants.encryptData(details.rfqRevisionId)]);
+    this.router.navigate([]).then(result => {
+      window.open('/VSCM/VendorQuotation/' + this.constants.encryptData(details.rfqRevisionId) + '', '_blank');
+    });
+  }
+
 }

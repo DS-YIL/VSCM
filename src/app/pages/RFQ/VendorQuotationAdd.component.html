@@ -1,13 +1,45 @@
 <a href="http://vscm-1089815394.ap-south-1.elb.amazonaws.com/VSCMDocs/VendorUserGuide.pdf" target="_blank" style="color:blue !important;float:right">User Guide:</a><br />
 
-<div class="row head-text" style="background-color:lightseagreen;">
-  <div class=" col-lg-12 col-md-12 col-sm-12 pt-2">
-    Vendor Quotation
+<div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;padding-top:3px;  font-size:16px !important;align-content: center;font-weight: 600;background-color: goldenrod;height:35px;">
+  <div style="float:left">
+    <label>Issuer :</label><span>YOKOGAWA INDIA LIMITED</span>
   </div>
-</div><br />
-<div class="form-control mt-3" style="height:100%;" *ngFor="let item of quoteDetails.RemoteRFQItems_N;  let itemIndex=index">
-
-  <div class="row" style="margin-left: 0px; margin-right: 0px">
+  <label class="form-label">  Vendor Quotation </label>
+  <div style="float:right">
+    <button type="button" [disabled]="disableComBtn" pButton icon="fa fa-plus" style="height:25px;" (click)="showCommunicationDialogToAdd('displayCommunicationDialog')"></button>&nbsp;&nbsp;
+    <label class="form-label">Add Communication </label>
+  </div>
+</div>
+<div  class="form-control" style="height:100%;border-radius:0px;">
+  <div class="row m-2">
+    <div class="col-lg-3 col-md-3 col-sm-3">
+      <label style="font-weight:800">RFQ No :</label>&nbsp;<span><label *ngIf="quoteDetails.RemoteRFQMaster">{{quoteDetails.RemoteRFQMaster.RFQNo}}</label></span>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3">
+      <label style="font-weight:800">Revision No :</label>&nbsp;<span *ngFor="let revision of rfqrevisions">
+        <button type="button" class="btn btn-link" [disabled]="revision.rfqRevisionId == RfqRevisionId" (click)="redirectToVendorQuotation(revision)">{{revision.RevisionNo}}</button>
+      </span>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3">
+      <label style="font-weight:800">RFQ Date :</label>&nbsp;<span>{{quoteDetails.CreatedDate | date : constants.dateFormat}}</span>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3">
+      <label style="font-weight:800">RFQ Valid Date :</label>&nbsp;<span>{{quoteDetails.RFQValidDate | date : constants.dateFormat}}</span>
+    </div>
+  </div>
+  <div class="row m-2" *ngIf="quoteDetails">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <label style="font-weight:800">Status :</label>&nbsp;<span *ngIf="quoteDetails.StatusId==7">Yet to Respond</span>
+      <span *ngIf="quoteDetails.StatusId==8">Responded</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <label style="font-weight:800">Remarks :</label>&nbsp;<span>{{quoteDetails.Remarks}}</span>
+    </div>
+  </div>
+</div>
+<div class="form-control" style="height:100%;border-radius:0px;" *ngFor="let item of quoteDetails.RemoteRFQItems_N;  let itemIndex=index">
+  <div class="row m-2">
+    <span style="color: orangered;font-size:14px"><b>{{itemIndex+1}}.</b></span>&nbsp;
     <div class="col-lg-3 col-md-3 col-sm-3 form-group table-bordered">
       <label class="form-label lblEdit font-weight-bold" style="color: orangered; text-decoration: underline">Rfq Item Id</label>
       <span class="valueEdit font-weight-bold">{{item.RFQItemsId}}</span>
@@ -16,7 +48,7 @@
       <label class="form-label lblEdit font-weight-bold" style="color: orangered; text-decoration: underline">Item Code</label>
       <span class="valueEdit font-weight-bold">{{item.ItemName}}</span>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 form-group table-bordered" style="word-break: break-all;">
+    <div class="col-lg-3 col-md-3 col-sm-3 form-group table-bordered">
       <label class="form-label lblEdit font-weight-bold" style="color: orangered; text-decoration: underline">Item Description</label>
       <span class="valueEdit font-weight-bold">{{item.ItemDescription}}</span>
     </div>
@@ -24,178 +56,229 @@
       <label class="form-label lblEdit font-weight-bold" style="color: orangered; text-decoration: underline">Quantity</label>
       <span class="valueEdit font-weight-bold">{{item.QuotationQty}}</span>
     </div>
-    <br>
   </div>
-  <br>
-  <p-table [value]="item.RemoteRFQItemsInfo_N">
+  <div class="row m-2">
+    <div class="col-lg-2 col-md-2 col-sm-2 form-inline ">
+      <button type="button" [disabled]="disableComBtn" pButton icon="fa fa-plus" style="height:25px;" (click)="showCommunicationDialogToAddeachitem('displayCommunicationDialog',item.RFQItemsId)"></button>
+      &nbsp;<label class="form-label" style="font-weight:600;">Add Item Communication </label>
+    </div>
+  </div>
 
-    <ng-template pTemplate="header">
-
-      <tr>
-        <th colspan="8" style="text-align: right">
-          <button type="button" pButton icon="fa fa-plus" pTooltip="Add" class="ui-button-info" (click)="ShowAddDialog(item.RFQItemsId,item.QuotationQty,item.RemoteRFQDocuments,item)"></button>
-        </th>
-      </tr>
-      <tr class="text-center" *ngIf="item.RemoteRFQItemsInfo_N.length!=0">
-        <th>Sl No.</th>
-        <th colspan="2">Split Item Id</th>
-        <th>Qty</th>
-        <th>Unit Price</th>
-        <th>Total</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
-      <tr>
-        <td class="text-center">{{ri+1}}</td>
-        <td colspan="2" class="text-center">{{rowData.RFQSplitItemId}}</td>
-        <td class="text-right">{{rowData.Qty}}</td>
-        <td class="text-right">{{rowData.UnitPrice}}</td>
-        <td class="text-right">{{rowData.Qty * rowData.UnitPrice}}</td>
-        <td class="text-center">
-          <button type="button" pButton icon="fa fa-edit" pTooltip="Edit" (click)="ShowEditDialog(rowData,item)" class="ui-button-info"></button>
-        </td>
-        <td class="text-center">
-          <button pButton type="button" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" class="ui-button-danger" (click)="onRFQItemInfo(rowData,item.RFQItemsId,itemIndex,ri)"></button>
-        </td>
-      </tr>
-      <tr *ngIf="item.RemoteRfqVendorBOMs.length>0">
-
-        <th>Sl No.</th>
-        <th>Item Name</th>
-        <th>Item Desription</th>
-        <!-- <th>Split Item Id</th> -->
-        <th>Qty</th>
-        <th>Unit Price</th>
-        <th>Total</th>
-        <th>Action</th>
-      </tr>
-      <tr *ngFor="let items of item.RemoteRfqVendorBOMs let i=index" style="background-color:darkseagreen;">
-        <td class="text-center">{{ri+1}}.{{i+1}}</td>
-        <td class="text-center">{{items.ItemName}}</td>
-        <td class="text-right">{{items.ItemDescription}}</td>
-        <!-- <td class="text-center">{{items.RFQVendorbomItemId}}</td> -->
-        <td class="text-right">{{items.Qty}}</td>
-        <td class="text-right">{{items.UnitPrice}}</td>
-        <td class="text-right">{{items.Qty * items.UnitPrice}}</td>
-        <td class="text-center">
-          <button pButton type="button" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" class="ui-button-danger" (click)="onRFQItemInfo1(item.RFQItemsId,items,itemIndex,ri)"></button>&nbsp;&nbsp;&nbsp;
-          <button type="button" pButton icon="fa fa-edit" class="ui-button-edit" (click)="ShowAddDialogitem(items)" pTooltip="Edit"></button>
-        </td>
-      </tr>
-
-    </ng-template>
-  </p-table>
-
-  <h6 *ngIf="item.RemoteRFQDocuments.length!=0"> Technical Documents:</h6>
-  <div class="row" style="margin-left: 0px; margin-right: 0px" *ngIf="item.RemoteRFQDocuments.length!=0">
-    <p-table [value]="item.RemoteRFQDocuments">
+  <div class="row m-2" *ngIf="item && item.RemoteRFQDocuments && item.RemoteRFQDocuments.length>0">
+    <div class="col-xs-6 col-md-6 col-sm-6">
+      <h6 style="color:orangered"> YIL Documents:</h6>
+      <p-table [value]="item.RemoteRFQDocuments">
+        <ng-template pTemplate="header">
+          <tr class="text-center mprltbldata">
+            <th>File Name</th>
+            <th width="200px">Doc Type</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+          <tr *ngIf="rowData.DocumentType==1">
+            <td class="ptable-cell"><button type="button" class="btn btn-link" (click)="viewDocument(rowData.Path,rowData.DocumentName)">{{rowData.DocumentName}}</button></td>
+            <td class="text-center ptable-cell"> {{getDocType(rowData.DocumentType)}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="col-xs-6 col-md-6 col-sm-6">
+      <h6 style="color:orangered"> Technical Documents:</h6>
+      <p-table [value]="item.RemoteRFQDocuments">
+        <ng-template pTemplate="header">
+          <tr class="text-center mprltbldata">
+            <th>File Name</th>
+            <th width="200px">Doc Type</th>
+            <th width="100px">Delete</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+          <tr *ngIf="rowData.DocumentType==6">
+            <td class="ptable-cell"><button type="button" class="btn btn-link" (click)="viewDocument(rowData.Path,rowData.DocumentName)">{{rowData.DocumentName}}</button></td>
+            <td class="text-center ptable-cell"> {{getDocType(rowData.DocumentType)}}</td>
+            <td class="text-center ptable-cell">
+              <button pButton [disabled]="disableOtherBtn" type="button" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" (click)="removeFile(rowData,ri,'Technical',itemIndex)" class="ui-button-danger"></button>&nbsp;
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="row m-2">
+    <p-table [value]="item.RemoteRFQItemsInfo_N">
       <ng-template pTemplate="header">
-        <tr class="text-center">
-          <th>Sl.No</th>
-          <th colspan="3">File Name</th>
-          <!-- <th colspan="2">Path</th>   -->
-          <th>DocType</th>
-          <th>View Document</th>
+        <tr>
+          <th colspan="8" style="text-align: right">
+            <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-plus" pTooltip="Add" class="ui-button-info" (click)="ShowAddDialog(item.RFQItemsId,item.QuotationQty,item.RemoteRFQDocuments,item)"></button>
+          </th>
+        </tr>
+        <tr class="text-center mprltbldata" *ngIf="item.RemoteRFQItemsInfo_N.length!=0">
+          <th>Sl No.</th>
+          <th colspan="2">Split Item Id</th>
+          <th>Qty</th>
+          <th>Unit Price</th>
+          <th>Total</th>
+          <th>Edit</th>
+          <th>Delete</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
         <tr>
-          <td>{{ri+1}}</td>
-          <td colspan="3">{{rowData.DocumentName}}</td>
-          <!-- <td colspan="2"> {{rowData.Path}}</td> -->
-          <td class="text-center"> {{getDocType(rowData.DocumentType)}}</td>
-          <td><i class="fa fa-paperclip" (click)="viewDocument(rowData.Path,rowData.DocumentName)" aria-hidden="true" pTooltip="File Name: {{rowData.DocumentName}} Updated By: {{rowData.UploadedBy}} Updated On: {{rowData.UplaodedDate | date :  constants.dateFormat}}"></i></td>
+          <td class="text-center">{{ri+1}}</td>
+          <td colspan="2" class="text-center">{{rowData.RFQSplitItemId}}</td>
+          <td class="text-right">{{rowData.Qty}}</td>
+          <td class="text-right">{{rowData.UnitPrice}}</td>
+          <td class="text-right">{{rowData.Qty * rowData.UnitPrice}}</td>
+          <td class="text-center">
+            <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-edit" pTooltip="Edit" (click)="ShowEditDialog(rowData,item)" class="ui-button-info"></button>
+          </td>
+          <td class="text-center">
+            <button pButton type="button" [disabled]="disableOtherBtn" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" class="ui-button-danger" (click)="onRFQItemInfo(rowData,item.RFQItemsId,itemIndex,ri)"></button>
+          </td>
+        </tr>
+        <tr *ngIf="item.RemoteRfqVendorBOMs.length>0">
+
+          <th>Sl No.</th>
+          <th>Item Name</th>
+          <th>Item Desription</th>
+          <!-- <th>Split Item Id</th> -->
+          <th>Qty</th>
+          <th>Unit Price</th>
+          <th>Total</th>
+          <th>Action</th>
+        </tr>
+        <tr *ngFor="let items of item.RemoteRfqVendorBOMs let i=index" style="background-color:darkseagreen;">
+          <td class="text-center">{{ri+1}}.{{i+1}}</td>
+          <td class="text-center">{{items.ItemName}}</td>
+          <td class="text-right">{{items.ItemDescription}}</td>
+          <!-- <td class="text-center">{{items.RFQVendorbomItemId}}</td> -->
+          <td class="text-right">{{items.Qty}}</td>
+          ty
+          c
+          <td class="text-right">{{items.UnitPrice}}</td>
+          <td class="text-right">{{items.Qty * items.UnitPrice}}</td>
+          <td class="text-center">
+            <button pButton type="button" [disabled]="disableOtherBtn" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" class="ui-button-danger" (click)="onRFQItemInfo1(item.RFQItemsId,items,itemIndex,ri)"></button>&nbsp;&nbsp;&nbsp;
+            <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-edit" class="ui-button-edit" (click)="ShowAddDialogitem(items)" pTooltip="Edit"></button>
+          </td>
         </tr>
 
       </ng-template>
-    </p-table><br />
+    </p-table>
   </div>
 
 </div>
+<div  class="form-control" style="height:100%;border-radius:0px;">
+  <h6 style="color: orangered;" class="m-2">Other Documents:</h6><br />
+  <div class="row m-2">
+    <div class="col-lg-4 col-md-4 col-sm-4">
+      <select [disabled]="disableOtherBtn" id="DocTypeid" class="form-control" (change)="onChangedoctype($event.target.value)">
+        <option disabled selected value="0"> -- Select File Type -- </option>
+        <option *ngFor=" let Doc of DocumentListMaster " value={{Doc.DocumenTypeId}}>
+          {{Doc.DocumentTypeName}}
+        </option>
+      </select>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2">
+      <button class="attachedbtn" [disabled]="isDisableddoctype" mat-raised-button (click)="fileInput2.click()">Select File</button>
+      <input style="display: none" #attachment type="file" (change)="fileattached($event,'itemDetails','data')" accept=".pdf,.doc,.docx,.xlsx" #fileInput2 multiple="true">
+    </div>
+    <div class="mt-2">
+      <p-table *ngIf="quoteDetails && quoteDetails.RemoteRFQDocuments && quoteDetails.RemoteRFQDocuments.length>0" [responsive]="true" [value]="quoteDetails.RemoteRFQDocuments">
+        <ng-template pTemplate="header">
+          <tr class="text-center mprltbldata">
+            <th style="width:70px">Sl.No</th>
+            <th>File Name</th>
+            <th style="width:170px"> Document Type</th>
+            <th style="width:90px">View</th>
+            <th style="width:90px">Remove</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+          <tr>
+            <td>{{ri+1}}</td>
+            <td>{{rowData.DocumentName}}</td>
+            <td class="text-center">{{getDocType(rowData.DocumentType)}}</td>
+            <td class="text-center">
+              <i class="fa fa-paperclip" (click)="viewDocument(rowData.Path,rowData.DocumentName)" aria-hidden="true" pTooltip="File Name: {{rowData.DocumentName}} Updated By: {{rowData.UploadedBy}} Updated On: {{rowData.UplaodedDate | date :  constants.dateFormat}}"></i>
+            </td>
+            <td class="text-center">
+              <button pButton type="button" [disabled]="disableOtherBtn" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" (click)="removeFile(rowData,ri,'Other','')" class="ui-button-danger"></button>&nbsp;
+            </td>
+          </tr>
 
-<br /><br />
-
-<div class="form-control" style="height:100%;">
-  <h6 style="color: red;">Other Documents</h6><br />
-  <div id="docadddiv" class="col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px;">
-    <div class="row">
-      <div class="col-lg-4 col-md-4 col-sm-4">
-        <select id="DocTypeid" class="form-control" (change)="onChangedoctype($event.target.value)">
-          <option disabled selected value="0"> -- select File Type -- </option>
-          <option *ngFor=" let Doc of DocumentListMaster " value={{Doc.DocumenTypeId}}>
-            {{Doc.DocumentTypeName}}
-          </option>
-
-        </select>
-      </div>
-      <div class="col-lg-2 col-md-2 col-sm-2">
-        <button class="attachedbtn" [disabled]="isDisableddoctype" mat-raised-button (click)="fileInput2.click()">Select File</button>
-        <input style="display: none" #attachment type="file" (change)="fileattached($event,'itemDetails','data')" accept=".pdf,.doc,.docx,.xlsx" #fileInput2 multiple="true">
-        <!-- <input type="file" class="form-control" #attachments (change)="fileattached($event,'supportingDocument')" [disabled]="isDisableddoctype" placeholder="Upload file" accept=".pdf,.doc,.docx,.xlsx" multiple> -->
-      </div>
-      <div class="col-lg-6 col-md-6 col-sm-6">
-        <span *ngFor="let selected of listOfFiles;let index = index">
-          <span class="fixed-text" pTooltip={{selected.DocumentName}}><i icon="fa fa-file" class="fa fa-file"></i></span>
-          <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
-          <span>
-            <i class="fa fa-paperclip" (click)="viewDocument(selected.Path,selected.DocumentName)" aria-hidden="true" pTooltip="File Name: {{selected.DocumentName}} Updated By: {{selected.UploadedBy}} Updated On: {{selected.UplaodedDate | date :  constants.dateFormat}}"></i>
-          </span>
-        </span>
-      </div>
-      <!-- <input type="file" class="form-control" (change)="fileChange($event,'supportingDocument')" placeholder="Upload file" accept=".pdf,.doc,.docx,.xlsx" multiple> -->
-
+        </ng-template>
+      </p-table>
     </div>
   </div>
-</div><br />
+</div>
 
-<!-- *ngIf="quoteDetails.itemDetails.length>0" -->
-<h5>Terms & Conditions :</h5>
-<div class="row" style="margin-left: 0px; margin-right: 0px">
-  <p-table [value]="TermsList">
-    <ng-template pTemplate="header">
-      <tr class="text-center" style="background-color: indianred;">
-        <th colspan="3">Description</th>
-        <th>Response</th>
-        <!-- <th>Not Agree</th>
-        <th>NA</th> -->
-        <th>Remarks</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
-      <tr>
-        <td colspan="3">{{rowData.Terms}}</td>
-        <td>
-          <select id="{{rowData.VRfqTermsid}}" (change)="onChange($event.target.value,rowData.VRfqTermsid)" class="form-control input-md" required>
-            <option disabled selected value> -- select -- </option>
-            <option value="Agree">Agree</option>
-            <option value="NotAgree">Not Agree</option>
-            <option value="NotApplicable">NA</option>
-          </select>
-        </td>
-        <td>
-          <input type="text" class="form-control" [attr.required]="false" id="text_{{rowData.VRfqTermsid}}" [disabled]="true" maxlength="200" />
-
-        </td>
-      </tr>
-    </ng-template>
-
-  </p-table>
-  <div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
-    <div class="row col-md-offset-3 col-lg-6 col-md-6 col-sm-6" style="padding-left: 25%;">
-
-      <button type="button" [disabled]="!termsedited" pButton icon="fa fa-check" id="sunmittermsid" class="ui-button-success" (click)="SubmitTerms()" label="SubmitTerms"></button>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3" style="padding-left: 4%;">
-
-      <button type="button" pButton icon="fa fa-check" class="ui-button-success" (click)="FinalSubmit()" label="FinalSubmit"></button>
-    </div>
+<div *ngIf="quoteDetails && quoteDetails.RemoteRFQMaster &&  quoteDetails.RemoteRFQMaster.RemoteRFQCommunications &&  quoteDetails.RemoteRFQMaster.RemoteRFQCommunications.length>0" class="card mt-2">
+  <h6 style="color: orangered; " class="m-2">Communication History:</h6><br />
+  <div class="row m-2">
+    <p-table [value]="quoteDetails.RemoteRFQMaster.RemoteRFQCommunications">
+      <ng-template pTemplate="header">
+        <tr class="text-center mprltbldata">
+          <th>Remarks</th>
+          <th>Remarks From</th>
+          <th>Remarks On</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+        <tr>
+          <td>{{rowData.Remarks}}</td>
+          <td> {{rowData.Employee.Name}}</td>
+          <td> {{rowData.RemarksDate}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
 
   </div>
 </div>
-<br />
 
+<div *ngIf="TermsList.length>0" class="card mt-2">
+  <h6 style="color: orangered;" class="m-2">Terms & Conditions :</h6><br />
+  <div class="row m-2" style="margin-left: 0px; margin-right: 0px">
+    <p-table [value]="TermsList">
+      <ng-template pTemplate="header">
+        <tr class="text-center mprltbldata">
+          <th colspan="3">Description</th>
+          <th>Response</th>
+          <!-- <th>Not Agree</th>
+          <th>NA</th> -->
+          <th>Remarks</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+        <tr>
+          <td colspan="3">{{rowData.Terms}}</td>
+          <td>
+            <select [disabled]="disableOtherBtn" [(ngModel)]="rowData.VendorResponse" class="form-control input-md" required>
+              <option value=null> -- Select -- </option>
+              <option value="Agree">Agree</option>
+              <option value="NotAgree">Not Agree</option>
+              <option value="NotApplicable">NA</option>
+            </select>
+          </td>
+          <td>
+            <input type="text" class="form-control" [(ngModel)]="rowData.Remarks" [disabled]="rowData.VendorResponse=='NotAgree'?false:true" maxlength="200" />
+          </td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+    <div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+      <div class="row col-md-offset-3 col-lg-6 col-md-6 col-sm-6" style="padding-left: 25%;">
+        <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-check" id="sunmittermsid" class="ui-button-success" (click)="SubmitTerms()" label="SubmitTerms"></button>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3" style="padding-left: 4%;">
+
+        <button [disabled]="disableOtherBtn" type="button" pButton icon="fa fa-check" class="ui-button-success" (click)="FinalSubmit()" label="FinalSubmit"></button>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 <form [formGroup]="AddQuotation" style="height: 5px; overflow-y: scroll">
   <p-dialog header="Add Quotation" [(visible)]="AddDialog" [contentStyle]="{'overflow-y': 'auto', 'overflow-x': 'hidden', 'max-height': '80vh','min-height':'250px'}" showEffect="fade" [modal]="true" [responsive]="true" [style]="{width: '1150px'}">
@@ -251,7 +334,7 @@
         <label class="form-label">Qty :</label>&nbsp;<span style="color:red">*</span>
       </div>
       <div class="col-lg-2 col-md-2 col-sm-2">
-        <input type="text"  class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="7" formControlName="Qty" [(ngModel)]="rfqItemInfo.Quantity" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.Qty.errors}" />
+        <input type="text" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="7" formControlName="Qty" [(ngModel)]="rfqItemInfo.Quantity" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.Qty.errors}" />
         <span *ngIf="VQAddSubmitted && AddQuotation.controls.Qty.errors" class="invalid-feedback">Please enter Qty.</span>
       </div>
 
@@ -406,7 +489,7 @@
         <label class="form-label">Delivery Date :</label>&nbsp;<span style="color:red">*</span>
       </div>
       <div class="col-lg-2 col-md-2 col-sm-2">
-        <input type="date" class="form-control" style="padding-right: 0px;"  #myDate [value]="rfqItemInfo.DeliveryDate | date:'yyyy-MM-dd'" (input)="rfqItemInfo.DeliveryDate=parseDate($event.target.value)"  formControlName="DeliveryDate" [(ngModel)]="rfqItemInfo.DeliveryDate" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.DeliveryDate.errors }" />
+        <input type="date" class="form-control" style="padding-right: 0px;" #myDate [value]="rfqItemInfo.DeliveryDate | date:'yyyy-MM-dd'" (input)="rfqItemInfo.DeliveryDate=parseDate($event.target.value)" formControlName="DeliveryDate" [(ngModel)]="rfqItemInfo.DeliveryDate" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.DeliveryDate.errors }" />
         <span *ngIf="VQAddSubmitted && AddQuotation.controls.DeliveryDate.errors" class="invalid-feedback">Please select Delivery Date.</span>
       </div>
     </div>
@@ -443,6 +526,7 @@
     </p-footer>
   </p-dialog>
 </form>
+
 <form [formGroup]="AddQuotationforitem" style="height: 5px; overflow-y: scroll">
   <p-dialog header="Add Quotation" [(visible)]="AddDialogforitem" [contentStyle]="{'overflow-y': 'auto', 'overflow-x': 'hidden', 'max-height': '80vh','min-height':'250px'}" showEffect="fade" [modal]="true" [responsive]="true" [style]="{width: '1024px'}">
 
@@ -667,7 +751,7 @@
         <input style="display: none" #attachments type="file" (change)="fileattachedforitem($event)" accept=".pdf,.doc,.docx,.xlsx" #fileInput multiple="true">
         <span *ngFor="let selected of listOfFiles1;let index = index">
           <span class="fixed-text" pTooltip={{selected.DocumentName}}><i icon="fa fa-file" class="fa fa-file"></i></span>
-          <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
+          <!--<button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>-->
 
         </span>
       </div>
@@ -681,3 +765,25 @@
   </p-dialog>
 </form>
 
+<p-dialog header="Communication :" [(visible)]="displayCommunicationDialog" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '700px'}">
+  <div class="ui-g ui-fluid">
+    <form [formGroup]="vendorCommunicationForm" style="width:100%">
+      <div class="ui-g-12">
+        <div class="ui-g-10">
+          <label class="form-label">Remarks</label>&nbsp;
+          <textarea type="text" formControlName="Remarks" [(ngModel)]="VendorCommunications.Remarks" [value]="vendorCommunicationForm.controls.Remarks.value" class="form-control" [ngClass]="{ 'is-invalid': VendorCommunicationSubmitted && vendorCommunicationForm.controls.Remarks.errors }"></textarea>
+
+        </div>
+        <div class="ui-g-2 form-inline">
+          <span style="color:red" *ngIf="VendorCommunicationSubmitted && (vendorCommunicationForm.controls.Remarks.value==null)" class="invalid-feedback">Please enter remarks.</span>
+        </div>
+      </div>
+    </form>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" pButton icon="fa fa-check" (click)="onCommnicationSubmit('displayCommunicationDialog')" label="Submit"></button>
+      <button type="button" pButton icon="fa fa-close" (click)="dialogCancel('displayCommunicationDialog')" label="Cancel"></button>
+    </div>
+  </p-footer>
+</p-dialog>

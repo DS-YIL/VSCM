@@ -361,4 +361,11 @@ export class RfqService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.post<any>(this.url + 'RFQ/deleteAttachedDocuments/', httpOptions);
   }
+
+  getDBMastersList(search: DynamicSearchResult): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.post<any>(this.url + 'RFQ/getDBMastersList', search, httpOptions);
+  }
+
 }
+
