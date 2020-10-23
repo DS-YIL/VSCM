@@ -128,10 +128,6 @@ body .ui-widget {
   /*padding-right: 10px;*/
 }
 
-.ptable-cell {
-  white-space: pre-wrap;
-  word-wrap: break-word
-}
 
 .valueEdit {
   display: inline-block;
@@ -482,7 +478,18 @@ fieldset.scheduler-border {
   margin: auto;
 }
 
-.ptable-cell {
-  white-space: pre-wrap;
-  word-wrap: break-word
+.ptable-cell{
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
 }
+
+.ptable-cell {
+  white-space: pre-wrap !important;
+  word-wrap: break-word;
+  word-break: break-word !important;
+}
+
+
+/*.ui-table table {
+  table-layout: unset !important;
+}*/

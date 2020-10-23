@@ -8,12 +8,14 @@ import { Vendor } from 'src/app/Models/mpr';
 import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 import { DatePipe } from '@angular/common/'
+import { NgxSpinnerService } from "ngx-spinner";
+
 @Component({
   selector: 'app-VendorQuotationList',
   templateUrl: './VendorQuotationList.component.html'
 })
 export class VendorQuotationListComponent implements OnInit {
-  constructor(private datePipe: DatePipe, private router: Router, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private cdRef: ChangeDetectorRef, public RfqService: RfqService, public constants: constants, private route: ActivatedRoute) { }
+  constructor(private datePipe: DatePipe, private router: Router, private spinner: NgxSpinnerService,private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private cdRef: ChangeDetectorRef, public RfqService: RfqService, public constants: constants, private route: ActivatedRoute) { }
   public rfqvendorobj: RFQfilter;
   public rfqFilterParams: rfqFilterParams;
   public VendorQuotationList: FormGroup;
@@ -92,8 +94,9 @@ export class VendorQuotationListComponent implements OnInit {
   bindList() {
     this.rfqFilterParams.FromDate = this.datePipe.transform(this.fromDate, "yyyy-MM-dd");
     this.rfqFilterParams.ToDate = this.datePipe.transform(this.toDate, "yyyy-MM-dd");
-
+    this.spinner.show();
     this.RfqService.GetRfqByVendorId(this.rfqFilterParams).subscribe(data => {
+      this.spinner.hide();
       this.rfqMastersModel = data;
       //this.loading = false;
     })

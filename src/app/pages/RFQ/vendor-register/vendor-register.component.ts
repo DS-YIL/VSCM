@@ -196,12 +196,12 @@ export class VendorRegisterComponent implements OnInit {
   }
 
 
-  onDDLChange(id: string, enableId, disableSel: string) {
-    if (id == enableId)
-      this[disableSel] = false;
-    else
-      this[disableSel] = true;
-  }
+  //onDDLChange(id: string, enableId, disableSel: string) {
+  //  if (id == enableId)
+  //    this[disableSel] = false;
+  //  else
+  //    this[disableSel] = true;
+  //}
 
 
   getvendordetails() {
@@ -316,10 +316,11 @@ export class VendorRegisterComponent implements OnInit {
   fileattached(event: any, docId: any) {
     let fileList: FileList = event.target.files;
     var docTypeId;
-    if (docId == "15")
-      docTypeId = docId;
-    else
-      docTypeId = document.getElementById(docId)["value"];
+    docTypeId = docId;
+    //if (docId == "15")
+    //  docTypeId = docId;
+    //else
+    //  docTypeId = document.getElementById(docId)["value"];
 
     let idanddocid = this.VendorDetails.VUniqueId + "_" + this.VendorDetails.vendorId + "_" + docTypeId + "_" + "VendorReg";
     let formData: FormData = new FormData();

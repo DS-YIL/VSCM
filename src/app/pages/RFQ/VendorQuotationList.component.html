@@ -81,7 +81,7 @@
             <span *ngIf="rowData.StatusId==7">Yet to Respond</span>
             <span *ngIf="rowData.StatusId==8">Responded</span>
           </td>
-          <td class="ptable-cell">
+          <td class="text-center">
             <button *ngIf="rowData.rfqRevisionId" type="button" class="btn btn-secondary" style="cursor:pointer;height:25px;" pButton (click)="redirectTovendorquoteview(rowData)"><i class="fa fa-eye" aria-hidden="true"></i></button>
           </td>
         </tr>
