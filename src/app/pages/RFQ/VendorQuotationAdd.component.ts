@@ -5,7 +5,7 @@ import { DynamicSearchResult, Vendor } from '../../Models/mpr';
 import { constants } from '../../Models/MPRConstants';
 import { RfqService } from '../../services/rfq.service ';
 import { NgxSpinnerService } from "ngx-spinner";
-import { RfqItemModel, MPRDocument, RfqItemInfoModel, RFQUnitMasters, RFQCurrencyMaster, RFQDocuments, RFQTerms, VendorCommunication } from '../../Models/rfq';
+import { RfqItemModel, MPRDocument, RfqItemInfoModel, RFQUnitMasters, RFQStatus, RFQCurrencyMaster, RFQDocuments, RFQTerms, VendorCommunication } from '../../Models/rfq';
 import { QuoteDetails } from 'src/app/Models/rfq';
 import { MessageService } from 'primeng/api';
 import * as CryptoJS from 'crypto-js';
@@ -47,7 +47,7 @@ export class VendorQuotationAddComponent implements OnInit {
   public rfqItemInfo: RfqItemInfoModel;
   public rfqItemId: string;
   TermsList: any[] = [];
-  istermsdisplay; EditItem: boolean = false;
+  istermsdisplay; EditItem; displayFooter: boolean = false;
   DocumentListMaster: any[] = [];
   public Vendor: Vendor;
   public Documents: RFQDocuments;
@@ -63,6 +63,7 @@ export class VendorQuotationAddComponent implements OnInit {
   public DocTypeList: Array<any> = [];
   public VendorCommunications: VendorCommunication;
   public rfqrevisions: Array<any> = [];
+  public rfqStatus: RFQStatus;
 
   ngOnInit() {
     this.Vendor = JSON.parse(localStorage.getItem("vendordetail"));
@@ -78,6 +79,7 @@ export class VendorQuotationAddComponent implements OnInit {
     this.UOMModel = new RFQUnitMasters();
     this.currncyArray = [];
     this.currncyModel = new RFQCurrencyMaster();
+    this.rfqStatus = new RFQStatus();
 
     this.loadUOM();
     this.loadCurrency();
@@ -162,12 +164,32 @@ export class VendorQuotationAddComponent implements OnInit {
     this.RfqService.GetRfqDetailsById(this.RfqRevisionId).subscribe(data => {
       this.spinner.hide();
       this.quoteDetails = data;
-      // for rfq responded enable communication and disable other activities
-      if (this.quoteDetails.StatusId == 8) {
+      // showing footer and disable other buttons if rfq Regretted 
+      if (this.quoteDetails.RFQStatusTrackDetails.filter(li => li.StatusId == 27).length > 0) {
+        this.displayFooter = true;
         this.disableOtherBtn = true;
         this.disableComBtn = false;
       }
-       // for inactive revision disable communication and  other activities
+
+      //showing footer and other buttons  if rfq not acknowledged
+      if (this.quoteDetails.RFQStatusTrackDetails.filter(li => li.StatusId == 26).length == 0) {
+        this.displayFooter = true;
+        this.disableOtherBtn = true;
+        this.disableComBtn = false;
+      }
+      else {
+        this.displayFooter = false;
+        this.disableOtherBtn = false;
+        this.disableComBtn = false;
+      }
+
+
+      // for rfq responded enable communication and disable other activities
+      if (this.quoteDetails.RFQStatusTrackDetails.filter(li => li.StatusId == 8).length > 0) {
+        this.disableOtherBtn = true;
+        this.disableComBtn = false;
+      }
+      // for inactive revision disable communication and  other activities
       if (this.quoteDetails.ActiveRevision == false) {
         this.disableOtherBtn = true;
         this.disableComBtn = true;
@@ -969,6 +991,20 @@ export class VendorQuotationAddComponent implements OnInit {
 
   }
 
+  //statusUpdate
+  onstatusUpdate(statusId: any) {
+    this.spinner.show();
+    this.rfqStatus.RfqRevisionId = this.RfqRevisionId;
+    this.rfqStatus.StatusId = statusId;
+    this.rfqStatus.updatedby = this.Vendor.VUniqueId;
+    this.RfqService.rfqStatusUpdate(this.rfqStatus).subscribe(data => {
+      this.spinner.hide();
+      if (this.rfqStatus.StatusId == 26)//acknowledged
+        this.displayFooter = false;
+      if (data)
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Status Updated' });
+    });
+  }
 
   //get document type
   getDocType(docType: number) {
@@ -984,6 +1020,13 @@ export class VendorQuotationAddComponent implements OnInit {
     this.router.navigate([]).then(result => {
       window.open('/VSCM/VendorQuotation/' + this.constants.encryptData(details.rfqRevisionId) + '', '_blank');
     });
+  }
+
+  //scroll within page
+  scrollToView(id) {
+    var elmnt = document.getElementById(id);
+    if (elmnt)
+    elmnt.scrollIntoView(false);
   }
 
 }

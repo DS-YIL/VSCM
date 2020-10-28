@@ -1,12 +1,12 @@
 <a href="http://vscm-1089815394.ap-south-1.elb.amazonaws.com/VSCMDocs/VendorUserGuide.pdf" target="_blank" style="color:blue !important;float:right">User Guide:</a><br />
- <div class="row" style="font-size:16px !important;font-weight: 600;background-color: goldenrod;">
-   <div class="col-md-5 col-sm-5 col-xs-5 form-inline"><label>Issuer : </label><span>YOKOGAWA INDIA LIMITED</span></div>
-   <div class="col-md-3 col-sm-3 col-xs-3 form-inline"><label class="form-label">  Vendor Quotation </label></div>
-   <div class="col-md-3 col-sm-3 col-xs-3 form-inline">
-     <label class="form-label">Add Communication </label>&nbsp;
-     <button type="button" [disabled]="disableComBtn" pTooltip="Add Communication" pButton icon="fa fa-plus" style="height:25px;" (click)="showCommunicationDialogToAdd('displayCommunicationDialog')"></button>
-   </div>
- </div>
+<div class="row" style="font-size:16px !important;font-weight: 600;background-color: goldenrod;">
+  <div class="col-md-5 col-sm-5 col-xs-5 form-inline"><label>Issuer : </label><span>YOKOGAWA INDIA LIMITED</span></div>
+  <div class="col-md-3 col-sm-3 col-xs-3 form-inline"><label class="form-label">  Vendor Quotation </label></div>
+  <div class="col-md-3 col-sm-3 col-xs-3 form-inline">
+    <label class="form-label">Add Communication </label>&nbsp;
+    <button type="button" [disabled]="disableComBtn" pTooltip="Add Communication" pButton icon="fa fa-plus" style="height:25px;" (click)="showCommunicationDialogToAdd('displayCommunicationDialog')"></button>
+  </div>
+</div>
 <div class="card mt-3">
   <div class="row m-2">
     <div class="col-lg-3 col-md-3 col-sm-3">
@@ -34,133 +34,136 @@
     </div>
   </div>
 </div>
-<div class="card mt-3" *ngFor="let item of quoteDetails.RemoteRFQItems_N;  let itemIndex=index">
-    <div class="row m-2">
-      <span style="color: orangered;font-size:14px"><b>{{itemIndex+1}}.</b></span>&nbsp;
-      <div class="col-lg-2 col-md-2 col-sm-2 form-group table-bordered">
-        <label class="lblEdit font-weight-bold" style="color: orangered; text-decoration: underline">Rfq Item Id</label>
-        <span class="valueEdit font-weight-bold">{{item.RFQItemsId}}</span>
-      </div>
-      <div class="col-lg-2 col-md-2 col-sm-2 form-group table-bordered">
-        <label class="lblEdit font-weight-bold" style="color: orangered; text-decoration: underline">Item Code</label>
-        <span class="valueEdit font-weight-bold">{{item.ItemName}}</span>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-3 form-group table-bordered" style="word-break: break-all;">
-        <label class="lblEdit font-weight-bold" style="color: orangered; text-decoration: underline">Item Description</label>
-        <span class="valueEdit font-weight-bold">{{item.ItemDescription}}</span>
-      </div>
-      <div class="col-lg-2 col-md-2 col-sm-2 form-group table-bordered">
-        <label class="lblEdit font-weight-bold" style="color: orangered; text-decoration: underline">Quantity</label>
-        <span class="valueEdit font-weight-bold">{{item.QuotationQty}}</span>
-      </div>
-      <div class="col-lg-2 col-md-2 col-sm-2 form-group">
-        <label class="form-label" style="font-weight:600;font-size:12px">Add Item Communication </label>&nbsp;
-        <button type="button" [disabled]="disableComBtn" style="width: 20px;height: 25px;margin-top:1px" pTooltip="Add Item Communication" pButton icon="fa fa-plus" (click)="showCommunicationDialogToAddeachitem('displayCommunicationDialog',item.RFQItemsId)"></button>
-      </div>
+
+<div id="RFQItemsId" class="card mt-3" *ngFor="let item of quoteDetails.RemoteRFQItems_N;  let itemIndex=index">
+  <div class="row m-2">
+    <span style="color: orangered;font-size:14px"><b>{{itemIndex+1}}.</b></span>&nbsp;
+    <div class="col-lg-2 col-md-2 col-sm-2 form-group table-bordered">
+      <label class="lblEdit font-weight-bold" style="color: orangered; text-decoration: underline">Rfq Item Id</label>
+      <span class="valueEdit font-weight-bold">{{item.RFQItemsId}}</span>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 form-group table-bordered">
+      <label class="lblEdit font-weight-bold" style="color: orangered; text-decoration: underline">Item Code</label>
+      <span class="valueEdit font-weight-bold">{{item.ItemName}}</span>
     </div>
 
-    <div class="row m-2" *ngIf="item && item.RemoteRFQDocuments && item.RemoteRFQDocuments.length>0">
-      <div class="col-xs-6 col-md-6 col-sm-6">
-        <h6 style="color:orangered"> YIL Documents:</h6>
-        <p-table [value]="item.RemoteRFQDocuments">
-          <ng-template pTemplate="header">
-            <tr class="text-center mprltbldata">
-              <th class="text-center">File Name</th>
-              <th class="text-center" style="width:100px">Doc Type</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
-            <tr *ngIf="rowData.DocumentType==1">
-              <td class="ptable-cell"><button type="button" class="btn btn-link" (click)="viewDocument(rowData.Path,rowData.DocumentName)">{{rowData.DocumentName}}</button></td>
-              <td class="text-center ptable-cell"> {{getDocType(rowData.DocumentType)}}</td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
-      <div class="col-xs-6 col-md-6 col-sm-6">
-        <h6 style="color:orangered"> Technical Documents:</h6>
-        <p-table [value]="item.RemoteRFQDocuments">
-          <ng-template pTemplate="header">
-            <tr class="text-center mprltbldata">
-              <th class="text-center">File Name</th>
-              <th class="text-center" style="width:100px">Doc Type</th>
-              <th class="text-center" style="width:70px">Delete</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
-            <tr *ngIf="rowData.DocumentType==6">
-              <td class="ptable-cell"><button type="button" class="btn btn-link" (click)="viewDocument(rowData.Path,rowData.DocumentName)">{{rowData.DocumentName}}</button></td>
-              <td class="text-center ptable-cell"> {{getDocType(rowData.DocumentType)}}</td>
-              <td class="text-center ptable-cell">
-                <button pButton [disabled]="disableOtherBtn" type="button" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" (click)="removeFile(rowData,ri,'Technical',itemIndex)" class="ui-button-danger"></button>&nbsp;
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 form-group table-bordered" style="word-break: break-all;">
+      <label class="lblEdit font-weight-bold" style="color: orangered; text-decoration: underline">Item Description</label>
+      <span class="valueEdit font-weight-bold">{{item.ItemDescription}}</span>
     </div>
-    <div class="row m-2">
-      <p-table [value]="item.RemoteRFQItemsInfo_N">
+    <div class="col-lg-2 col-md-2 col-sm-2 form-group table-bordered">
+      <label class="lblEdit font-weight-bold" style="color: orangered; text-decoration: underline">Quantity</label>
+      <span class="valueEdit font-weight-bold">{{item.QuotationQty}}</span>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 form-group">
+      <label class="form-label" style="font-weight:600;font-size:12px">Add Item Communication </label>&nbsp;
+      <button type="button" [disabled]="disableComBtn" style="width: 20px;height: 25px;margin-top:1px" pTooltip="Add Item Communication" pButton icon="fa fa-plus" (click)="showCommunicationDialogToAddeachitem('displayCommunicationDialog',item.RFQItemsId)"></button>
+    </div>
+  </div>
+
+  <div class="row m-2" *ngIf="item && item.RemoteRFQDocuments && item.RemoteRFQDocuments.length>0">
+    <div class="col-xs-6 col-md-6 col-sm-6">
+      <h6 style="color:orangered"> YIL Documents:</h6>
+      <p-table [value]="item.RemoteRFQDocuments">
         <ng-template pTemplate="header">
-          <tr>
-            <th colspan="8" style="text-align: right">
-              <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-plus" pTooltip="Add" class="ui-button-info" (click)="ShowAddDialog(item.RFQItemsId,item.QuotationQty,item.RemoteRFQDocuments,item)"></button>
-            </th>
-          </tr>
-          <tr class="text-center mprltbldata" *ngIf="item.RemoteRFQItemsInfo_N.length!=0">
-            <th>Sl No.</th>
-            <th colspan="2">Split Item Id</th>
-            <th>Qty</th>
-            <th>Unit Price</th>
-            <th>Total</th>
-            <th>Edit</th>
-            <th>Delete</th>
+          <tr class="text-center mprltbldata">
+            <th class="text-center">File Name</th>
+            <th class="text-center" style="width:105px">Doc Type</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
-          <tr>
-            <td class="text-center">{{ri+1}}</td>
-            <td colspan="2" class="text-center">{{rowData.RFQSplitItemId}}</td>
-            <td class="text-right">{{rowData.Qty}}</td>
-            <td class="text-right">{{rowData.UnitPrice}}</td>
-            <td class="text-right">{{rowData.Qty * rowData.UnitPrice}}</td>
-            <td class="text-center">
-              <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-edit" pTooltip="Edit" (click)="ShowEditDialog(rowData,item)" class="ui-button-info"></button>
-            </td>
-            <td class="text-center">
-              <button pButton type="button" [disabled]="disableOtherBtn" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" class="ui-button-danger" (click)="onRFQItemInfo(rowData,item.RFQItemsId,itemIndex,ri)"></button>
-            </td>
+          <tr *ngIf="rowData.DocumentType==1">
+            <td class="ptable-cell"><button type="button" class="btn btn-link" (click)="viewDocument(rowData.Path,rowData.DocumentName)">{{rowData.DocumentName}}</button></td>
+            <td class="text-center ptable-cell"> {{getDocType(rowData.DocumentType)}}</td>
           </tr>
-          <tr *ngIf="item.RemoteRfqVendorBOMs.length>0">
-
-            <th>Sl No.</th>
-            <th>Item Name</th>
-            <th>Item Desription</th>
-            <!-- <th>Split Item Id</th> -->
-            <th>Qty</th>
-            <th>Unit Price</th>
-            <th>Total</th>
-            <th>Action</th>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="col-xs-6 col-md-6 col-sm-6">
+      <h6 style="color:orangered"> Technical Documents:</h6>
+      <p-table [value]="item.RemoteRFQDocuments">
+        <ng-template pTemplate="header">
+          <tr class="text-center mprltbldata">
+            <th class="text-center">File Name</th>
+            <th class="text-center" style="width:105px">Doc Type</th>
+            <th class="text-center" style="width:70px">Delete</th>
           </tr>
-          <tr *ngFor="let items of item.RemoteRfqVendorBOMs let i=index" style="background-color:darkseagreen;">
-            <td class="text-center">{{ri+1}}.{{i+1}}</td>
-            <td class="text-center">{{items.ItemName}}</td>
-            <td class="text-right">{{items.ItemDescription}}</td>
-            <!-- <td class="text-center">{{items.RFQVendorbomItemId}}</td> -->
-            <td class="text-right">{{items.Qty}}</td>
-            <td class="text-right">{{items.UnitPrice}}</td>
-            <td class="text-right">{{items.Qty * items.UnitPrice}}</td>
-            <td class="text-center">
-              <button pButton type="button" [disabled]="disableOtherBtn" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" class="ui-button-danger" (click)="onRFQItemInfo1(item.RFQItemsId,items,itemIndex,ri)"></button>&nbsp;&nbsp;&nbsp;
-              <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-edit" class="ui-button-edit" (click)="ShowAddDialogitem(items)" pTooltip="Edit"></button>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+          <tr *ngIf="rowData.DocumentType==6">
+            <td class="ptable-cell"><button type="button" class="btn btn-link" (click)="viewDocument(rowData.Path,rowData.DocumentName)">{{rowData.DocumentName}}</button></td>
+            <td class="text-center ptable-cell"> {{getDocType(rowData.DocumentType)}}</td>
+            <td class="text-center ptable-cell">
+              <button pButton [disabled]="disableOtherBtn" type="button" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" (click)="removeFile(rowData,ri,'Technical',itemIndex)" class="ui-button-danger"></button>&nbsp;
             </td>
           </tr>
-
         </ng-template>
       </p-table>
     </div>
   </div>
-<div class="card mt-3" style="height:100%;">
+  <div class="row m-2">
+    <p-table [value]="item.RemoteRFQItemsInfo_N">
+      <ng-template pTemplate="header">
+        <tr>
+          <th colspan="8" style="text-align: right">
+            <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-plus" pTooltip="Add" class="ui-button-info" (click)="ShowAddDialog(item.RFQItemsId,item.QuotationQty,item.RemoteRFQDocuments,item)"></button>
+          </th>
+        </tr>
+        <tr class="text-center mprltbldata" *ngIf="item.RemoteRFQItemsInfo_N.length!=0">
+          <th>Sl No.</th>
+          <th colspan="2">Split Item Id</th>
+          <th>Qty</th>
+          <th>Unit Price</th>
+          <th>Total</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+        <tr>
+          <td class="text-center">{{ri+1}}</td>
+          <td colspan="2" class="text-center">{{rowData.RFQSplitItemId}}</td>
+          <td class="text-right">{{rowData.Qty}}</td>
+          <td class="text-right">{{rowData.UnitPrice}}</td>
+          <td class="text-right">{{rowData.Qty * rowData.UnitPrice}}</td>
+          <td class="text-center">
+            <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-edit" pTooltip="Edit" (click)="ShowEditDialog(rowData,item)" class="ui-button-info"></button>
+          </td>
+          <td class="text-center">
+            <button pButton type="button" [disabled]="disableOtherBtn" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" class="ui-button-danger" (click)="onRFQItemInfo(rowData,item.RFQItemsId,itemIndex,ri)"></button>
+          </td>
+        </tr>
+        <tr *ngIf="item.RemoteRfqVendorBOMs.length>0">
+
+          <th>Sl No.</th>
+          <th>Item Name</th>
+          <th>Item Desription</th>
+          <!-- <th>Split Item Id</th> -->
+          <th>Qty</th>
+          <th>Unit Price</th>
+          <th>Total</th>
+          <th>Action</th>
+        </tr>
+        <tr *ngFor="let items of item.RemoteRfqVendorBOMs let i=index" style="background-color:darkseagreen;">
+          <td class="text-center">{{ri+1}}.{{i+1}}</td>
+          <td class="text-center">{{items.ItemName}}</td>
+          <td class="text-right">{{items.ItemDescription}}</td>
+          <!-- <td class="text-center">{{items.RFQVendorbomItemId}}</td> -->
+          <td class="text-right">{{items.Qty}}</td>
+          <td class="text-right">{{items.UnitPrice}}</td>
+          <td class="text-right">{{items.Qty * items.UnitPrice}}</td>
+          <td class="text-center">
+            <button pButton type="button" [disabled]="disableOtherBtn" pDeleteEditableRow icon="pi pi-trash" pTooltip="Remove" class="ui-button-danger" (click)="onRFQItemInfo1(item.RFQItemsId,items,itemIndex,ri)"></button>&nbsp;&nbsp;&nbsp;
+            <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-edit" class="ui-button-edit" (click)="ShowAddDialogitem(items)" pTooltip="Edit"></button>
+          </td>
+        </tr>
+
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div id="OtherDocsId" class="card mt-3" style="height:100%;">
   <h6 style="color: orangered;" class="m-2">Other Documents:</h6><br />
   <div class="row m-2">
     <div class="col-lg-4 col-md-4 col-sm-4">
@@ -205,7 +208,7 @@
   </div>
 </div>
 
-<div *ngIf="quoteDetails && quoteDetails.RemoteRFQMaster &&  quoteDetails.RemoteRFQMaster.RemoteRFQCommunications &&  quoteDetails.RemoteRFQMaster.RemoteRFQCommunications.length>0" class="card mt-2">
+<div id="CommunicationHistoryId" *ngIf="quoteDetails && quoteDetails.RemoteRFQMaster &&  quoteDetails.RemoteRFQMaster.RemoteRFQCommunications &&  quoteDetails.RemoteRFQMaster.RemoteRFQCommunications.length>0" class="card mt-2">
   <h6 style="color: orangered; " class="m-2">Communication History:</h6><br />
   <div class="row m-2">
     <p-table [value]="quoteDetails.RemoteRFQMaster.RemoteRFQCommunications">
@@ -228,7 +231,32 @@
   </div>
 </div>
 
-<div *ngIf="TermsList.length>0" class="card mt-2">
+<div id="StatusHistoryId" *ngIf="quoteDetails && quoteDetails.RFQStatusTrackDetails && quoteDetails.RFQStatusTrackDetails.length>0" class="card mt-2">
+  <h6 style="color: orangered; " class="m-2">Status History:</h6><br />
+  <div class="row m-2">
+    <p-table [value]="quoteDetails.RFQStatusTrackDetails">
+      <ng-template pTemplate="header">
+        <tr class="mprltbldata">
+          <th>Employee Name</th>
+          <th>Status</th>
+          <th>Status Updated On</th>
+          <th>Remarks</th>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+        <tr>
+          <td>{{rowData.Name}}</td>
+          <td>{{rowData.Status}}</td>
+          <td>{{rowData.UpdatedDate  | date :  constants.dateFormat}}</td>
+          <td>{{rowData.Remarks}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div id="TermsId" *ngIf="TermsList.length>0" class="card mt-2">
   <h6 style="color: orangered;" class="m-2">Terms & Conditions :</h6><br />
   <div class="row m-2" style="margin-left: 0px; margin-right: 0px">
     <p-table [value]="TermsList">
@@ -268,6 +296,29 @@
         <button [disabled]="disableOtherBtn" type="button" pButton icon="fa fa-check" class="ui-button-success" (click)="FinalSubmit()" label="FinalSubmit"></button>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<div class="icon-bar">
+  <a id="RFQItemPage" (click)="scrollToView('RFQItemsId')" pTooltip="RFQ Items"><i class="fa fa-home"></i></a>
+  <a id="OtherDocsPage" (click)="scrollToView('OtherDocsId')" pTooltip="Other Documents"><i class="fa fa-file"></i></a>
+  <a id="ComPage" (click)="scrollToView('CommunicationHistoryId')" pTooltip="Communication History"><i class="fa fa-envelope"></i></a>
+  <a id="StatusPage" (click)="scrollToView('StatusHistoryId')" pTooltip="Status History"><i class="fa fa-globe"></i></a>
+  <a id="TermsPage" (click)="scrollToView('TermsId')" pTooltip="Terms & Conditions"><i class="fa fa-info-circle"></i></a>
+</div>
+<div *ngIf="displayFooter" class="footer">
+  <div class="row form-inline pt-2">
+    <div class="col-lg-2 col-md-2 col-sm-2"></div>
+    <div class="col-lg-3 col-md-3 col-sm-3 form-inline ">
+      <label class="form-label">Remarks:</label>&nbsp;
+      <textarea type="text" maxlength="500" [(ngModel)]="rfqStatus.Remarks" class="form-control"></textarea>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 form-inline">
+      <button type="button" class="btn btn-success" (click)="onstatusUpdate(26)" label="Save">Acknowledge</button>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 form-inline">
+      <button type="button" class="btn btn-success" (click)="onstatusUpdate(27)" label="Save">Regret</button>
     </div>
   </div>
 </div>

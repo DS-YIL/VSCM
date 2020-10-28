@@ -233,6 +233,11 @@ export class RfqService {
     return this.http.post<any>(this.url + 'RFQ/InsertVendorCommunication/', JSON.stringify(vendorlist), httpOptions)
       .pipe(map(data => { return data }));
   }
+  rfqStatusUpdate(rfqStatus: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.post<any>(this.url + 'RFQ/rfqStatusUpdate/', JSON.stringify(rfqStatus), httpOptions)
+      .pipe(map(data => { return data }));
+  }
   RfqIteminfoDeleteByid(id: number, RFQItemsId: number): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.get<any>(this.url + 'RFQ/RfqIteminfoDeleteByid/' + id + '/' + RFQItemsId, httpOptions)

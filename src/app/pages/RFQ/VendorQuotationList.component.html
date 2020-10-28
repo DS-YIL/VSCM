@@ -35,6 +35,8 @@
       <label class="form-label">RFQ Status</label><br />
       <select class="form-control dropdown" name="comptype" [(ngModel)]="rfqFilterParams.StatusId">
         <option value="0">Select</option>
+        <option value=26>Acknowledged</option>
+        <option value=27>Regretted</option>
         <option value=8>Responded</option>
         <option value=7>Yet to Respond</option>
       </select>

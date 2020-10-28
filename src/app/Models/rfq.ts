@@ -294,6 +294,7 @@ export class QuoteDetails {
   documents: Array<RFQDocuments>;
   Rfqiteminfo: Array<any>;
   RemoteRFQCommunications: Array<any>;
+  RFQStatusTrackDetails: Array<any>;
 }
 export class RFQMaster {
   RfqNo: string;
@@ -342,4 +343,14 @@ export class Changepassword {
   vendorId: number;
   emailId: string;
   Token: string;
+}
+
+export class RFQStatus {
+  RfqStatusId: number;
+  RfqRevisionId: number;
+  RfqMasterId: number;
+  StatusId: number;
+  Remarks: string;
+  updatedby: string;
+  updatedDate: Date;
 }
