@@ -15,7 +15,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'RFQ List',
-        //link: ['/VSCM/vendorquotationlist',this.VendorId],
         link: '/VSCM/vendorquotationlist/',
         icon: 'list-outline'
 
@@ -26,13 +25,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //{
   //  title: 'ASN',
   //  icon: 'keypad-outline',
-  //  //link: '/VSCM/createAsn',
-  //  //home: true,
   //  expanded: false,
   //  children: [
   //    {
-  //      title: 'ASN',
-  //      //link: ['/VSCM/vendorquotationlist',this.VendorId],
+  //      title: 'Create ASN',
   //      link: '/VSCM/CreateASN/',
   //      icon: 'list-outline'
   //    },
@@ -46,8 +42,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //{
   //  title: 'Invoice',
   //  icon: 'keypad-outline',
-  //  //link: '/VSCM/createAsn',
-  //  //home: true,
   //  expanded: false,
   //  children: [
   //    {
@@ -57,19 +51,4 @@ export const MENU_ITEMS: NbMenuItem[] = [
   //    }
   //  ]
   //},
-  //{
-  //  title: 'ASN',
-  //  icon: 'keypad-outline',
-  //  expanded: false,
-  //  children: [
-  //    {
-  //      title: 'Create ASN',
-  //      icon: 'list-outline',
-  //      link: '/VSCN/createAsn/'
-  //    }
-  //  ],
-  //},
-
-
-
 ];

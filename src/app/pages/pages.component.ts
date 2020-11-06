@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { Router } from '@angular/router';
 import { MENU_ITEMS } from './pages-menu';
 import { Vendor } from 'src/app/Models/mpr';
 
@@ -15,6 +15,7 @@ import { Vendor } from 'src/app/Models/mpr';
   `,
 })
 export class PagesComponent {
+  constructor(private router: Router) { }
   public VendorDetails: Vendor;
   menu = MENU_ITEMS;
   ngOnInit() {
@@ -24,6 +25,9 @@ export class PagesComponent {
         MENU_ITEMS[0].hidden = false;//registration
       else
         MENU_ITEMS[0].hidden = true;
+    }
+    else {
+      this.router.navigateByUrl("Login");
     }
   }
 }

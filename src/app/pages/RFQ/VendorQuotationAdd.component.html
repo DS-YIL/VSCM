@@ -26,7 +26,11 @@
   </div>
   <div class="row m-2" *ngIf="quoteDetails">
     <div class="col-lg-6 col-md-6 col-sm-6">
-      <label style="font-weight:800">Status :</label>&nbsp;<span *ngIf="quoteDetails.StatusId==7">Yet to Respond</span>
+      <label style="font-weight:800">Status :</label>&nbsp;
+      <span *ngIf="quoteDetails.StatusId==26">Acknowledged</span>
+      <span *ngIf="quoteDetails.StatusId==27">Regretted</span>
+      <span *ngIf="quoteDetails.StatusId==8">Responded</span>
+      <span *ngIf="quoteDetails.StatusId==7">Yet to Respond</span>
       <span *ngIf="quoteDetails.StatusId==8">Responded</span>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -217,6 +221,7 @@
           <th>Remarks</th>
           <th>Remarks From</th>
           <th>Remarks On</th>
+          <th>Revision No</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
@@ -224,6 +229,7 @@
           <td>{{rowData.Remarks}}</td>
           <td> {{rowData.Employee.Name}}</td>
           <td> {{rowData.RemarksDate}}</td>
+          <td>{{getRevisionNo(rowData.RfqRevisionId)}}</td>
         </tr>
       </ng-template>
     </p-table>
@@ -241,15 +247,16 @@
           <th>Status</th>
           <th>Status Updated On</th>
           <th>Remarks</th>
-
+          <th>Revision No</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
         <tr>
           <td>{{rowData.Name}}</td>
           <td>{{rowData.Status}}</td>
-          <td>{{rowData.UpdatedDate  | date :  constants.dateFormat}}</td>
+          <td>{{rowData.UpdatedDate}}</td>
           <td>{{rowData.Remarks}}</td>
+          <td>{{rowData.RevisionNo}}</td>
         </tr>
       </ng-template>
     </p-table>
@@ -311,7 +318,7 @@
   <div class="row form-inline pt-2">
     <div class="col-lg-2 col-md-2 col-sm-2"></div>
     <div class="col-lg-3 col-md-3 col-sm-3 form-inline ">
-      <label class="form-label">Remarks:</label>&nbsp;
+      <label class="form-label">Remarks:</label>&nbsp;<span  style="color:red">*</span>&nbsp;
       <textarea type="text" maxlength="500" [(ngModel)]="rfqStatus.Remarks" class="form-control"></textarea>
     </div>
     <div class="col-lg-2 col-md-2 col-sm-2 form-inline">

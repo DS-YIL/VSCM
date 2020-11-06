@@ -40,7 +40,6 @@ import { AsnListComponent } from './ASN/asn-list/asn-list.component';
 import { AsnViewComponent } from './ASN/asn-view/asn-view.component';
 import { EditasnComponent } from './ASN/editasn/editasn.component';
 import { POListComponent } from './PO/polist/polist.component';
-import { ViewInvoiceComponent } from './PO/view-invoice/view-invoice.component';
 
 @NgModule({
   imports: [
@@ -89,8 +88,7 @@ import { ViewInvoiceComponent } from './PO/view-invoice/view-invoice.component';
     AsnListComponent,
     AsnViewComponent,
     EditasnComponent,
-    POListComponent,
-    ViewInvoiceComponent
+    POListComponent
   ],
   providers: [MessageService, ConfirmationService],
   entryComponents: [ConfirmationDialogComponent]

@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Vendor } from 'src/app/Models/mpr';
 import { constants } from 'src/app/Models/MPRConstants';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-vendor-register',
@@ -13,7 +14,7 @@ import { constants } from 'src/app/Models/MPRConstants';
   styleUrls: ['./vendor-register.component.scss']
 })
 export class VendorRegisterComponent implements OnInit {
-  constructor(private messageService: MessageService, private formBuilder: FormBuilder, public constants: constants, private spinner: NgxSpinnerService, public RFQservice: RfqService) { }
+  constructor(private messageService: MessageService, private router: Router, private formBuilder: FormBuilder, public constants: constants, private spinner: NgxSpinnerService, public RFQservice: RfqService) { }
   VendorRegister: FormGroup;
   public vendorDocuments: VendorDocDetailsList;
   public VQAddSubmitted: boolean = false;
@@ -50,6 +51,11 @@ export class VendorRegisterComponent implements OnInit {
 
 
   ngOnInit() {
+    if (!localStorage.getItem("AccessToken")) {
+      this.router.navigateByUrl("Login");
+      return true;
+    }
+
     this.VendorData = new VendorRegistration();
     this.VendorDetails = new Vendor();
     this.VendorDetails = JSON.parse(localStorage.getItem("vendordetail"));

@@ -67,6 +67,12 @@ export class VendorQuotationAddComponent implements OnInit {
 
   ngOnInit() {
     this.Vendor = JSON.parse(localStorage.getItem("vendordetail"));
+    if (!localStorage.getItem("AccessToken")) {
+      this.router.navigateByUrl("Login");
+      return true;
+    }
+
+
     this.route.params.subscribe(params => {
       if (params["RFQRevisionId"]) {
         this.RfqRevisionId = this.constants.decrypt(params["RFQRevisionId"]);
@@ -186,11 +192,13 @@ export class VendorQuotationAddComponent implements OnInit {
 
       // for rfq responded enable communication and disable other activities
       if (this.quoteDetails.RFQStatusTrackDetails.filter(li => li.StatusId == 8).length > 0) {
+        this.displayFooter = false;
         this.disableOtherBtn = true;
         this.disableComBtn = false;
       }
       // for inactive revision disable communication and  other activities
       if (this.quoteDetails.ActiveRevision == false) {
+        this.displayFooter = false;
         this.disableOtherBtn = true;
         this.disableComBtn = true;
       }
@@ -993,14 +1001,21 @@ export class VendorQuotationAddComponent implements OnInit {
 
   //statusUpdate
   onstatusUpdate(statusId: any) {
+    if (!this.rfqStatus.Remarks) {
+      this.messageService.add({ severity: 'error', summary: 'Validation', detail: "Enter Remarks" });
+      return true;
+    }
     this.spinner.show();
+    this.quoteDetails.StatusId = statusId;
     this.rfqStatus.RfqRevisionId = this.RfqRevisionId;
     this.rfqStatus.StatusId = statusId;
     this.rfqStatus.updatedby = this.Vendor.VUniqueId;
     this.RfqService.rfqStatusUpdate(this.rfqStatus).subscribe(data => {
       this.spinner.hide();
-      if (this.rfqStatus.StatusId == 26)//acknowledged
+      if (this.rfqStatus.StatusId == 26) {//acknowledged
         this.displayFooter = false;
+        this.disableOtherBtn = false;
+      }
       if (data)
         this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Status Updated' });
     });
@@ -1026,7 +1041,16 @@ export class VendorQuotationAddComponent implements OnInit {
   scrollToView(id) {
     var elmnt = document.getElementById(id);
     if (elmnt)
-    elmnt.scrollIntoView(false);
+      elmnt.scrollIntoView(false);
+  }
+
+  //get revisionno
+  getRevisionNo(revisionId: any) {
+    var revisionno = "";
+    if (this.rfqrevisions.length > 0) {
+      revisionno = this.rfqrevisions.filter(li => li.rfqRevisionId == revisionId)[0].RevisionNo;
+    }
+    return revisionno;
   }
 
 }

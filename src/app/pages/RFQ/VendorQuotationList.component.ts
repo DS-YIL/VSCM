@@ -27,8 +27,9 @@ export class VendorQuotationListComponent implements OnInit {
   public toDate: Date = new Date();
   public fromDate: Date = new Date(new Date().setDate(new Date().getDate() - 30));
   ngOnInit() {
-    if (localStorage.getItem("AccessToken") == null) {
+    if (!localStorage.getItem("AccessToken")) {
       this.router.navigateByUrl("Login");
+      return true;
     }
 
     //this.typeOfList = this.route.routeConfig.path;
