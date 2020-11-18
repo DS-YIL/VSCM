@@ -1,14 +1,11 @@
 import { Component, Input, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl, ValidatorFn } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DynamicSearchResult, Vendor } from '../../Models/mpr';
-import { constants } from '../../Models/MPRConstants';
+import { DynamicSearchResult, Vendor, QuoteDetails, RfqItemModel, MPRDocument, RfqItemInfoModel, RFQUnitMasters, RFQStatus, RFQCurrencyMaster, RFQDocuments, RFQTerms, VendorCommunication } from '../../Models/RFQModel';
+import { constants } from '../../Models/RFQConstants';
 import { RfqService } from '../../services/rfq.service ';
 import { NgxSpinnerService } from "ngx-spinner";
-import { RfqItemModel, MPRDocument, RfqItemInfoModel, RFQUnitMasters, RFQStatus, RFQCurrencyMaster, RFQDocuments, RFQTerms, VendorCommunication } from '../../Models/rfq';
-import { QuoteDetails } from 'src/app/Models/rfq';
 import { MessageService } from 'primeng/api';
-import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-VendorQuotationAdd',
@@ -64,6 +61,7 @@ export class VendorQuotationAddComponent implements OnInit {
   public VendorCommunications: VendorCommunication;
   public rfqrevisions: Array<any> = [];
   public rfqStatus: RFQStatus;
+  public RFQStatusTrackDetails: Array<any> = [];
 
   ngOnInit() {
     this.Vendor = JSON.parse(localStorage.getItem("vendordetail"));
@@ -155,12 +153,6 @@ export class VendorQuotationAddComponent implements OnInit {
 
     this.vendorCommunicationForm = this.formBuilder.group({
       Remarks: ['', [Validators.required]],
-      setReminder: ['', [Validators.required]],
-      sendemail: ['', [Validators.required]],
-      ReminderDate: ['', [Validators.required]],
-      toEmail: ['', [Validators.required]],
-      ccEmail: ['', [Validators.required]]
-
     })
     this.VendorCommunications = new VendorCommunication();
   }
@@ -170,37 +162,30 @@ export class VendorQuotationAddComponent implements OnInit {
     this.RfqService.GetRfqDetailsById(this.RfqRevisionId).subscribe(data => {
       this.spinner.hide();
       this.quoteDetails = data;
-      // showing footer and disable other buttons if rfq Regretted 
-      if (this.quoteDetails.RFQStatusTrackDetails.filter(li => li.StatusId == 27).length > 0) {
+      this.RFQStatusTrackDetails = this.quoteDetails.RFQStatusTrackDetails.filter(li => li.RfqRevisionId == this.RfqRevisionId);
+      // showing footer and disable other buttons if rfq Regretted  or if rfq not acknowledged
+      if (this.RFQStatusTrackDetails.filter(li => li.StatusId == 27).length > 0 || this.RFQStatusTrackDetails.filter(li => li.StatusId == 26).length == 0) {
         this.displayFooter = true;
         this.disableOtherBtn = true;
         this.disableComBtn = false;
       }
-
-      //showing footer and other buttons  if rfq not acknowledged
-      if (this.quoteDetails.RFQStatusTrackDetails.filter(li => li.StatusId == 26).length == 0) {
-        this.displayFooter = true;
-        this.disableOtherBtn = true;
-        this.disableComBtn = false;
-      }
-      else {
-        this.displayFooter = false;
-        this.disableOtherBtn = false;
-        this.disableComBtn = false;
-      }
-
 
       // for rfq responded enable communication and disable other activities
-      if (this.quoteDetails.RFQStatusTrackDetails.filter(li => li.StatusId == 8).length > 0) {
+      else if (this.RFQStatusTrackDetails.filter(li => li.StatusId == 8).length > 0) {
         this.displayFooter = false;
         this.disableOtherBtn = true;
         this.disableComBtn = false;
       }
       // for inactive revision disable communication and  other activities
-      if (this.quoteDetails.ActiveRevision == false) {
+      else if (this.quoteDetails.ActiveRevision == false) {
         this.displayFooter = false;
         this.disableOtherBtn = true;
         this.disableComBtn = true;
+      }
+      else {
+        this.displayFooter = false;
+        this.disableOtherBtn = false;
+        this.disableComBtn = false;
       }
       this.dynamicData = new DynamicSearchResult();
       this.dynamicData.query = "select * from RFQRevisions_N where rfqMasterId=" + this.quoteDetails.rfqMasterId + "";
@@ -982,6 +967,9 @@ export class VendorQuotationAddComponent implements OnInit {
 
   onCommnicationSubmit(dialogName: string) {
     this.VendorCommunicationSubmitted = true
+    if (this.vendorCommunicationForm.invalid) {
+      return;
+    }
     this.VendorCommunications.RemarksFrom = this.Vendor.VUniqueId;
     this.VendorCommunications.RFQRevisionId = this.RfqRevisionId;
     this.VendorCommunications.RfqMasterId = this.quoteDetails.rfqMasterId;

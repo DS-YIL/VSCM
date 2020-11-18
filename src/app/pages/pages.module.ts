@@ -6,7 +6,6 @@ import { PagesRoutingModule } from './pages-routing.module';
 
 import { ConfirmationDialogComponent } from '../common/confirmationdialog/confirmation-dialog.component';
 import { VendorQuotationListComponent } from './RFQ/VendorQuotationList.component';
-import { VendorQuotationViewComponent } from './RFQ/VendorQuotationView.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -27,19 +26,17 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { SelectfilterPipe } from '../common/selectfilter.pipe';
 import { LoginComponent } from './Login/Login.component';
-import { VendorRegisterComponent } from './RFQ/vendor-register/vendor-register.component';
+import { VendorRegisterComponent } from './VendorRegister/VendorRegister.component';
 import { VendorQuotationAddComponent } from './RFQ/VendorQuotationAdd.component';
-import { RFQEditComponent } from './rfqedit/rfqedit.component';
-import { ChangepasswordComponent } from './changepassword/changepassword.component';
-import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { CreateAsnComponent } from './ASN/create-asn/create-asn.component';
+import { ChangepasswordComponent } from './ChangePassword/ChangePassword.component';
+import { ForgetpasswordComponent } from './ForgetPassword/ForgetPassword.component';
+import { ResetPasswordComponent } from './ResetPassword/ResetPassword.component';
+import { CreateAsnComponent } from './ASN/CreateASN.component';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { TabViewModule } from 'primeng/tabview';
-import { AsnListComponent } from './ASN/asn-list/asn-list.component';
-import { AsnViewComponent } from './ASN/asn-view/asn-view.component';
-import { EditasnComponent } from './ASN/editasn/editasn.component';
-import { POListComponent } from './PO/polist/polist.component';
+import { AsnListComponent } from './ASN/ASNList.component';
+import { AsnViewComponent } from './ASN/ViewASN.component';
+import { InvoiceListComponent } from './Invoice/InvoiceList.component';
 
 @NgModule({
   imports: [
@@ -75,20 +72,17 @@ import { POListComponent } from './PO/polist/polist.component';
     PagesComponent,
     LoginComponent,
     VendorQuotationListComponent,
-    VendorQuotationViewComponent,
     ConfirmationDialogComponent,
     SelectfilterPipe,
     VendorRegisterComponent,
     VendorQuotationAddComponent,
-    RFQEditComponent,
     ChangepasswordComponent,
     ForgetpasswordComponent,
     ResetPasswordComponent,
     CreateAsnComponent,
     AsnListComponent,
     AsnViewComponent,
-    EditasnComponent,
-    POListComponent
+    InvoiceListComponent
   ],
   providers: [MessageService, ConfirmationService],
   entryComponents: [ConfirmationDialogComponent]

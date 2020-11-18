@@ -4,7 +4,7 @@ import{Subscription} from 'rxjs-compat';
 import { UserData } from '../../../@core/data/users';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { Employee } from 'src/app/Models/mpr';
+import { Employee } from '../../../Models/RFQModel';
 import { RfqService } from 'src/app/services/rfq.service ';
 import { NgStyle } from '@angular/common';
 import { Router } from '@angular/router';

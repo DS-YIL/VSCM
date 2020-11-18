@@ -1,24 +1,18 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-//import { LoginComponent } from './Login/Login.component';
 import { PagesComponent } from './pages.component';
 
-
 import { LoginComponent } from './Login/Login.component';
-import { AuthGuard } from '../common/auth.guard';
-import { VendorQuotationViewComponent } from './RFQ/VendorQuotationView.component';
 import { VendorQuotationListComponent } from './RFQ/VendorQuotationList.component';
-import { VendorRegisterComponent } from './RFQ/vendor-register/vendor-register.component';
+import { VendorRegisterComponent } from './VendorRegister/VendorRegister.component';
 import { VendorQuotationAddComponent } from './RFQ/VendorQuotationAdd.component';
-import { RFQEditComponent } from './rfqedit/rfqedit.component';
-import { ChangepasswordComponent } from './changepassword/changepassword.component';
-import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { CreateAsnComponent } from './ASN/create-asn/create-asn.component';
-import { AsnListComponent } from './ASN/asn-list/asn-list.component';
-import { AsnViewComponent } from './ASN/asn-view/asn-view.component';
-import { EditasnComponent } from './ASN/editasn/editasn.component';
-import { POListComponent } from './PO/polist/polist.component';
+import { ChangepasswordComponent } from './ChangePassword/ChangePassword.component';
+import { ForgetpasswordComponent } from './ForgetPassword/ForgetPassword.component';
+import { ResetPasswordComponent } from './ResetPassword/ResetPassword.component';
+import { CreateAsnComponent } from './ASN/CreateASN.component';
+import { AsnListComponent } from './ASN/ASNList.component';
+import { AsnViewComponent } from './ASN/ViewASN.component';
+import { InvoiceListComponent } from './Invoice/InvoiceList.component';
 
 const routes: Routes = [{
   path: '',
@@ -33,27 +27,18 @@ const routes: Routes = [{
       redirectTo: 'Login',
       pathMatch: 'full',
     },
-    //{ path: "RFQList", component: RFQListComponent },
     { path: "VendorQuotationList/:VendorId", component: VendorQuotationListComponent },
-    { path: 'VendorQuoteView/:RFQRevisionId', component: VendorQuotationViewComponent },
     { path: 'Vendorregister', component: VendorRegisterComponent },
     { path: 'vendorquotationlist', component: VendorQuotationListComponent },
     { path: 'VendorQuotation/:RFQRevisionId', component: VendorQuotationAddComponent },
-    { path: 'RFQEdit/:RFQRevisionId', component: RFQEditComponent },
     { path: 'changepassword', component: ChangepasswordComponent },
     { path: 'forgetpassword', component: ForgetpasswordComponent },
     { path: 'resetpassword/:EmailId/:Token', component: ResetPasswordComponent },
     { path: 'CreateASN', component: CreateAsnComponent },
-    { path: 'ASN', component: AsnListComponent },
-    { path: 'AsnDetails/:ASNNo', component: AsnViewComponent },
-    { path: 'AsnEdit/:ASNNo', component: EditasnComponent },
-    { path: 'Invoice', component: POListComponent }
-    // {
-    //      path: '',
-    //      redirectTo: 'Login',
-    //      pathMatch: 'full',
-    // },
-
+    { path: 'ASNList', component: AsnListComponent },
+    { path: 'ASNDetails/:ASNId', component: AsnViewComponent },
+    { path: 'ASNEdit/:ASNId', component: CreateAsnComponent },
+    { path: 'Invoice', component: InvoiceListComponent }
   ],
 }];
 

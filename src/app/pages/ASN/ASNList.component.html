@@ -15,11 +15,11 @@
     <ng-template pTemplate="body" let-rowData let-ri="rowIndex" let-rindex =0>
       <tr>
         <td class="text-center">{{ri +1}}</td>
-        <td class="text-center"><a [routerLink]="['/VSCM/AsnDetails/',rowData.ASNNo]" routerLinkActive="active">{{rowData.ASNNo}}</a></td>
+        <td class="text-center"><a [routerLink]="['/VSCM/ASNDetails/',rowData.ASNId]" routerLinkActive="active">{{rowData.ASNNo}}</a></td>
         <td class="text-center">{{rowData.PO_ReferenceNo}}</td>
         <td class="text-center">{{rowData.DeliveryDate | date : 'dd/MM/yyyy'}}</td>
         <td class="text-center">{{rowData.CreatedDate | date : 'dd/MM/yyyy'}}</td>
-        <td class="text-center"><a [routerLink]="['/VSCM/AsnEdit/',rowData.ASNNo]" routerLinkActive="active"><button type="button" pButton icon="fa fa-edit" class="ui-button-edit"></button></a></td>
+        <td class="text-center"><a [routerLink]="['/VSCM/ASNEdit/',rowData.ASNId]" routerLinkActive="active"><button type="button" pButton icon="fa fa-edit" class="ui-button-edit"></button></a></td>
       </tr>
     </ng-template>
   </p-table>

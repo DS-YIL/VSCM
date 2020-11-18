@@ -1,13 +1,11 @@
-import { Component, Input, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl, ValidatorFn } from '@angular/forms';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { RfqService } from 'src/app/services/rfq.service ';
 import { Router } from '@angular/router';
-import { Employee, DynamicSearchResult, Vendor } from 'src/app/Models/mpr';
-import { constants } from 'src/app/Models/MPRConstants';
-import { first } from 'rxjs/operators';
+import { Employee, DynamicSearchResult, Vendor } from '../../Models/RFQModel';
+import { constants } from '../../Models/RFQConstants';
 import { MessageService } from 'primeng/api';
 import { NgxSpinnerService } from "ngx-spinner";
-import { VendorRegistration } from '../RFQ/vendor-register/vendor-registration';
 import { MENU_ITEMS } from '../pages-menu';
 
 @Component({
@@ -29,9 +27,6 @@ export class LoginComponent implements OnInit {
 
     //this.employee = new Employees();
     localStorage.removeItem('Employee');
-
-    //localStorage.removeItem('currentUser');
-    //localStorage.removeItem('EmployeeList');
     this.LoginForm = this.formBuilder.group({
       DomainId: ['', [Validators.required]],
       Password: ['', [Validators.required]],
@@ -47,11 +42,9 @@ export class LoginComponent implements OnInit {
     else {
       this.spinner.show();
       const loginDetails = this.LoginForm.value;
-      //this.dynamicData.tableName = "Employee";
       this.dynamicData.grant_type = "password";
       this.dynamicData.username = loginDetails.DomainId
       this.dynamicData.password = loginDetails.Password;
-      // this.dynamicData.searchCondition = "DomainId='" + loginDetails.DomainId + "'";
       this.rfqService.gettoken(this.dynamicData)
         .subscribe(data => {
           console.log("token", data);

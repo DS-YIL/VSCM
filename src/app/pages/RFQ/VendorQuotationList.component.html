@@ -82,6 +82,8 @@
           <td class="ptable-cell">
             <span *ngIf="rowData.StatusId==7">Yet to Respond</span>
             <span *ngIf="rowData.StatusId==8">Responded</span>
+            <span *ngIf="rowData.StatusId==26">Acknowledged</span>
+            <span *ngIf="rowData.StatusId==27">Regretted</span>
           </td>
           <!--<td class="text-center">
             <button *ngIf="rowData.rfqRevisionId" type="button" class="btn btn-secondary" style="cursor:pointer;height:25px;" pButton (click)="redirectTovendorquoteview(rowData)"><i class="fa fa-eye" aria-hidden="true"></i></button>

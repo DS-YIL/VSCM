@@ -9,9 +9,9 @@
 		<div class="row form-group">
 			<div class="col-sm-4 col-md-4 col-lg-4"></div>
 			<div class="col-sm-3 col-md-3 col-lg-3 form-group" style="margin-top: 80px;">
-				<label for="domainId" class="form-label">Email Id :</label>
+				<label for="domainId" class="form-label">User Id :</label>
 				<input type="text" formControlName="DomainId" ngModel maxlength="60" class="form-control" [ngClass]="{ 'is-invalid': LoginSubmitted && LoginForm.controls.DomainId.errors }" required />
-				<span *ngIf="LoginSubmitted && LoginForm.controls.DomainId.errors" class="invalid-feedback">Please enter Email Id</span>
+				<span *ngIf="LoginSubmitted && LoginForm.controls.DomainId.errors" class="invalid-feedback">Please enter User Id</span>
 			</div>
 		</div>
 		<div class="row form-group"  style="margin-bottom: 0px !important;">

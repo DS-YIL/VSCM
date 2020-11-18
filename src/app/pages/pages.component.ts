@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MENU_ITEMS } from './pages-menu';
-import { Vendor } from 'src/app/Models/mpr';
+import { Vendor } from '../Models/RFQModel';
+
 
 @Component({
   selector: 'ngx-pages',
@@ -15,7 +16,7 @@ import { Vendor } from 'src/app/Models/mpr';
   `,
 })
 export class PagesComponent {
-  constructor(private router: Router) { }
+  constructor(private router: Router, private route: ActivatedRoute, ) { }
   public VendorDetails: Vendor;
   menu = MENU_ITEMS;
   ngOnInit() {
@@ -26,8 +27,9 @@ export class PagesComponent {
       else
         MENU_ITEMS[0].hidden = true;
     }
-    else {
-      this.router.navigateByUrl("Login");
-    }
+    //else {
+    //  this.router.navigateByUrl("Login");
+    //}
+
   }
 }

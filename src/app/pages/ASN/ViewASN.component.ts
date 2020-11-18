@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { RfqService } from 'src/app/services/rfq.service ';
-import { AsnModels } from '../create-asn/asn';
+import { AsnModels } from '../../Models/ASN';
 import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner'
+
 
 @Component({
   selector: 'app-asn-view',
-  templateUrl: './asn-view.component.html',
-  styleUrls: ['./asn-view.component.scss']
+  templateUrl: './ViewASN.component.html'
 })
 export class AsnViewComponent implements OnInit {
 
@@ -14,23 +15,22 @@ export class AsnViewComponent implements OnInit {
   public asnItem = new AsnModels();
   public asnid: number = 0;
 
-  constructor(public RfqService: RfqService, private route: ActivatedRoute) { }
+  constructor(public RfqService: RfqService, private route: ActivatedRoute, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-   // alert("entered asn-View");
     this.route.params.subscribe(params => {
-      this.asnid = params["ASNNo"];
-      this.asnDetails();
+      this.asnid = params["ASNId"];
+      this.getASNDetails();
     });
    
   }
 
-  asnDetails() {
-   // alert(this.asnid);
+  //get ASN Details
+  getASNDetails() {
+    this.spinner.show();
     this.RfqService.getAsnByAsnno(this.asnid).subscribe(data => {
-    // alert("asn details");
+      this.spinner.hide();
       this.asnItem = data;
-      return this.asnItem;
     })
   }
 

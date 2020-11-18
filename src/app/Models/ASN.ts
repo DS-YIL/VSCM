@@ -1,24 +1,25 @@
 export class AsnModels {
-  PO_ReferenceNo: string
-  InvoiceNo: string
-  ASNNo: string
-  InboundDeliveryNo: string
-  ShippingDate: Date
-  DeliveryDate: Date
-  DocumentDate: Date
-  Qty: number
-  FreightInvNo: number
-  GroupingId: number
-  CarrierParty: string
-  Carrier_SCAC_Id: number
-  IncotermLoc: string
-  Incoterm: number
-  MeansOfTransport: string
-  TotalGrossWeight_Kgs: number
-  TotalNetWeight_Kgs: number
-  TotalVolume: number
-  ShipmentAssignment: string
-  CreatedDate: Date
+  PO_ReferenceNo: string;
+  InvoiceNo: string;
+  ASNNo: string;
+  HSNCode: string;
+  InboundDeliveryNo: string;
+  ShippingDate: Date;
+  DeliveryDate: Date;
+  DocumentDate: Date;
+  Qty: number;
+  FreightInvNo: number;
+  GroupingId: number;
+  CarrierParty: string;
+  Carrier_SCAC_Id: number;
+  IncotermLoc: string;
+  Incoterm: number;
+  MeansOfTransport: string;
+  TotalGrossWeight_Kgs: number;
+  TotalNetWeight_Kgs: number;
+  TotalVolume: number;
+  ShipmentAssignment: string;
+  CreatedDate: Date;
   SupplierCumulativeQuantity: number; //Item Details Model
   CustomerCumulativeQuantity: number;
   PurchasingDocumentNo: string;

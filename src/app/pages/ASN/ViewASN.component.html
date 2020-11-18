@@ -1,10 +1,11 @@
 <h4 style="text-align: center;"> Advanced Shipment Notice</h4>
-
-<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<div class='col-md-3 col-lg-3 col-sm-3'>
+  <label class="form-label"><b style="color:#8a2be2">ASN No:</b> &nbsp;{{asnItem.ASNNo}}</label>
+</div>
 <p-tabView>
   <p-tabPanel header="Shipment Header">
-    <div class="container" >
-          <div class="row col-lg-12 col-md-12 col-sm-12">
+    <div class="container">
+      <div class="row col-lg-12 col-md-12 col-sm-12">
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label font-weight-bolder">PO/Reference No:</label>
         </div>
@@ -21,14 +22,15 @@
       <label style="padding-left:15px"><b style="color:#8a2be2">Shipment Information</b></label>
 
       <div class="row col-lg-12 col-md-12 col-sm-12">
+
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label font-weight-bolder">ASN No.:</label>
+          <label class="form-label font-weight-bolder">HSN Code:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">{{asnItem.ASNNo}}</label>
+          <label class="form-label">{{asnItem.HSNCode}}</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label font-weight-bolder">Inbound Delivery No.:</label>
+          <label class="form-label font-weight-bolder">Inbound Delivery No:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">{{asnItem.InboundDeliveryNo}}</label>
@@ -45,7 +47,7 @@
           <label class="form-label font-weight-bolder">Delivery Date:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          
+
           <label class="form-label">{{asnItem.DeliveryDate | date : 'dd/MM/yyyy'}}</label>
         </div>
       </div>
@@ -60,7 +62,7 @@
           <label class="form-label font-weight-bolder">Qty:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">{{asnItem.Qty}}</label>  
+          <label class="form-label">{{asnItem.Qty}}</label>
         </div>
       </div>
       <label style="padding-left:15px"><b style="color:#8a2be2">Freight Information</b></label>
@@ -111,14 +113,14 @@
           <label class="form-label font-weight-bolder">Means of Transport:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-        
+
           <label class="form-label">{{asnItem.MeansOfTransport}}</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label font-weight-bolder">Total gross weight:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-        
+
           <label class="form-label">{{asnItem.TotalGrossWeight_Kgs}}</label>
         </div>
       </div>
@@ -127,14 +129,14 @@
           <label class="form-label font-weight-bolder">Total Net weight:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.TotalNetWeight_Kgs}}</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label font-weight-bolder">Total Volumn:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.TotalVolume}}</label>
         </div>
       </div>
@@ -143,7 +145,7 @@
           <label class="form-label font-weight-bolder">Shipment Assignment:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.ShipmentAssignment}}</label>
         </div>
       </div>
@@ -152,20 +154,20 @@
   </p-tabPanel>
   <p-tabPanel header="Shipment Lines">
     <div class="container">
-    
+
       <div class="row col-lg-12 col-md-12 col-sm-12">
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label font-weight-bolder">Ship From:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.ShipFrom}}</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label font-weight-bolder">Ship To:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.ShipTo}}</label>
         </div>
       </div>
@@ -174,30 +176,30 @@
           <label class="form-label font-weight-bolder">Customer Location:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.CustomerLocation}}</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label font-weight-bolder">Countainer Number:</label>
+          <label class="form-label font-weight-bolder">Container Number:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-        
+
           <label class="form-label">{{asnItem.ContainerNumber}}</label>
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12">
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label font-weight-bolder">Country of Origin:</label>
+          <label class="form-label font-weight-bolder">Country Of Origin:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-        
+
           <label class="form-label">{{asnItem.CountryOfOrigin}}</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label font-weight-bolder">Truck Number :</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-        
+
           <label class="form-label">{{asnItem.TruckNo}}</label>
         </div>
       </div>
@@ -206,14 +208,14 @@
           <label class="form-label font-weight-bolder">Comments :</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.Comment}}</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label font-weight-bolder">Packing Slip :</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.PackingShip}}</label>
         </div>
       </div>
@@ -221,20 +223,20 @@
   </p-tabPanel>
   <p-tabPanel header="Status">
     <div class="container">
-     
+
       <div class="row col-lg-12 col-md-12 col-sm-12">
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label font-weight-bolder">ASN Status:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.ASNStatus}}</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label font-weight-bolder">Validation Status:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-        
+
           <label class="form-label">{{asnItem.ValidationStatus}}</label>
         </div>
       </div>
@@ -243,14 +245,14 @@
           <label class="form-label font-weight-bolder">Acceptance Status:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-        
+
           <label class="form-label">{{asnItem.AcceptanceStatus}}</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label font-weight-bolder">TPOP Indicator:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.TPOPIndicator}}</label>
         </div>
       </div>
@@ -259,14 +261,14 @@
           <label class="form-label font-weight-bolder">Inbound Delivery Status:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-       
+
           <label class="form-label">{{asnItem.InboundDeliveryStatus}}</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label font-weight-bolder">Original System</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.OriginalSystem}}</label>
         </div>
       </div>
@@ -275,7 +277,7 @@
           <label class="form-label font-weight-bolder">Split:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-        
+
           <label class="form-label">{{asnItem.Split}}</label>
         </div>
       </div>
@@ -283,20 +285,20 @@
   </p-tabPanel>
   <p-tabPanel header="Item Details">
     <div class="container">
-    
+
       <div class="row col-lg-12 col-md-12 col-sm-12">
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label font-weight-bolder">Supplier Cumulative Quantity:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.SupplierCumulativeQuantity}}</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label font-weight-bolder">Customer Cumulative Quantity:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.CustomerCumulativeQuantity}}</label>
         </div>
       </div>
@@ -305,14 +307,14 @@
           <label class="form-label font-weight-bolder">Purchasing Document Number:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.PurchasingDocumentNo}}</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label font-weight-bolder">Original Purchase Order Number</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-         
+
           <label class="form-label">{{asnItem.OriginalPONumber}}</label>
         </div>
       </div>

@@ -1,38 +1,43 @@
-<h4 style="text-align: center;">Edit Advanced Shipment Notice</h4>
-<!--<p-tabMenu [model]="items"></p-tabMenu>-->
-
-<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<h4 style="text-align: center;"> Advanced Shipment Notice</h4>
+<div *ngIf="asnItem.ASNNo" class='col-md-3 col-lg-3 col-sm-3'>
+  <label class="form-label"><b style="color:#8a2be2">ASN No:</b>&nbsp;{{asnItem.ASNNo}}</label>
+</div>
 <p-tabView>
   <p-tabPanel header="Shipment Header">
     <div class="container">
-     
       <div class="row col-lg-12 col-md-12 col-sm-12">
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">PO/Reference No:<span style="color:red">*</span></label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.PO_ReferenceNo" />
+          <select class="form-control" [(ngModel)]="asnItem.PO_ReferenceNo">
+            <option value="">Select</option>
+            <option *ngFor=" let po of lstPONumbers " value={{po.PONO}}>
+              {{po.PONO}}
+            </option>
+          </select>
+          <!--<input type="text" class="form-control" [(ngModel)]="asnItem.PO_ReferenceNo" />-->
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Invoice No:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.InvoiceNo" />
+          <input type="text" ngModel maxlength="50" class="form-control" [(ngModel)]="asnItem.InvoiceNo" />
         </div>
       </div>
       <label style="padding-left:15px"><b style="color:#8a2be2">Shipment Information</b></label>
       <div class="row col-lg-12 col-md-12 col-sm-12">
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">ASN No.:<span style="color:red">*</span></label>
+          <label class="form-label">HSN Code:<span style="color:red">*</span></label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.ASNNo" />
+          <input type="text" class="form-control" [(ngModel)]="asnItem.HSNCode" ngModel maxlength="8" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Inbound Delivery No.:</label>
+          <label class="form-label">Inbound Delivery No:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.InboundDeliveryNo" />
+          <input type="text" class="form-control" ngModel maxlength="50" [(ngModel)]="asnItem.InboundDeliveryNo" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
@@ -40,13 +45,13 @@
           <label class="form-label">Shipping Date:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="date" #myDate class="form-control" [value]="asnItem.ShippingDate | date:'yyyy-MM-dd'" [(ngModel)]="asnItem.ShippingDate" />
+          <input type="date" #myDate class="form-control" [value]="asnItem.ShippingDate | date:'yyyy-MM-dd'" (input)="asnItem.ShippingDate=parseDate($event.target.value)" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Delivery Date:<span style="color:red">*</span></label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="date" #myDate class="form-control" [value]="asnItem.DeliveryDate | date:'yyyy-MM-dd'" [(ngModel)]="asnItem.DeliveryDate" />
+          <input type="date" #myDate class="form-control" [value]="asnItem.DeliveryDate | date:'yyyy-MM-dd'" (input)="asnItem.DeliveryDate=parseDate($event.target.value)" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
@@ -54,28 +59,29 @@
           <label class="form-label">Document Date:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="date" #myDate class="form-control" [value]="asnItem.DocumentDate | date:'yyyy-MM-dd'" [(ngModel)]="asnItem.DocumentDate" />
+          <input type="date" #myDate class="form-control" [value]="asnItem.DocumentDate | date:'yyyy-MM-dd'" (input)="asnItem.DocumentDate=parseDate($event.target.value)" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Qty:<span style="color:red">*</span></label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.Qty" />
+          <input type="number" class="form-control" [(ngModel)]="asnItem.Qty" />
         </div>
       </div>
+
       <label style="padding-left:15px"><b style="color:#8a2be2">Freight Information</b></label>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
+      <div class="row col-lg-12 col-md-12 col-sm-12">
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Freight Inv. No.:</label>
+          <label class="form-label">Freight Inv. No:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.FreightInvNo" />
+          <input type="number" class="form-control" [(ngModel)]="asnItem.FreightInvNo" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Grouping ID:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.GroupingId" />
+          <input type="number" class="form-control" [(ngModel)]="asnItem.GroupingId" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
@@ -83,13 +89,13 @@
           <label class="form-label">Carrier Party:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.CarrierParty" />
+          <input type="text" class="form-control" ngModel maxlength="500" [(ngModel)]="asnItem.CarrierParty" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Carrier (SCAC) ID:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.Carrier_SCAC_Id" />
+          <input type="number" class="form-control" [(ngModel)]="asnItem.Carrier_SCAC_Id" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
@@ -97,41 +103,41 @@
           <label class="form-label">Incoterm Loc.:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.IncotermLoc" />
+          <input type="text"  ngModel maxlength="500" class="form-control" [(ngModel)]="asnItem.IncotermLoc" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Incoterm:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.Incoterm" />
+          <input type="number" class="form-control" [(ngModel)]="asnItem.Incoterm" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Means of Transport:<span style="color:red">*</span></label>
+          <label class="form-label">Means Of Transport:<span style="color:red">*</span></label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.MeansOfTransport" />
+          <input type="text" class="form-control"  ngModel maxlength="500" [(ngModel)]="asnItem.MeansOfTransport" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Total gross weight:</label>
+          <label class="form-label">Total Gross Weight:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.TotalGrossWeight_Kgs" />
+          <input type="number"  class="form-control" [(ngModel)]="asnItem.TotalGrossWeight_Kgs" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Total Net weight:</label>
+          <label class="form-label">Total Net Weight:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.TotalNetWeight_Kgs" />
+          <input type="number" class="form-control" [(ngModel)]="asnItem.TotalNetWeight_Kgs" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Total Volumn:</label>
+          <label class="form-label">Total Volume:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.TotalVolume" />
+          <input type="number" class="form-control" [(ngModel)]="asnItem.TotalVolume" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
@@ -139,27 +145,29 @@
           <label class="form-label">Shipment Assignment:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.ShipmentAssignment" />
+          <input type="text" class="form-control"  ngModel maxlength="500" [(ngModel)]="asnItem.ShipmentAssignment" />
         </div>
       </div>
+      <!--<div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
+        <button  class="btn btn-outline-rounded btn-info" (click)="NextTab('ShipmentHeader')">Next</button>
+      </div>-->
     </div>
 
   </p-tabPanel>
   <p-tabPanel header="Shipment Lines">
     <div class="container">
-    
       <div class="row col-lg-12 col-md-12 col-sm-12">
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Ship From:<span style="color:red">*</span></label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.ShipFrom" />
+          <input type="text"  class="form-control" ngModel maxlength="500" [(ngModel)]="asnItem.ShipFrom" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Ship To:<span style="color:red">*</span></label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.ShipTo" />
+          <input type="text" class="form-control"  ngModel maxlength="500" [(ngModel)]="asnItem.ShipTo" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
@@ -167,13 +175,13 @@
           <label class="form-label">Customer Location:<span style="color:red">*</span></label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.CustomerLocation" />
+          <input type="text" class="form-control"  ngModel maxlength="250" [(ngModel)]="asnItem.CustomerLocation" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Countainer Number:</label>
+          <label class="form-label">Container Number:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.ContainerNumber" />
+          <input type="number" class="form-control" [(ngModel)]="asnItem.ContainerNumber" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
@@ -181,13 +189,13 @@
           <label class="form-label">Country of Origin:<span style="color:red">*</span></label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.CountryOfOrigin" />
+          <input type="text" class="form-control"  ngModel maxlength="250" [(ngModel)]="asnItem.CountryOfOrigin" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Truck Number :</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.TruckNo" />
+          <input type="text" class="form-control"  ngModel maxlength="100" [(ngModel)]="asnItem.TruckNo" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
@@ -195,13 +203,13 @@
           <label class="form-label">Comments :</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.Comment" />
+          <input type="text" class="form-control"  ngModel maxlength="1000" [(ngModel)]="asnItem.Comment" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Packing Slip :</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.PackingShip" />
+          <input type="text" class="form-control"  ngModel maxlength="100" [(ngModel)]="asnItem.PackingShip" />
         </div>
       </div>
     </div>
@@ -214,13 +222,13 @@
           <label class="form-label">ASN Status:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.ASNStatus" />
+          <input type="text" class="form-control"  ngModel maxlength="200" [(ngModel)]="asnItem.ASNStatus" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Validation Status:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.ValidationStatus" />
+          <input type="text" class="form-control"  ngModel maxlength="200" [(ngModel)]="asnItem.ValidationStatus" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
@@ -228,13 +236,13 @@
           <label class="form-label">Acceptance Status:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.AcceptanceStatus" />
+          <input type="text" class="form-control"  ngModel maxlength="200" [(ngModel)]="asnItem.AcceptanceStatus" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">TPOP Indicator:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.TPOPIndicator" />
+          <input type="text" class="form-control"   ngModel maxlength="200" [(ngModel)]="asnItem.TPOPIndicator" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
@@ -242,13 +250,13 @@
           <label class="form-label">Inbound Delivery Status:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.InboundDeliveryStatus" />
+          <input type="text" class="form-control"  ngModel maxlength="200" [(ngModel)]="asnItem.InboundDeliveryStatus" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Original System</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.OriginalSystem" />
+          <input type="text" class="form-control"  ngModel maxlength="200" [(ngModel)]="asnItem.OriginalSystem" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
@@ -256,25 +264,26 @@
           <label class="form-label">Split:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.Split" />
+          <input type="text" class="form-control"  ngModel maxlength="200" [(ngModel)]="asnItem.Split" />
         </div>
       </div>
     </div>
   </p-tabPanel>
   <p-tabPanel header="Item Details">
-    <div class="container">   
+    <div class="container">
+
       <div class="row col-lg-12 col-md-12 col-sm-12">
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Supplier Cumulative Quantity:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.SupplierCumulativeQuantity" />
+          <input type="number" class="form-control" [(ngModel)]="asnItem.SupplierCumulativeQuantity" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Customer Cumulative Quantity:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.CustomerCumulativeQuantity" />
+          <input type="number" class="form-control" [(ngModel)]="asnItem.CustomerCumulativeQuantity" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
@@ -282,13 +291,13 @@
           <label class="form-label">Purchasing Document Number:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.PurchasingDocumentNo" />
+          <input type="text" class="form-control"  ngModel maxlength="100" [(ngModel)]="asnItem.PurchasingDocumentNo" />
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Original Purchase Order Number</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.OriginalPONumber" />
+          <input type="text" class="form-control"  ngModel maxlength="100" [(ngModel)]="asnItem.OriginalPONumber" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
@@ -296,41 +305,42 @@
           <label class="form-label">Original Purchase Order Item:<span style="color:red">*</span></label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.OriginalPOItem" />
+          <input type="text" class="form-control"  ngModel maxlength="100" [(ngModel)]="asnItem.OriginalPOItem" />
         </div>
-
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Total Gross Weight:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.TotalGrossWt" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Total Net Weight:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.TotalNetWt" />
+          <input type="number" class="form-control" [(ngModel)]="asnItem.TotalGrossWt" />
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
         <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Total Net Weight:</label>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <input type="number" class="form-control" [(ngModel)]="asnItem.TotalNetWt" />
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Customer Batch Number:<span style="color:red">*</span></label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.CustomerBatchNo" />
+          <input type="text" class="form-control"  ngModel maxlength="100" [(ngModel)]="asnItem.CustomerBatchNo" />
         </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
         <div class='col-md-3 col-lg-3 col-sm-3'>
           <label class="form-label">Supplier Batch Number:</label>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.SupplierBatchNo" />
+          <input type="text" class="form-control"  ngModel maxlength="100" [(ngModel)]="asnItem.SupplierBatchNo" />
         </div>
       </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
+        <div class='col-md-4 col-lg-4 col-sm-4'></div>
+        <button type="submit" class="btn btn-outline-rounded btn-info" (click)="submitAsn()">Submit</button>
+      </div>
+
     </div>
   </p-tabPanel>
 </p-tabView>
-<div style="margin-left: 43%">
-  <button type="submit" class="btn btn-outline-rounded btn-info" (click)="EditAsn()">Submit</button>
-</div>

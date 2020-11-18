@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Vendor } from '../../../Models/mpr';
+import { Vendor } from '../../Models/RFQModel';
 import { RfqService } from 'src/app/services/rfq.service ';
-import { stagPoNumbers, InvoiceDetails, InvoiceDocuments } from '../../ASN/create-asn/asn';
-import { FormGroup } from '@angular/forms';
+import { stagPoNumbers, InvoiceDetails, InvoiceDocuments } from '../../Models/ASN';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
-import { constants } from 'src/app/Models/MPRConstants';
+import { constants } from '../../Models/RFQConstants';
 
 @Component({
-  selector: 'app-polist',
-  templateUrl: './polist.component.html',
-  styleUrls: ['./polist.component.scss']
+  selector: 'app-invoiceList',
+  templateUrl: './InvoiceList.component.html',
+  styleUrls: ['./InvoiceList.component.scss']
 })
-export class POListComponent implements OnInit {
+export class InvoiceListComponent implements OnInit {
 
   constructor(public RfqService: RfqService, private messageService: MessageService, public constants: constants, private spinner: NgxSpinnerService, private router: Router) { }
   public VendorDetails: Vendor;
@@ -21,7 +20,7 @@ export class POListComponent implements OnInit {
   public AddEditDialog = false;
   public InvoiceDetails: InvoiceDetails;
   public InvoiceDocuments: InvoiceDocuments;
-  public disableTaxDoc; disableInvoiceDoc;isEdit: boolean;
+  public disableTaxDoc; disableInvoiceDoc; isEdit: boolean;
 
 
   ngOnInit() {
@@ -33,10 +32,13 @@ export class POListComponent implements OnInit {
 
 
   GetPOList() {
-    this.RfqService.getPONumbersbyVendor(this.VendorDetails.vendorId).subscribe(data => {
+    this.spinner.show();
+    this.RfqService.getPOInvoiceDetailsbyVendor(this.VendorDetails.vendorId).subscribe(data => {
+      this.spinner.hide()
       this.poInvoiceList = data;
     })
   }
+
   ShowAddDialog(poDetails: any) {
     this.isEdit = false;
     this.InvoiceDetails = new InvoiceDetails();
@@ -69,9 +71,11 @@ export class POListComponent implements OnInit {
   }
   //create update invoice data
   UpdateInvoice() {
+    this.spinner.show();
     this.RfqService.UpdateInvoice(this.InvoiceDetails).subscribe(data => {
-      if (this.isEdit==false)
-      this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Invoice Generated' });
+      this.spinner.hide();
+      if (this.isEdit == false)
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Invoice Generated' });
       if (this.isEdit == true)
         this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Invoice Updated' });
       this.AddEditDialog = false;
@@ -89,7 +93,9 @@ export class POListComponent implements OnInit {
     if (fileList.length > 0) {
       let file: File = fileList[0];
       formData.append(idanddocid, file, idanddocid + "_" + file.name);
+      this.spinner.show();
       this.RfqService.uploadFile(formData).subscribe(data => {
+        this.spinner.hide();
         this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted' });
         this.InvoiceDocuments = new InvoiceDocuments();
         this.InvoiceDocuments.UploadedBy = this.VendorDetails.VUniqueId;
@@ -98,13 +104,6 @@ export class POListComponent implements OnInit {
         this.InvoiceDocuments.Path = data;
         this.InvoiceDetails.InvoiceDocuments.push(this.InvoiceDocuments);
         this.diablesDocs();
-        //this.spinner.show();
-        //this.RfqService.InsertDocumentToYSCM(formData).subscribe(data => {
-        //  this.spinner.hide();
-        //  if (data != null) {
-        //    this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'File inserted' });
-        //  }
-        //})
       })
     }
   }
@@ -112,12 +111,26 @@ export class POListComponent implements OnInit {
   viewDocument(path: string) {
     var path1 = path.replace(/\\/g, "/");
     path1 = this.constants.Documnentpath + path1;
-    window.open(path1);    
+    window.open(path1);
   }
 
 
-  removeSelectedFileInvoice(selected, index) {
-
+  removeSelectedFile(document: any, index: any) {
+    if (document.DocumentId) {
+      var index1 = this.InvoiceDetails.InvoiceDocuments.findIndex(x => x.DocumentId == document.DocumentId);
+      this.spinner.show();
+      this.RfqService.DeleteInvoiceFile(document.DocumentId).subscribe(data => {
+        this.spinner.hide();
+        if (data) {
+          this.InvoiceDetails.InvoiceDocuments.splice(index1, 1);
+          this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Deleted' });
+        }
+      });
+    }
+    else {
+      this.InvoiceDetails.InvoiceDocuments.splice(index, 1);
+      this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Deleted' });
+    }
   }
 
 }

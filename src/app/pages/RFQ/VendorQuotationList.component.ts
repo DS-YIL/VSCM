@@ -1,10 +1,9 @@
-import { Component, Input, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl, ValidatorFn } from '@angular/forms';
+import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { RfqService } from '../../services/rfq.service ';
-import { constants } from '../../Models/MPRConstants'
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { RFQMasters, RFQRevisionData, RFQfilter, rfqFilterParams } from '../../Models/rfq';
-import { Vendor } from 'src/app/Models/mpr';
+import { constants } from '../../models/RFQConstants'
+import { ActivatedRoute } from '@angular/router';
+import { Vendor,RFQMasters, RFQRevisionData, RFQfilter, rfqFilterParams } from '../../Models/RFQModel';
 import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 import { DatePipe } from '@angular/common/'
@@ -22,7 +21,7 @@ export class VendorQuotationListComponent implements OnInit {
   public rfqMastersModel: RFQMasters;
   public rfqRevisions: RFQRevisionData;
   public Vendor: Vendor;
-  public showFilterBlock: boolean = false;
+  public showFilterBlock: boolean = true;
 
   public toDate: Date = new Date();
   public fromDate: Date = new Date(new Date().setDate(new Date().getDate() - 30));
@@ -46,19 +45,12 @@ export class VendorQuotationListComponent implements OnInit {
     this.rfqvendorobj = new RFQfilter();
     this.rfqFilterParams = new rfqFilterParams()
     this.rfqFilterParams.VendorId = this.Vendor.vendorId;
-    this.rfqFilterParams.StatusId = 7;
+    this.rfqFilterParams.StatusId = 0;
     this.rfqvendorobj.RFQNo = "";
     this.rfqMastersModel = new RFQMasters();
     this.rfqRevisions = new RFQRevisionData();
     this.bindList();
 
-    //this.RfqService.getallrfqlist().subscribe(data => {
-    //	this.rfqMastersModel = data;
-    //});
-
-    //this.VendorQuotationList = this.formBuilder.group({
-
-    //});
   }
 
   

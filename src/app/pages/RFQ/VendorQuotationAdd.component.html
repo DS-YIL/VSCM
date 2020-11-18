@@ -31,7 +31,6 @@
       <span *ngIf="quoteDetails.StatusId==27">Regretted</span>
       <span *ngIf="quoteDetails.StatusId==8">Responded</span>
       <span *ngIf="quoteDetails.StatusId==7">Yet to Respond</span>
-      <span *ngIf="quoteDetails.StatusId==8">Responded</span>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6">
       <label style="font-weight:800">Remarks :</label>&nbsp;<span>{{quoteDetails.Remarks}}</span>
@@ -820,8 +819,9 @@
     <form [formGroup]="vendorCommunicationForm" style="width:100%">
       <div class="ui-g-12">
         <div class="ui-g-10">
-          <label class="form-label">Remarks</label>&nbsp;
+          <label class="form-label">Remarks</label>&nbsp;<span style="color:red">*</span>
           <textarea type="text" formControlName="Remarks" [(ngModel)]="VendorCommunications.Remarks" [value]="vendorCommunicationForm.controls.Remarks.value" class="form-control" [ngClass]="{ 'is-invalid': VendorCommunicationSubmitted && vendorCommunicationForm.controls.Remarks.errors }"></textarea>
+          <span *ngIf="VendorCommunicationSubmitted && vendorCommunicationForm.controls.Remarks.errors" class="invalid-feedback">Remarks Required.</span><br />
 
         </div>
         <div class="ui-g-2 form-inline">

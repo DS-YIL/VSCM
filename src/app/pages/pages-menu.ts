@@ -22,33 +22,33 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
 
   },
-  //{
-  //  title: 'ASN',
-  //  icon: 'keypad-outline',
-  //  expanded: false,
-  //  children: [
-  //    {
-  //      title: 'Create ASN',
-  //      link: '/VSCM/CreateASN/',
-  //      icon: 'list-outline'
-  //    },
-  //    {
-  //      title: 'ASN List',
-  //      link: '/VSCM/ASN/',
-  //      icon: 'list-outline'
-  //    }
-  //  ],
-  //},
-  //{
-  //  title: 'Invoice',
-  //  icon: 'keypad-outline',
-  //  expanded: false,
-  //  children: [
-  //    {
-  //      title: 'Invoices',
-  //      link: '/VSCM/Invoice/',
-  //      icon: 'list-outline'
-  //    }
-  //  ]
-  //},
+  {
+    title: 'ASN',
+    icon: 'keypad-outline',
+    expanded: false,
+    children: [
+      {
+        title: 'Create ASN',
+        link: '/VSCM/CreateASN/',
+        icon: 'list-outline'
+      },
+      {
+        title: 'ASN List',
+        link: '/VSCM/ASNList/',
+        icon: 'list-outline'
+      }
+    ],
+  },
+  {
+    title: 'Invoice',
+    icon: 'keypad-outline',
+    expanded: false,
+    children: [
+      {
+        title: 'Invoices',
+        link: '/VSCM/Invoice/',
+        icon: 'list-outline'
+      }
+    ]
+  },
 ];

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Employee, Vendor } from 'src/app/Models/mpr';
+import { Employee, Vendor } from '../../../Models/RFQModel';
 import { RfqService } from 'src/app/services/rfq.service ';
 
 @Component({

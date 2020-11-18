@@ -76,6 +76,7 @@
       <span *ngFor="let selected of InvoiceDetails.InvoiceDocuments;let index = index">
         <span *ngIf="selected.DocumentTypeId==1" class="fixed-text_new">
           <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
+          <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
         </span>
       </span>
     </div>
@@ -91,6 +92,7 @@
       <span *ngFor="let selected of InvoiceDetails.InvoiceDocuments;let index = index">
         <span *ngIf="selected.DocumentTypeId==2" class="fixed-text_new">
           <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>
+          <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
         </span>
       </span>
     </div>
@@ -109,6 +111,7 @@
       <span *ngFor="let selected of InvoiceDetails.InvoiceDocuments;let index = index">
         <span *ngIf="selected.DocumentTypeId==3" class="fixed-text_new">
           <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>
+          <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
         </span>
       </span>
     </div>

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl, ValidatorFn } from '@angular/forms';
-import{Changepassword} from 'src/app/Models/rfq';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Changepassword } from '../../Models/RFQModel';
 import { MessageService } from 'primeng/api';
 import { RfqService } from '../../services/rfq.service ';
+
 @Component({
   selector: 'app-changepassword',
-  templateUrl: './changepassword.component.html',
-  styleUrls: ['./changepassword.component.scss']
+  templateUrl: './ChangePassword.component.html'
 })
 export class ChangepasswordComponent implements OnInit {
 
