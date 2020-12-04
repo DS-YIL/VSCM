@@ -62,12 +62,12 @@
       <div class="row m-2">
         <div class='col-xs-3 col-md-3 col-sm-3 form-group'>
           <label>Vendor Name:</label>&nbsp;<span style="color:red">*</span>&nbsp;&nbsp;
-          <input type="text" class="form-control" ngModel maxlength="100" formControlName="VendorName" [(ngModel)]="VendorData.VendorName" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.VendorName.errors}" />
+          <input type="text" class="form-control" ngModel maxlength="500" formControlName="VendorName" [(ngModel)]="VendorData.VendorName" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.VendorName.errors}" />
           <span *ngIf="VQAddSubmitted && VendorRegister.controls.VendorName.errors" class="invalid-feedback">Enter Vendor Name.</span>
         </div>
         <div class='col-xs-3 col-md-3 col-sm-3 form-group'>
           <label>Street:</label>&nbsp;<span style="color:red">*</span>&nbsp;&nbsp;
-          <input type="text" class="form-control" ngModel maxlength="100" formControlName="street" [(ngModel)]="VendorData.Street" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.street.errors}" />
+          <input type="text" class="form-control" ngModel maxlength="500" formControlName="street" [(ngModel)]="VendorData.Street" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.street.errors}" />
           <span *ngIf="VQAddSubmitted && VendorRegister.controls.street.errors" class="invalid-feedback">Enter Street.</span>
         </div>
         <div *ngIf="VendorData.VendorType==false" class="col-xs-3 col-md-3 col-sm-3 form-group">
@@ -78,7 +78,7 @@
               {{state.StateName}}
             </option>
           </select>
-          <span *ngIf="VQAddSubmitted && VendorRegister.controls.State.errors" class="invalid-feedback">Select state.</span>
+          <span *ngIf="VQAddSubmitted && (VendorRegister.controls.State.value=='0' || VendorRegister.controls.State.value==null)" class="invalid-feedback">Select state.</span>
         </div>
         <div *ngIf="VendorData.VendorType==true" class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>Country:</label>&nbsp;<span style="color:red">*</span>&nbsp;&nbsp;
@@ -87,7 +87,7 @@
         </div>
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>City:</label>&nbsp;<span style="color:red">*</span>&nbsp;&nbsp;
-          <input type="text" class="form-control" ngModel maxlength="40" formControlName="City" [(ngModel)]="VendorData.City" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.City.errors}" />
+          <input type="text" class="form-control" ngModel maxlength="150" formControlName="City" [(ngModel)]="VendorData.City" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.City.errors}" />
           <span *ngIf="VQAddSubmitted && VendorRegister.controls.City.errors" class="invalid-feedback">Enter City.</span>
         </div>
       </div>
@@ -133,7 +133,7 @@
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>Mobile Number:</label>&nbsp;<span style="color:red">*</span>&nbsp;&nbsp;
           <!-- <input class="form-control input-md" #Mobile="ngModel" required id="Mobile" name="Mobile" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="Mobile Number" [(ngModel)]="Registration.Mobile"> -->
-          <input type="number" class="form-control" ngModel maxlength="15" formControlName="Mobile" [(ngModel)]="VendorData.Mobile" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.Mobile.errors}" />
+          <input type="number" class="form-control" onKeyPress="if(this.value.length==15) return false;" formControlName="Mobile" [(ngModel)]="VendorData.Mobile" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.Mobile.errors}" />
           <span *ngIf="VQAddSubmitted && VendorRegister.controls.Mobile.errors" class="invalid-feedback">Enter Mobile Number.</span>
         </div>
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
@@ -159,7 +159,7 @@
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>Contact Person Phone Number:</label>&nbsp;<span style="color:red">*</span>&nbsp;&nbsp;
           <!-- <input class="form-control input-md" #contPhone="ngModel" required id="contPhone" name="contPhone" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="contact Person Phone Number" [(ngModel)]="Registration.contPhone"> -->
-          <input type="number" class="form-control" ngModel maxlength="15" formControlName="PhoneNumberForSales" [(ngModel)]="VendorData.PhoneNumberForSales" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.PhoneNumberForSales.errors}" />
+          <input type="number" class="form-control" onKeyPress="if(this.value.length==15) return false;" formControlName="PhoneNumberForSales" [(ngModel)]="VendorData.PhoneNumberForSales" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.PhoneNumberForSales.errors}" />
           <span *ngIf="VQAddSubmitted && VendorRegister.controls.PhoneNumberForSales.errors" class="invalid-feedback">Enter Contact Person Phone Number.</span>
         </div>
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
@@ -188,7 +188,7 @@
         </div>
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>Contact Person Phone Number:</label>
-          <input type="number" class="form-control" ngModel maxlength="15" formControlName="PhoneNumberForOperations" [(ngModel)]="VendorData.PhoneNumberForOperations" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.PhoneNumberForOperations.errors}" />
+          <input type="number" class="form-control" onKeyPress="if(this.value.length==15) return false;" formControlName="PhoneNumberForOperations" [(ngModel)]="VendorData.PhoneNumberForOperations" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.PhoneNumberForOperations.errors}" />
           <span *ngIf="VQAddSubmitted && VendorRegister.controls.PhoneNumberForOperations.errors" class="invalid-feedback">Enter Contact Person Phone Number.</span>
         </div>
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
@@ -219,7 +219,7 @@
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>Contact Person Phone Number:</label>
           <!-- <input class="form-control input-md" #contPhone="ngModel" required id="contPhone" name="contPhone" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="contact Person Phone Number" [(ngModel)]="Registration.contPhone"> -->
-          <input type="number" class="form-control" ngModel maxlength="15" formControlName="PhoneNumberForLogistics" [(ngModel)]="VendorData.PhoneNumberForLogistics" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.PhoneNumberForLogistics.errors}" />
+          <input type="number" class="form-control" onKeyPress="if(this.value.length==15) return false;" formControlName="PhoneNumberForLogistics" [(ngModel)]="VendorData.PhoneNumberForLogistics" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.PhoneNumberForLogistics.errors}" />
           <span *ngIf="VQAddSubmitted && VendorRegister.controls.PhoneNumberForLogistics.errors" class="invalid-feedback">Enter Contact Person Phone Number.</span>
         </div>
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
@@ -250,7 +250,7 @@
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>Contact Person Phone Number:</label>
           <!-- <input class="form-control input-md" #contPhone="ngModel" required id="contPhone" name="contPhone" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="contact Person Phone Number" [(ngModel)]="Registration.contPhone"> -->
-          <input type="number" class="form-control" ngModel maxlength="15" formControlName="PhoneNumberForAccounts" [(ngModel)]="VendorData.PhoneNumberForAccounts" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.PhoneNumberForAccounts.errors}" />
+          <input type="number" class="form-control" onKeyPress="if(this.value.length==15) return false;" formControlName="PhoneNumberForAccounts" [(ngModel)]="VendorData.PhoneNumberForAccounts" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.PhoneNumberForAccounts.errors}" />
           <span *ngIf="VQAddSubmitted && VendorRegister.controls.PhoneNumberForAccounts.errors" class="invalid-feedback">Enter Contact Person Phone Number.</span>
         </div>
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
@@ -275,20 +275,20 @@
         <div *ngIf="VendorData.VendorType==false" class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>PAN No:</label>&nbsp;<span style="color:red">*</span>&nbsp;&nbsp;
           <!-- <input class="form-control input-md" #PANNo="ngModel" required id="PANNo" name="PANNo" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="PAN No" [(ngModel)]="Registration.PANNo"> -->
-          <input type="text" class="form-control" ngModel maxlength="10" formControlName="PANNo" [(ngModel)]="VendorData.PANNo" oninput="this.value = this.value.replace(/^([!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/? ])?$/g, '');" pattern="^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$" (blur)="CheckPanNo()"  [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.PANNo.errors}" />
-          <span *ngIf="VQAddSubmitted && VendorRegister.controls.PANNo.errors" class="invalid-feedback">Enter valid PANNo.</span>
+          <input type="text" class="form-control" ngModel minlength="10" maxlength="10" formControlName="PANNo" [(ngModel)]="VendorData.PANNo" oninput="this.value = this.value.replace(/^([!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/? ])?$/g, '');" pattern="^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$" (blur)="CheckPanNo()"  [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.PANNo.errors}" />
+          <span *ngIf="VQAddSubmitted && VendorRegister.controls.PANNo.errors" class="invalid-feedback">Enter valid PANNo & length should be 10.</span>
         </div>
         <div *ngIf="VendorData.VendorType==false"  class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>GST No:</label>&nbsp;<span style="color:red">*</span>&nbsp;&nbsp;
           <!-- <input class="form-control input-md" #GSTNo="ngModel" required id="GSTNo" name="GSTNo" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="GST No" [(ngModel)]="Registration.GSTNo"> -->
-          <input type="text" class="form-control" ngModel maxlength="15" formControlName="GSTNo" [(ngModel)]="VendorData.GSTNo" oninput="this.value = this.value.replace(/^([!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/? ])?$/g, '');" pattern="^([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-7]{1})([a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9a-zA-Z]{1}[zZ]{1}[0-9a-zA-Z]{1})+$" (keyup)="validateGSTNo()" (blur)="CheckGSTNo()" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.GSTNo.errors}" />
-          <span *ngIf="VQAddSubmitted && VendorRegister.controls.GSTNo.errors" class="invalid-feedback">Enter valid  GSTNo.</span>
+          <input type="text" class="form-control" ngModel minlength="15" maxlength="15" formControlName="GSTNo" [(ngModel)]="VendorData.GSTNo" oninput="this.value = this.value.replace(/^([!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/? ])?$/g, '');" pattern="^([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-7]{1})([a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9a-zA-Z]{1}[zZ]{1}[0-9a-zA-Z]{1})+$" (keyup)="validateGSTNo()" (blur)="CheckGSTNo()" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.GSTNo.errors}" />
+          <span *ngIf="VQAddSubmitted && VendorRegister.controls.GSTNo.errors" class="invalid-feedback">Enter valid  GSTNo & length should be 15.</span>
         </div>
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>CIN No:</label>
           <!-- <input class="form-control input-md" #CINNo="ngModel" required id="CINNo" name="CINNo" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="CIN No" [(ngModel)]="Registration.CINNo"> -->
-          <input type="text" class="form-control" ngModel maxlength="21" formControlName="CINNo" [(ngModel)]="VendorData.CINNo" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.CINNo.errors}" />
-          <span *ngIf="VQAddSubmitted && VendorRegister.controls.CINNo.errors" class="invalid-feedback">Enter CINNo.</span>
+          <input type="text" class="form-control" ngModel minlength="21" maxlength="21" formControlName="CINNo" [(ngModel)]="VendorData.CINNo" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.CINNo.errors}" />
+          <span *ngIf="VQAddSubmitted && VendorRegister.controls.CINNo.errors" class="invalid-feedback">Enter Valid CINNo & length should 21.</span>
         </div>
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>TAN No:</label>
@@ -310,7 +310,7 @@
         </div>
         <div *ngIf="VendorData.NatureofBusiness==4" class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>Specify Nature Of Business:</label>&nbsp;<span style="color:red">*</span>&nbsp;&nbsp;
-          <input type="text" class="form-control" ngModel maxlength="200" formControlName="SpecifyNatureOfBusiness" [(ngModel)]="VendorData.SpecifyNatureOfBusiness" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.SpecifyNatureOfBusiness.errors}" />
+          <input type="text" class="form-control" ngModel maxlength="500" formControlName="SpecifyNatureOfBusiness" [(ngModel)]="VendorData.SpecifyNatureOfBusiness" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.SpecifyNatureOfBusiness.errors}" />
           <span *ngIf="VQAddSubmitted && VendorRegister.controls.SpecifyNatureOfBusiness.errors" class="invalid-feedback">Specify Nature Of Business.</span>
         </div>
       </div>
@@ -571,7 +571,6 @@
               {{DocList.DocumentName}}
             </option>
           </select>-->
-          iv
         </div>
         <div class='col-xs-2 col-md-2 col-sm-2 form-group'>
           <button class="attachedbtn" mat-raised-button (click)="fileInput8.click()">Select File</button>

@@ -1,346 +1,187 @@
-<h4 style="text-align: center;"> Advanced Shipment Notice</h4>
-<div *ngIf="asnItem.ASNNo" class='col-md-3 col-lg-3 col-sm-3'>
-  <label class="form-label"><b style="color:#8a2be2">ASN No:</b>&nbsp;{{asnItem.ASNNo}}</label>
-</div>
-<p-tabView>
-  <p-tabPanel header="Shipment Header">
-    <div class="container">
-      <div class="row col-lg-12 col-md-12 col-sm-12">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">PO/Reference No:<span style="color:red">*</span></label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <select class="form-control" [(ngModel)]="asnItem.PO_ReferenceNo">
+<div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;font-size:14px !important;align-content: center;font-weight: 600;background-color: goldenrod;height:1%;">Advanced Shipment Notice</div>
+<div class="card">
+  <div *ngIf="asnItem.ASNNo" class='col-md-3 col-lg-3 col-sm-3'>
+    <label class="form-label"><b style="color:#8a2be2">ASN No:</b>&nbsp;{{asnItem.ASNNo}}</label>
+  </div>
+  <div class="strike m-2">
+    <span class="headername">Shipment Information</span>
+  </div>
+  <div class="tab-pane">
+    <form [formGroup]="CreatASN">
+      <div class="row m-2">
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">PONo:<span *ngIf="asnid==0" style="color:red">*</span></label>
+          <select *ngIf="asnid==0" class="form-control" formControlName="PONo" [(ngModel)]="asnItem.PONo" (change)="getItemDetailsByPoNo()" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.PONo.errors}">
             <option value="">Select</option>
             <option *ngFor=" let po of lstPONumbers " value={{po.PONO}}>
               {{po.PONO}}
             </option>
           </select>
-          <!--<input type="text" class="form-control" [(ngModel)]="asnItem.PO_ReferenceNo" />-->
+          <span *ngIf="ASNSubmitted && CreatASN.controls.PONo.errors" class="invalid-feedback">Select PONo.</span>
+          <div *ngIf="asnid!=0" class="form-label">{{asnItem.PONo}}</div>
         </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Invoice No:</label>
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Invoice No:<span style="color:red">*</span></label>
+          <input type="text" ngModel maxlength="50" class="form-control" [(ngModel)]="asnItem.InvoiceNo" formControlName="InvoiceNo" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.InvoiceNo.errors}" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.InvoiceNo.errors" class="invalid-feedback">Enter Invoice No.</span>
         </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" ngModel maxlength="50" class="form-control" [(ngModel)]="asnItem.InvoiceNo" />
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Invoice Date:<span style="color:red">*</span></label>
+          <input type="date" class="form-control" style="padding-right: 0px;" #myDate [value]="asnItem.InvoiceDate | date:'yyyy-MM-dd'" (input)="asnItem.InvoiceDate=parseDate($event.target.value)" formControlName="InvoiceDate" [(ngModel)]="asnItem.InvoiceDate" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.InvoiceDate.errors}" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.InvoiceDate.errors" class="invalid-feedback">Enter Invoice Date.</span>
         </div>
-      </div>
-      <label style="padding-left:15px"><b style="color:#8a2be2">Shipment Information</b></label>
-      <div class="row col-lg-12 col-md-12 col-sm-12">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">HSN Code:<span style="color:red">*</span></label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" [(ngModel)]="asnItem.HSNCode" ngModel maxlength="8" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Inbound Delivery No:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" ngModel maxlength="50" [(ngModel)]="asnItem.InboundDeliveryNo" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Shipping Date:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="date" #myDate class="form-control" [value]="asnItem.ShippingDate | date:'yyyy-MM-dd'" (input)="asnItem.ShippingDate=parseDate($event.target.value)" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Delivery Date:<span style="color:red">*</span></label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="date" #myDate class="form-control" [value]="asnItem.DeliveryDate | date:'yyyy-MM-dd'" (input)="asnItem.DeliveryDate=parseDate($event.target.value)" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Document Date:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="date" #myDate class="form-control" [value]="asnItem.DocumentDate | date:'yyyy-MM-dd'" (input)="asnItem.DocumentDate=parseDate($event.target.value)" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Qty:<span style="color:red">*</span></label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="number" class="form-control" [(ngModel)]="asnItem.Qty" />
-        </div>
-      </div>
-
-      <label style="padding-left:15px"><b style="color:#8a2be2">Freight Information</b></label>
-      <div class="row col-lg-12 col-md-12 col-sm-12">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Freight Inv. No:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="number" class="form-control" [(ngModel)]="asnItem.FreightInvNo" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Grouping ID:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="number" class="form-control" [(ngModel)]="asnItem.GroupingId" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Carrier Party:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control" ngModel maxlength="500" [(ngModel)]="asnItem.CarrierParty" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Carrier (SCAC) ID:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="number" class="form-control" [(ngModel)]="asnItem.Carrier_SCAC_Id" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Incoterm Loc.:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text"  ngModel maxlength="500" class="form-control" [(ngModel)]="asnItem.IncotermLoc" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Incoterm:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="number" class="form-control" [(ngModel)]="asnItem.Incoterm" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Means Of Transport:<span style="color:red">*</span></label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="500" [(ngModel)]="asnItem.MeansOfTransport" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Total Gross Weight:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="number"  class="form-control" [(ngModel)]="asnItem.TotalGrossWeight_Kgs" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Total Net Weight:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="number" class="form-control" [(ngModel)]="asnItem.TotalNetWeight_Kgs" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Total Volume:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="number" class="form-control" [(ngModel)]="asnItem.TotalVolume" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Shipment Assignment:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="500" [(ngModel)]="asnItem.ShipmentAssignment" />
-        </div>
-      </div>
-      <!--<div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <button  class="btn btn-outline-rounded btn-info" (click)="NextTab('ShipmentHeader')">Next</button>
-      </div>-->
-    </div>
-
-  </p-tabPanel>
-  <p-tabPanel header="Shipment Lines">
-    <div class="container">
-      <div class="row col-lg-12 col-md-12 col-sm-12">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Ship From:<span style="color:red">*</span></label>
+          <input type="text" class="form-control" formControlName="ShipFrom" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.ShipFrom.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.ShipFrom" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.ShipFrom.errors" class="invalid-feedback">Enter Ship from.</span>
         </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text"  class="form-control" ngModel maxlength="500" [(ngModel)]="asnItem.ShipFrom" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Ship To:<span style="color:red">*</span></label>
+          <input type="text" class="form-control" formControlName="ShipTo" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.ShipTo.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.ShipTo" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.ShipTo.errors" class="invalid-feedback">Enter Ship To.</span>
         </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="500" [(ngModel)]="asnItem.ShipTo" />
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Shipping Date:<span style="color:red">*</span></label>
+          <input type="date" class="form-control" style="padding-right: 0px;" #myDate [value]="asnItem.ShippingDate | date:'yyyy-MM-dd'" (input)="asnItem.ShippingDate=parseDate($event.target.value)" formControlName="ShippingDate" [(ngModel)]="asnItem.ShippingDate" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.ShippingDate.errors}" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.ShippingDate.errors" class="invalid-feedback">Enter Shipping Date.</span>
         </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Customer Location:<span style="color:red">*</span></label>
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Delivery Date:<span style="color:red">*</span></label>
+          <input type="date" class="form-control" style="padding-right: 0px;" #myDate [value]="asnItem.DeliveryDate | date:'yyyy-MM-dd'" (input)="asnItem.DeliveryDate=parseDate($event.target.value)" formControlName="DeliveryDate" [(ngModel)]="asnItem.DeliveryDate" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.DeliveryDate.errors}" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.DeliveryDate.errors" class="invalid-feedback">Enter Delivery Date.</span>
         </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="250" [(ngModel)]="asnItem.CustomerLocation" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Container Number:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="number" class="form-control" [(ngModel)]="asnItem.ContainerNumber" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Country of Origin:<span style="color:red">*</span></label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="250" [(ngModel)]="asnItem.CountryOfOrigin" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Truck Number :</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="100" [(ngModel)]="asnItem.TruckNo" />
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Freight InvNo:<span style="color:red">*</span></label>
+          <input type="number" class="form-control" formControlName="FreightInvNo" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.FreightInvNo.errors}" ngModel maxlength="50" [(ngModel)]="asnItem.FreightInvNo" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.FreightInvNo.errors" class="invalid-feedback">Enter Freight InvNo.</span>
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Comments :</label>
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">TransporterName:<span style="color:red">*</span></label>
+          <input type="text" class="form-control" formControlName="TransporterName" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.TransporterName.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.TransporterName" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.TransporterName.errors" class="invalid-feedback">Enter Transporter Name.</span>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label"> LR/AWB/BL No:<span style="color:red">*</span></label>
+          <input type="text" class="form-control" formControlName="BillofLodingNumber" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.InvoiceNo.errors}" ngModel maxlength="100" [(ngModel)]="asnItem.BillofLodingNumber" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.BillofLodingNumber.errors" class="invalid-feedback">Enter Billof LodingNumber.</span>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="1000" [(ngModel)]="asnItem.Comment" />
+          <label class="form-label">Incoterm Loc.:<span style="color:red">*</span></label>
+          <input type="text" ngModel maxlength="500" class="form-control" formControlName="IncotermLoc" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.IncotermLoc.errors}" [(ngModel)]="asnItem.IncotermLoc" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.IncotermLoc.errors" class="invalid-feedback">Enter Incoterm Loc.</span>
         </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Packing Slip :</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="100" [(ngModel)]="asnItem.PackingShip" />
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Incoterm:<span style="color:red">*</span></label>
+          <select class="form-control" [(ngModel)]="asnItem.IncoTerm" formControlName="IncoTerm" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.IncoTerm.errors}" (change)=onIncoTermChange();>
+            <option value="">Select</option>
+            <option *ngFor="let po of IncoTermsList" value={{po.IncoTerm}}>
+              {{po.IncoTerm}}
+            </option>
+          </select>
+          <span *ngIf="ASNSubmitted && CreatASN.controls.IncoTerm.errors" class="invalid-feedback">Select Incoterm.</span>
         </div>
       </div>
-    </div>
-  </p-tabPanel>
-  <p-tabPanel header="Status">
-    <div class="container">
+      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
+        <div *ngIf="asnItem.Incoterm=='Other'" class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Incoterm Description:<span style="color:red">*</span></label>
+          <input type="text" class="form-control" formControlName="IncotermDescription" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.IncotermDescription.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.IncotermDescription" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.IncotermDescription.errors" class="invalid-feedback">Enter Incoterm Description.</span>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3  form-group'>
+          <label class="form-label">Mode Of Transport:<span style="color:red">*</span></label>
+          <select class="form-control" formControlName="ModeOfTransport" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.ModeOfTransport.errors}" [(ngModel)]="asnItem.ModeOfTransport">
+            <option value="">Select</option>
+            <option *ngFor="let po of ModeOfTransportList" value={{po.ModeOfTransport}}>
+              {{po.ModeOfTransport}}
+            </option>
+          </select>
+          <span *ngIf="ASNSubmitted && CreatASN.controls.ModeOfTransport.errors" class="invalid-feedback">Select Mode Of Transport.</span>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Delivery Note :<span style="color:red">*</span></label>
+          <textarea class="form-control" formControlName="DeliveryNote" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.DeliveryNote.errors}" [(ngModel)]="asnItem.DeliveryNote"></textarea>
+          <span *ngIf="ASNSubmitted && CreatASN.controls.DeliveryNote.errors" class="invalid-feedback">Enter Delivery Note.</span>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Total Gross Weight in(Kgs):<span style="color:red">*</span></label>
+          <input type="number" class="form-control" formControlName="TotalGrossWeight_Kgs" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.TotalGrossWeight_Kgs.errors}" [(ngModel)]="asnItem.TotalGrossWeight_Kgs" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.TotalGrossWeight_Kgs.errors" class="invalid-feedback">Enter Total Gross Weight_Kgs.</span>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Total Net Weight in(Kgs):<span style="color:red">*</span></label>
+          <input type="number" class="form-control" formControlName="TotalNetWeight_Kgs" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.TotalNetWeight_Kgs.errors}" [(ngModel)]="asnItem.TotalNetWeight_Kgs" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.TotalNetWeight_Kgs.errors" class="invalid-feedback">Enter Total Net Weight_Kgs.</span>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Total Volume:<span style="color:red">*</span></label>
+          <input type="text" class="form-control" formControlName="TotalVolume" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.TotalVolume.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.TotalVolume" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.TotalVolume.errors" class="invalid-feedback">Enter Total Volume.</span>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Insurance :<span style="color:red">*</span></label>
+          <input type="text" class="form-control" formControlName="Insurance" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.Insurance.errors}" ngModel maxlength="100" [(ngModel)]="asnItem.Insurance" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.Insurance.errors" class="invalid-feedback">Enter Insurance.</span>
+        </div>
+      </div>
+    </form>
+  </div>
 
-      <div class="row col-lg-12 col-md-12 col-sm-12">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">ASN Status:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="200" [(ngModel)]="asnItem.ASNStatus" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Validation Status:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="200" [(ngModel)]="asnItem.ValidationStatus" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Acceptance Status:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="200" [(ngModel)]="asnItem.AcceptanceStatus" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">TPOP Indicator:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"   ngModel maxlength="200" [(ngModel)]="asnItem.TPOPIndicator" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Inbound Delivery Status:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="200" [(ngModel)]="asnItem.InboundDeliveryStatus" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Original System</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="200" [(ngModel)]="asnItem.OriginalSystem" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Split:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="200" [(ngModel)]="asnItem.Split" />
-        </div>
-      </div>
-    </div>
-  </p-tabPanel>
-  <p-tabPanel header="Item Details">
-    <div class="container">
+  <div class="strike m-2">
+    <span class="headername">ASN Items</span>
+  </div>
+  <div class="tab-pane">
+    <div class="row m-2">
+      <p-table [value]="RemoteASNItemDetails" [paginator]="true" [rows]="10" [resizableColumns]="true" [responsive]="true" [style]="{'width':'100%','overflow':'auto!important'}">
+        <ng-template pTemplate="header">
+          <tr class="mprltbldata">
+            <th style="width:50px"></th>
+            <th style="width:50px">S.No</th>
+            <th>PO No</th>
+            <th>PO Date</th>
+            <!--<th>Vendor Code</th>-->
+            <th>PO Line Item</th>
+            <th>Material Code</th>
+            <th style="width:200px">Material Description</th>
+            <th>HSN Code</th>
+            <th style="width:50px">PO Qty</th>
+            <th style="width:100px">Supplier Cumulative Qty</th>
+            <th style="width:100px">PO Cumulative Qty</th>
+            <th>ASN Quantity</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex" let-rindex=0>
+          <tr>
+            <td class="ptable-cell"><input *ngIf="rowData.SupplierCumulativeQty<rowData.POQty" id='Item{{ri}}' type="checkbox" style="height:20px;width:20px" (input)="selectItemList($event,rowData,ri)"></td>
+            <td style="width:4em">
+              {{ri+1}}
+            </td>
+            <td class="ptable-cell">{{rowData.PONO}}</td>
+            <td class="ptable-cell">{{rowData.PODate | date : constants.dateFormat}}</td>
 
-      <div class="row col-lg-12 col-md-12 col-sm-12">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Supplier Cumulative Quantity:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="number" class="form-control" [(ngModel)]="asnItem.SupplierCumulativeQuantity" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Customer Cumulative Quantity:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="number" class="form-control" [(ngModel)]="asnItem.CustomerCumulativeQuantity" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Purchasing Document Number:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="100" [(ngModel)]="asnItem.PurchasingDocumentNo" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Original Purchase Order Number</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="100" [(ngModel)]="asnItem.OriginalPONumber" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Original Purchase Order Item:<span style="color:red">*</span></label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="100" [(ngModel)]="asnItem.OriginalPOItem" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Total Gross Weight:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="number" class="form-control" [(ngModel)]="asnItem.TotalGrossWt" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Total Net Weight:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="number" class="form-control" [(ngModel)]="asnItem.TotalNetWt" />
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Customer Batch Number:<span style="color:red">*</span></label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="100" [(ngModel)]="asnItem.CustomerBatchNo" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Supplier Batch Number:</label>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <input type="text" class="form-control"  ngModel maxlength="100" [(ngModel)]="asnItem.SupplierBatchNo" />
-        </div>
-      </div>
-      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-        <div class='col-md-4 col-lg-4 col-sm-4'></div>
-        <button type="submit" class="btn btn-outline-rounded btn-info" (click)="submitAsn()">Submit</button>
-      </div>
-
+            <!--<td class="ptable-cell">{{rowData.VendorCode}}</td>-->
+            <td class="ptable-cell">{{rowData.POItemNo}}</td>
+            <td class="ptable-cell">{{rowData.Material}}</td>
+            <td class="ptable-cell">{{rowData.MaterialDescription}}</td>
+            <td class="ptable-cell">{{rowData.HSNCode}}</td>
+            <td class="ptable-cell">{{rowData.POQty}}</td>
+            <td class="ptable-cell">{{rowData.SupplierCumulativeQty}}</td>
+            <td class="ptable-cell">{{rowData.PoCumulativeQty}}</td>
+            <td class="ptable-cell"><input type="number" [disabled]="rowData.SupplierCumulativeQty && rowData.SupplierCumulativeQty>=rowData.POQty" [(ngModel)]="rowData.ASNQty" required class="form-control" numberOnly (blur)="checkQuantity(rowData)" /></td>
+          </tr>
+        </ng-template>
+      </p-table><br />
     </div>
-  </p-tabPanel>
-</p-tabView>
+    <div class="row mt-2">
+      <div class="col-md-2 col-lg-2 col-sm-2"></div>
+      <input *ngIf="RemoteASNItemDetails.length>0" type="checkbox" style="height:20px;width:20px" (click)="agreeInputs($event)">&nbsp;&nbsp;<span *ngIf="RemoteASNItemDetails.length>0">I Agree to the above information is correct</span>
+    </div>
+    <div class="row m-2">
+      <div class="col-md-5 col-lg-5 col-sm-5"></div>
+      <button *ngIf="RemoteASNItemDetails.length>0" [disabled]="disableSubmit" type="button" class="btn btn-primary" (click)="submitAsn()">Submit</button>
+    </div>
+  </div>
+</div>

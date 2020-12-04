@@ -34,14 +34,10 @@ export class RfqService {
     this.currentUserSubject = new BehaviorSubject<Employee>(JSON.parse(localStorage.getItem("vendordetail")));
     this.currentUser = this.currentUserSubject.asObservable();
     //}
-
-
-
   }
   public get currentuservalue(): Employee {
     return this.currentUserSubject.value;
   }
-
 
   public url = this.constants.url;
 
@@ -51,7 +47,6 @@ export class RfqService {
     return this.http.post<any>(this.tokenurl + 'token', data, httpOptions)
       .pipe(map(data => {
         if (data != null || data != "") {
-
           localStorage.setItem('AccessToken', JSON.stringify(data));
           this.currentUserSubject.next(data);
           this.vendor = (JSON.parse(localStorage.getItem('AccessToken')));
@@ -65,21 +60,20 @@ export class RfqService {
 
 
   }
-
   public httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+
   getRFQItems(MPRRevisionId: number): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.get<any>(this.url + 'RFQ/getRFQItems/' + MPRRevisionId, httpOptions);
   }
+
   logout() {
     localStorage.clear();
     this.currentUserSubject.next(null);
     this.currentUser = this.currentUserSubject.asObservable();
 
   }
-
-
-
+  
   statusUpdate(vendorList: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     var Data = {
@@ -304,15 +298,19 @@ export class RfqService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.get<any>(this.url + 'ASN/getPONumbersByVendor/' + vendorId, httpOptions);
   }
+  getItemDetailsByPoNo(PONo: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.get<any>(this.url + 'ASN/getItemDetailsByPoNo/' + PONo, httpOptions);
+  }
 
   getPOInvoiceDetailsbyVendor(vendorId: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.get<any>(this.url + 'ASN/getPOInvoiceDetailsbyVendor/' + vendorId, httpOptions);
   }
 
-  InsertAsn(asn: any): Observable<any> {
+  InsertandEditAsn(asn: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
-    return this.http.post<any>(this.url + 'ASN/CreateAsn', asn, httpOptions);
+    return this.http.post<any>(this.url + 'ASN/InsertandEditAsn', asn, httpOptions);
   };
 
   getasnlist(): Observable<any> {
@@ -373,5 +371,13 @@ export class RfqService {
     return this.http.post<any>(this.url + 'RFQ/getDBMastersList', search, httpOptions);
   }
 
+  //error handling
+  //errorHandler(error: HttpErrorResponse) {
+  //   .pipe(catchError(this.errorHandler))
+  //  if (error.status == 401) {
+  //    this.pg.router.navigateByUrl("Login");
+  //  }
+  //  return throwError(error.message || "server error.");
+  //}
 }
 

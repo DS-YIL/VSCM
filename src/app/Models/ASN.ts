@@ -1,50 +1,31 @@
 export class AsnModels {
-  PO_ReferenceNo: string;
+  PONo: string="";
   InvoiceNo: string;
+  InvoiceDate: Date;
   ASNNo: string;
-  HSNCode: string;
-  InboundDeliveryNo: string;
-  ShippingDate: Date;
-  DeliveryDate: Date;
-  DocumentDate: Date;
-  Qty: number;
-  FreightInvNo: number;
-  GroupingId: number;
-  CarrierParty: string;
-  Carrier_SCAC_Id: number;
-  IncotermLoc: string;
-  Incoterm: number;
-  MeansOfTransport: string;
-  TotalGrossWeight_Kgs: number;
-  TotalNetWeight_Kgs: number;
-  TotalVolume: number;
-  ShipmentAssignment: string;
-  CreatedDate: Date;
-  SupplierCumulativeQuantity: number; //Item Details Model
-  CustomerCumulativeQuantity: number;
-  PurchasingDocumentNo: string;
-  OriginalPONumber: string;
-  OriginalPOItem: string;
-  TotalGrossWt: number;
-  TotalNetWt: number;
-  CustomerBatchNo: string;
-  SupplierBatchNo: string;
-  ASNStatus: number; //Status Models
-  ValidationStatus: string;
-  AcceptanceStatus: string;
-  TPOPIndicator: string;
-  InboundDeliveryStatus: string;
-  OriginalSystem: string;
-  Split: string;
-  ASNShipmentLine: number;  //Shipment Lines
   ShipFrom: string;
   ShipTo: string;
-  CustomerLocation: string;
-  ContainerNumber: number;
-  CountryOfOrigin: string;
-  TruckNo: string;
-  Comment: string;
-  PackingShip: string;
+  ShippingDate: Date;
+  DeliveryDate: Date;
+  FreightInvNo: number;
+  TransporterName: string;
+  BillofLodingNumber: string;
+  IncotermLoc: string;
+  IncoTerm: string = "";
+  IncotermDescription: string;
+  ModeOfTransport: string = "";
+  DeliveryNote: string;
+  TotalGrossWeight_Kgs: number;
+  TotalNetWeight_Kgs: number;
+  TotalVolume: string;
+  Insurance: string;
+  RemoteASNItemDetails: Array<any> = [];
+  VendorId: string;
+  CreatedBy: string;
+  Incoterm: string;
+  HSNCode: string;
+  InboundDeliveryNo: string;
+  DocumentDate: string
 }
 
 export class PONumbers {
@@ -58,6 +39,7 @@ export class PONumbers {
   filedata: FormData;
   Remarks: string;
   PONumber: any;
+  VendorAdress: string;
 }
 
 

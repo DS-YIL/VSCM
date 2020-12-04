@@ -271,6 +271,7 @@ export class Vendor {
   access_token: string;
   UserName: string;
   isRegister: boolean;
+  Street: string;
 }
 export class MPRBuyerGroup {
   BuyerGroupId: number;

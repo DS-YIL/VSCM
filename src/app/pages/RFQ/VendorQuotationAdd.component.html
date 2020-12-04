@@ -293,19 +293,17 @@
       </ng-template>
 
     </p-table>
-    <div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
-      <div class="row col-md-offset-3 col-lg-6 col-md-6 col-sm-6" style="padding-left: 25%;">
-        <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-check" id="sunmittermsid" class="ui-button-success" (click)="SubmitTerms()" label="SubmitTerms"></button>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-3" style="padding-left: 4%;">
-
-        <button [disabled]="disableOtherBtn" type="button" pButton icon="fa fa-check" class="ui-button-success" (click)="FinalSubmit()" label="FinalSubmit"></button>
-      </div>
-
-    </div>
   </div>
 </div>
+<div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
+  <div *ngIf="TermsList.length>0" class="row col-md-offset-3 col-lg-6 col-md-6 col-sm-6" style="padding-left: 25%;">
+    <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-check" id="sunmittermsid" class="ui-button-success" (click)="SubmitTerms()" label="SubmitTerms"></button>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-3" style="padding-left: 4%;">
+    <button [disabled]="disableOtherBtn" type="button" pButton icon="fa fa-check" class="ui-button-success" (click)="FinalSubmit()" label="FinalSubmit"></button>
+  </div>
 
+</div>
 <div class="icon-bar">
   <a id="RFQItemPage" (click)="scrollToView('RFQItemsId')" pTooltip="RFQ Items"><i class="fa fa-home"></i></a>
   <a id="OtherDocsPage" (click)="scrollToView('OtherDocsId')" pTooltip="Other Documents"><i class="fa fa-file"></i></a>
@@ -317,7 +315,7 @@
   <div class="row form-inline pt-2">
     <div class="col-lg-2 col-md-2 col-sm-2"></div>
     <div class="col-lg-3 col-md-3 col-sm-3 form-inline ">
-      <label class="form-label">Remarks:</label>&nbsp;<span  style="color:red">*</span>&nbsp;
+      <label class="form-label">Remarks:</label>&nbsp;<span style="color:red">*</span>&nbsp;
       <textarea type="text" maxlength="500" [(ngModel)]="rfqStatus.Remarks" class="form-control"></textarea>
     </div>
     <div class="col-lg-2 col-md-2 col-sm-2 form-inline">

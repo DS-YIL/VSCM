@@ -304,9 +304,11 @@ export class VendorRegisterComponent implements OnInit {
     if (this.VendorRegister.invalid) {
       return;
     }
-    //check validations
-    this.CheckPanNo();
-    this.CheckGSTNo();
+    //check validations for local vendor
+    if (this.VendorData.VendorType == false) {
+      this.CheckPanNo();
+      this.CheckGSTNo();
+    }
     //check documents
     if (this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 1).length <= 0) {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select Address Proof' });

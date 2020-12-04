@@ -21,14 +21,14 @@ export class constants {
     // NEW  test server
   //public url = "http://vscm-1089815394.ap-south-1.elb.amazonaws.com:81/api/Api/";
   //public tokenurl = 'http://vscm-1089815394.ap-south-1.elb.amazonaws.com:81/api/';
-  public yscmurl = 'http://10.29.15.68:90/Api/mpr/'
-  public Documnentpath = "http://vscm-1089815394.ap-south-1.elb.amazonaws.com:81/VSCMDocs/";
+ // public yscmurl = 'http://10.29.15.68:90/Api/mpr/'
+  //public Documnentpath = "http://vscm-1089815394.ap-south-1.elb.amazonaws.com:81/VSCMDocs/";
 
   //AWS live
   //public url = 'http://vscm-1089815394.ap-south-1.elb.amazonaws.com/api/Api/';
   //public tokenurl = 'http://vscm-1089815394.ap-south-1.elb.amazonaws.com/api/';
-  //public yscmurl = 'http://10.29.15.183:90/Api/mpr/'    
-  //public Documnentpath = "http://vscm-1089815394.ap-south-1.elb.amazonaws.com/VSCMDocs/";
+  public yscmurl = 'http://10.29.15.183:90/Api/mpr/'    
+  public Documnentpath = "http://vscm-1089815394.ap-south-1.elb.amazonaws.com/VSCMDocs/";
 
   public dateFormat = "MM/dd/yyyy";
   public RequisitionId: string = "";

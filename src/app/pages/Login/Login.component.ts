@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RfqService } from 'src/app/services/rfq.service ';
 import { Router } from '@angular/router';
 import { Employee, DynamicSearchResult, Vendor } from '../../Models/RFQModel';
@@ -14,7 +14,7 @@ import { MENU_ITEMS } from '../pages-menu';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private cdRef: ChangeDetectorRef, public rfqService: RfqService, private router: Router, public constants: constants, private messageService: MessageService, private spinner: NgxSpinnerService) { }
+  constructor(private formBuilder: FormBuilder,  public rfqService: RfqService, private router: Router, public constants: constants, private messageService: MessageService, private spinner: NgxSpinnerService) { }
 
   public LoginForm: FormGroup;
   public employee: Employee;
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
       this.dynamicData.password = loginDetails.Password;
       this.rfqService.gettoken(this.dynamicData)
         .subscribe(data => {
-          console.log("token", data);
+          //console.log("token", data);
           this.spinner.hide();
           if (data != "" || data != null) {
             this.vendor = data;
@@ -58,11 +58,6 @@ export class LoginComponent implements OnInit {
               this.getvendordetails(this.vendor.access_token);
 
             }
-            //localStorage.setItem("Employee", JSON.stringify(this.employee));
-            //this.LoginForm.reset();
-
-
-
           }
           else {
             this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Invalid email Id & Password' });
@@ -78,25 +73,10 @@ export class LoginComponent implements OnInit {
           }
         )
 
-      //   this.MprService.ValidateLoginCredentials1(this.dynamicData)
-      //     .pipe(first())
-      //     .subscribe(data1 => {
-      //       this.spinner.hide();
-      //       if (data1.vendorId == 0 || data1.vendorId == null) {
-
-      //         this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Invalid email Id & Password' });
-      //         return;
-      //       }
-      //       else {
-      //         this.vendor = data1;
-      //         //localStorage.setItem("Employee", JSON.stringify(this.employee));
-      //         this.LoginForm.reset();
-      //         this.router.navigateByUrl('/VSCM/Dashboard');
-      //       }
-      //     });
     }
-
   }
+
+  //enable  registration when intiate from buyer
   getvendordetails(accesstoken: any) {
     this.rfqService.getVendordetail(accesstoken)
       .subscribe(data => {
@@ -115,13 +95,5 @@ export class LoginComponent implements OnInit {
         }
       )
   }
-  //enable  registration when intiate from buyer
-  //CheckReg(vendorid) {
-  //  this.rfqService.getvendordetails(vendorid).subscribe(data => {
-  //    if (data.VendorId)
-  //      MENU_ITEMS[0].hidden = false;//registration
-  //    else
-  //      MENU_ITEMS[0].hidden = true;
-  //  });
-  //}
+
 }

@@ -7,16 +7,27 @@
         <th class="text-center">S.No</th>
         <th class="text-center">ASN No.</th>
         <th class="text-center">PO/Reference No.</th>
+        <th class="text-center">Invoice No</th>
         <th class="text-center">Delivery Date</th>
         <th class="text-center">Created Date</th>
         <th class="text-center">Edit</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th> <input pInputText type="text" class="form-control" (input)="dt.filter($event.target.value, 'ASNNo', 'contains')"></th>
+        <th> <input pInputText type="text" class="form-control" (input)="dt.filter($event.target.value, 'PONo', 'contains')"></th>
+        <th> <input pInputText type="text" class="form-control" (input)="dt.filter($event.target.value, 'InvoiceNo', 'contains')"></th>
+        <th></th>
+        <th></th>
+        <th></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-ri="rowIndex" let-rindex =0>
       <tr>
         <td class="text-center">{{ri +1}}</td>
-        <td class="text-center"><a [routerLink]="['/VSCM/ASNDetails/',rowData.ASNId]" routerLinkActive="active">{{rowData.ASNNo}}</a></td>
-        <td class="text-center">{{rowData.PO_ReferenceNo}}</td>
+        <td class="text-center">{{rowData.ASNNo}}</td>
+        <td class="text-center">{{rowData.PONo}}</td>
+        <td class="text-center">{{rowData.InvoiceNo}}</td>
         <td class="text-center">{{rowData.DeliveryDate | date : 'dd/MM/yyyy'}}</td>
         <td class="text-center">{{rowData.CreatedDate | date : 'dd/MM/yyyy'}}</td>
         <td class="text-center"><a [routerLink]="['/VSCM/ASNEdit/',rowData.ASNId]" routerLinkActive="active"><button type="button" pButton icon="fa fa-edit" class="ui-button-edit"></button></a></td>

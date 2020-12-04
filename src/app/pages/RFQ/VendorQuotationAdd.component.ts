@@ -163,13 +163,19 @@ export class VendorQuotationAddComponent implements OnInit {
       this.spinner.hide();
       this.quoteDetails = data;
       this.RFQStatusTrackDetails = this.quoteDetails.RFQStatusTrackDetails.filter(li => li.RfqRevisionId == this.RfqRevisionId);
-      // showing footer and disable other buttons if rfq Regretted  or if rfq not acknowledged
-      if (this.RFQStatusTrackDetails.filter(li => li.StatusId == 27).length > 0 || this.RFQStatusTrackDetails.filter(li => li.StatusId == 26).length == 0) {
+      // showing footer and disable other buttons if rfq Regretted and not acknowledged
+      if (this.RFQStatusTrackDetails.filter(li => li.StatusId == 27).length > 0 && this.RFQStatusTrackDetails.filter(li => li.StatusId == 26).length == 0) {
         this.displayFooter = true;
         this.disableOtherBtn = true;
         this.disableComBtn = false;
       }
 
+      // showing footer and disable other buttons if  rfq not acknowledged
+      else if (this.RFQStatusTrackDetails.filter(li => li.StatusId == 26).length == 0) {
+        this.displayFooter = true;
+        this.disableOtherBtn = true;
+        this.disableComBtn = false;
+      }
       // for rfq responded enable communication and disable other activities
       else if (this.RFQStatusTrackDetails.filter(li => li.StatusId == 8).length > 0) {
         this.displayFooter = false;
@@ -188,7 +194,7 @@ export class VendorQuotationAddComponent implements OnInit {
         this.disableComBtn = false;
       }
       this.dynamicData = new DynamicSearchResult();
-      this.dynamicData.query = "select * from RFQRevisions_N where rfqMasterId=" + this.quoteDetails.rfqMasterId + "";
+      this.dynamicData.query = "select * from RemoteRFQRevisions_N where rfqMasterId=" + this.quoteDetails.rfqMasterId + "";
       this.RfqService.getDBMastersList(this.dynamicData).subscribe(data => {
         this.rfqrevisions = data;
       })
@@ -861,6 +867,7 @@ export class VendorQuotationAddComponent implements OnInit {
     this.spinner.show();
     this.RfqService.FinalSumit(this.RfqRevisionId, this.Vendor.VUniqueId).subscribe(data => {
       this.spinner.hide();
+      this.disableOtherBtn = true;
       if (data[0] == "true") {
         this.messageService.add({ severity: 'success', summary: 'Success Message', detail: ' Updated sucessfully' });
       }
@@ -868,6 +875,7 @@ export class VendorQuotationAddComponent implements OnInit {
     });
 
   }
+
   InsertQuotationforitem() {
     this.VQAddSubmitted = true;
     if (this.AddQuotationforitem.invalid) {
@@ -886,7 +894,7 @@ export class VendorQuotationAddComponent implements OnInit {
       this.RfqService.editRfqItemInfo(this.rfqItem).subscribe(data => {
         this.spinner.hide();
         this.rfqItemsresult = data;
-        this.AddDialog = false;
+        this.AddDialogforitem = false;
         if (this.rfqItemsresult[0]["errormsg"] == "Success") {
 
           this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Updated sucessfully' });
