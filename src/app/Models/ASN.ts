@@ -18,10 +18,11 @@ export class AsnModels {
   TotalGrossWeight_Kgs: number;
   TotalNetWeight_Kgs: number;
   TotalVolume: string;
-  Insurance: string;
+  Insurance: string="";
   RemoteASNItemDetails: Array<any> = [];
   VendorId: string;
   CreatedBy: string;
+  VendorName: string;
   Incoterm: string;
   HSNCode: string;
   InboundDeliveryNo: string;
@@ -50,10 +51,20 @@ export class stagPoNumbers {
 
 }
 
+export class RemoteASNCommunication {
+  ASNCCId: number;
+  ASNId: number;
+  PONo: string;
+  RemarksFrom: string;
+  RemarksDate: Date;
+  Remarks: string;
+  DeleteFlag: boolean;
+}
+
 export class InvoiceDetails {
   InvoiceId: number;
   InvoiceNo: string;
-  PONO: string;
+  PONo: string;
   VendorId: string;
   CreatedDate: Date;
   CreatedBy: string;

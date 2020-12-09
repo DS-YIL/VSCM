@@ -6,8 +6,9 @@
       <tr class="mprltbldata">
         <th class="text-center">S.No</th>
         <th class="text-center">ASN No.</th>
-        <th class="text-center">PO/Reference No.</th>
+        <!--<th class="text-center">PO/Reference No.</th>-->
         <th class="text-center">Invoice No</th>
+        <th class="text-center">Invoice Date</th>
         <th class="text-center">Delivery Date</th>
         <th class="text-center">Created Date</th>
         <th class="text-center">Edit</th>
@@ -26,8 +27,9 @@
       <tr>
         <td class="text-center">{{ri +1}}</td>
         <td class="text-center">{{rowData.ASNNo}}</td>
-        <td class="text-center">{{rowData.PONo}}</td>
+        <!--<td class="text-center">{{rowData.PONo}}</td>-->
         <td class="text-center">{{rowData.InvoiceNo}}</td>
+        <td class="text-center">{{rowData.InvoiceDate | date : 'dd/MM/yyyy'}}</td>
         <td class="text-center">{{rowData.DeliveryDate | date : 'dd/MM/yyyy'}}</td>
         <td class="text-center">{{rowData.CreatedDate | date : 'dd/MM/yyyy'}}</td>
         <td class="text-center"><a [routerLink]="['/VSCM/ASNEdit/',rowData.ASNId]" routerLinkActive="active"><button type="button" pButton icon="fa fa-edit" class="ui-button-edit"></button></a></td>

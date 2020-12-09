@@ -1,6 +1,6 @@
 <h4 class="text-center">Invoice </h4>
 <div class="card" style="width:1100px">
-  <p-table #dt [value]="poInvoiceList" dataKey="PONO" [paginator]="true" [rows]="10" [style]="{'width':'1100px','overflow':'auto!important'}">
+  <p-table #dt [value]="poInvoiceList" dataKey="PONo" [paginator]="true" [rows]="10" [style]="{'width':'1100px','overflow':'auto!important'}">
     <ng-template pTemplate="header">
       <tr class="mprltbldata">
         <th rowspan="2" class="text-center" style="width:40px">S.No</th>
@@ -16,7 +16,7 @@
     <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded" let-columns="columns">
       <tr class="ui-widget-header">
         <td class="text-center">{{rowIndex +1}}</td>
-        <td class="text-center">{{rowData.PONO}}</td>
+        <td class="text-center">{{rowData.PONo}}</td>
         <td class="text-center"><button type="button" pButton icon="fa fa-plus" (click)="ShowAddDialog(rowData)"></button></td>
         <td colspan="2" class="ptable-cell" style="text-align:center;width:100px;">
           <a href="#" *ngIf="rowData.InvoiceDetails.length>0" [pRowToggler]="rowData">
@@ -47,7 +47,7 @@
       <label class="form-label">PO/Reference No:</label>
     </div>
     <div class='col-md-6 col-lg-6 col-sm-6'>
-      <span class="valueEdit">{{InvoiceDetails.PONO}}</span>
+      <span class="valueEdit">{{InvoiceDetails.PONo}}</span>
     </div>
 
   </div>

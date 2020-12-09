@@ -19,6 +19,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { CalendarModule } from 'primeng/calendar';
 import { DataViewModule } from 'primeng/dataview';
 import { ToastModule } from 'primeng/toast';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { MatDialogModule, MatButtonModule, MatExpansionModule } from '@angular/material';
@@ -35,7 +36,7 @@ import { CreateAsnComponent } from './ASN/CreateASN.component';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { TabViewModule } from 'primeng/tabview';
 import { AsnListComponent } from './ASN/ASNList.component';
-import { AsnViewComponent } from './ASN/ViewASN.component';
+//import { AsnViewComponent } from './ASN/ViewASN.component';
 import { InvoiceListComponent } from './Invoice/InvoiceList.component';
 
 @NgModule({
@@ -57,6 +58,7 @@ import { InvoiceListComponent } from './Invoice/InvoiceList.component';
     CalendarModule,
     DataViewModule,
     ToastModule,
+    MultiSelectModule,
     NgxSpinnerModule,
     Ng2SearchPipeModule,
     MatDialogModule,
@@ -81,7 +83,7 @@ import { InvoiceListComponent } from './Invoice/InvoiceList.component';
     ResetPasswordComponent,
     CreateAsnComponent,
     AsnListComponent,
-    AsnViewComponent,
+    //AsnViewComponent,
     InvoiceListComponent
   ],
   providers: [MessageService, ConfirmationService],

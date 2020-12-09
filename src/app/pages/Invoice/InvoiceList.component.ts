@@ -42,11 +42,10 @@ export class InvoiceListComponent implements OnInit {
   ShowAddDialog(poDetails: any) {
     this.isEdit = false;
     this.InvoiceDetails = new InvoiceDetails();
-    this.InvoiceDetails.PONO = poDetails.PONO;
+    this.InvoiceDetails.PONo = poDetails.PONo;
     this.InvoiceDetails.VendorId = this.VendorDetails.vendorId;
     this.InvoiceDetails.CreatedBy = this.VendorDetails.VUniqueId;
     this.AddEditDialog = true;
-
   }
 
 

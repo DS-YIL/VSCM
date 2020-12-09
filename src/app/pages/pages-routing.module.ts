@@ -11,7 +11,7 @@ import { ForgetpasswordComponent } from './ForgetPassword/ForgetPassword.compone
 import { ResetPasswordComponent } from './ResetPassword/ResetPassword.component';
 import { CreateAsnComponent } from './ASN/CreateASN.component';
 import { AsnListComponent } from './ASN/ASNList.component';
-import { AsnViewComponent } from './ASN/ViewASN.component';
+//import { AsnViewComponent } from './ASN/ViewASN.component';
 import { InvoiceListComponent } from './Invoice/InvoiceList.component';
 
 const routes: Routes = [{
@@ -36,7 +36,7 @@ const routes: Routes = [{
     { path: 'resetpassword/:EmailId/:Token', component: ResetPasswordComponent },
     { path: 'CreateASN', component: CreateAsnComponent },
     { path: 'ASNList', component: AsnListComponent },
-    { path: 'ASNDetails/:ASNId', component: AsnViewComponent },
+    //{ path: 'ASNDetails/:ASNId', component: AsnViewComponent },
     { path: 'ASNEdit/:ASNId', component: CreateAsnComponent },
     { path: 'Invoice', component: InvoiceListComponent }
   ],

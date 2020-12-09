@@ -6,6 +6,7 @@ import { DynamicSearchResult, RfqItemModel, rfqFilterParams, Vendor, Employee } 
 import { constants } from '../Models/RFQConstants'
 import { map } from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
+import { RemoteASNCommunication } from '../Models/ASN';
 
 @Injectable({
   providedIn: 'root'
@@ -73,7 +74,7 @@ export class RfqService {
     this.currentUser = this.currentUserSubject.asObservable();
 
   }
-  
+
   statusUpdate(vendorList: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     var Data = {
@@ -303,6 +304,12 @@ export class RfqService {
     return this.http.get<any>(this.url + 'ASN/getItemDetailsByPoNo/' + PONo, httpOptions);
   }
 
+  updateASNComminications(RemoteASNCommunication: RemoteASNCommunication): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.post<any>(this.url + 'ASN/updateASNComminications/', RemoteASNCommunication, httpOptions);
+  }
+
+
   getPOInvoiceDetailsbyVendor(vendorId: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.get<any>(this.url + 'ASN/getPOInvoiceDetailsbyVendor/' + vendorId, httpOptions);
@@ -313,9 +320,9 @@ export class RfqService {
     return this.http.post<any>(this.url + 'ASN/InsertandEditAsn', asn, httpOptions);
   };
 
-  getasnlist(): Observable<any> {
+  getasnlist(vendorId: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
-    return this.http.get<any>(this.url + 'ASN/getAsnList/', httpOptions);
+    return this.http.get<any>(this.url + 'ASN/getAsnList/' + vendorId, httpOptions);
 
   }
 
