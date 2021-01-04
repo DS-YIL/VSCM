@@ -20,6 +20,7 @@ export class AsnModels {
   TotalVolume: string;
   Insurance: string="";
   RemoteASNItemDetails: Array<any> = [];
+  RemoteASNCommunications: Array<any> = [];
   VendorId: string;
   CreatedBy: string;
   VendorName: string;
@@ -47,7 +48,7 @@ export class PONumbers {
 export class stagPoNumbers {
   stageid: number;
   purchdoc: string;
-  InvoiceDetails: InvoiceDetails;
+  InvoiceDetails: RemoteInvoiceDetails;
 
 }
 
@@ -61,8 +62,9 @@ export class RemoteASNCommunication {
   DeleteFlag: boolean;
 }
 
-export class InvoiceDetails {
+export class RemoteInvoiceDetails {
   InvoiceId: number;
+  ASNId: number;
   InvoiceNo: string;
   PONo: string;
   VendorId: string;
@@ -71,11 +73,11 @@ export class InvoiceDetails {
   ModifiedDate: Date;
   ModifiedBy
   Remarks: string;
-  InvoiceDocuments: Array<InvoiceDocuments> = [];
+  RemoteInvoiceDocuments: Array<RemoteInvoiceDocuments> = [];
 }
 
 
-export class InvoiceDocuments {
+export class RemoteInvoiceDocuments {
   DocumentId: string;
   InvoiceId: number;
   DocumentName: string;

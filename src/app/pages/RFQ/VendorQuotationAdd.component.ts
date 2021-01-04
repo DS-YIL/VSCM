@@ -5,7 +5,7 @@ import { DynamicSearchResult, Vendor, QuoteDetails, RfqItemModel, MPRDocument, R
 import { constants } from '../../Models/RFQConstants';
 import { RfqService } from '../../services/rfq.service ';
 import { NgxSpinnerService } from "ngx-spinner";
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-VendorQuotationAdd',
@@ -14,7 +14,7 @@ import { MessageService } from 'primeng/api';
 
 export class VendorQuotationAddComponent implements OnInit {
   isDisableddoctype: boolean = true;
-  constructor(private messageService: MessageService, private router: Router, private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private cdRef: ChangeDetectorRef, public RfqService: RfqService, public constants: constants, private route: ActivatedRoute) { }
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService, private router: Router, private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private cdRef: ChangeDetectorRef, public RfqService: RfqService, public constants: constants, private route: ActivatedRoute) { }
   @ViewChild('attachments', { static: false }) attachment: any;
   //@ViewChild('attachment',{static: false}) attach: any;
   selectedFile: File;
@@ -23,7 +23,7 @@ export class VendorQuotationAddComponent implements OnInit {
   public RfqRevisionId: number = 0;
   public VendorQuotation; AddQuotation; AddQuotationforitem; vendorCommunicationForm: FormGroup;
   public dynamicData = new DynamicSearchResult();
-  public VQAddSubmitted; VendorCommunicationSubmitted; disableComBtn; disableOtherBtn; displayCommunicationDialog: boolean = false;
+  public VQAddSubmitted; VendorCommunicationSubmitted; disableComBtn; disableOtherBtn; displayCommunicationDialog; displayMessageDialog: boolean = false;
   public AddDialog: boolean;
   public AddDialogforitem: boolean;
   public showDiscount: string;
@@ -62,6 +62,8 @@ export class VendorQuotationAddComponent implements OnInit {
   public rfqrevisions: Array<any> = [];
   public rfqStatus: RFQStatus;
   public RFQStatusTrackDetails: Array<any> = [];
+  public message: string = "";
+  public ItemPricecount: number = 0;
 
   ngOnInit() {
     this.Vendor = JSON.parse(localStorage.getItem("vendordetail"));
@@ -468,13 +470,16 @@ export class VendorQuotationAddComponent implements OnInit {
 
   ShowAddDialog(rfqItemId: any, QuotationQty: any, documents: any, item: any) {
     this.EditItem = true;
+    this.disableValidations();
     this.RfqService.checkrfqitemsid(rfqItemId).subscribe(
       data => {
         if (data == true) {
           this.MultipleItems = "true";
+          //this.EditItem == false;
         }
         else {
           this.MultipleItems = "false";
+          //this.EditItem == true;
           this.AddQuotation.controls['ItemNameForMultiple'].clearValidators();
           this.AddQuotation.controls['ItemDescriptionForMultiple'].clearValidators();
           this.AddQuotation.controls['MultipleItems'].clearValidators();
@@ -495,7 +500,8 @@ export class VendorQuotationAddComponent implements OnInit {
     this.rfqItemInfo.ItemName = item.ItemName;
     this.rfqItemInfo.ItemDescription = item.ItemDescription;
     this.rfqItemInfo.Quantity = QuotationQty;
-    this.rfqItem.QuotationQty = QuotationQty;
+    if (QuotationQty)
+      this.rfqItem.QuotationQty = QuotationQty;
     this.rfqItem.RFQItemId = rfqItemId;
 
     this.showDiscount = "";
@@ -510,6 +516,7 @@ export class VendorQuotationAddComponent implements OnInit {
     this.AddQuotation.controls['FreightAmount'].setValue("0");
     this.AddQuotation.controls['IGSTPercentage'].setValue("0");
 
+
     this.PFAmount();
     this.PFPercentage();
     this.FreightAmount();
@@ -517,6 +524,106 @@ export class VendorQuotationAddComponent implements OnInit {
     this.IGSTPercentageenable();
     this.IGSTEnablefromCGST();
     this.IGSTEnablefromSGST();
+
+  }
+
+  //diable validation if quantity is 0
+  disableValidations() {
+    if (this.rfqItemInfo.Quantity == 0) {
+      this.AddQuotation.controls['UOM'].setValue("0");
+      this.AddQuotation.controls['UOM'].clearValidators();
+      this.AddQuotation.controls['CurrencyId'].setValue("0");
+      this.AddQuotation.controls['CurrencyId'].clearValidators();
+      this.AddQuotation.controls['UnitPrice'].setValue("");
+      this.AddQuotation.controls['UnitPrice'].clearValidators();
+      this.AddQuotation.controls['DiscountOption'].setValue("");
+      this.AddQuotation.controls['DiscountOption'].clearValidators();
+      this.AddQuotation.controls['DiscountPercentage'].setValue("");
+      this.AddQuotation.controls['DiscountPercentage'].clearValidators();
+      this.AddQuotation.controls['Discount'].setValue("");
+      this.AddQuotation.controls['Discount'].clearValidators();
+      this.AddQuotation.controls['HSNCode'].setValue("");
+      this.AddQuotation.controls['HSNCode'].clearValidators();
+      this.AddQuotation.controls['VendorModelNo'].setValue("");
+      this.AddQuotation.controls['VendorModelNo'].clearValidators();
+      this.AddQuotation.controls['MfgPartNo'].setValue("");
+      this.AddQuotation.controls['MfgPartNo'].clearValidators();
+      this.AddQuotation.controls['MfgModelNo'].setValue("");
+      this.AddQuotation.controls['MfgModelNo'].clearValidators();
+      this.AddQuotation.controls['ManufacturerName'].setValue("");
+      this.AddQuotation.controls['ManufacturerName'].clearValidators();
+      this.AddQuotation.controls['CGSTPercentage'].setValue("");
+      this.AddQuotation.controls['CGSTPercentage'].clearValidators();
+      this.AddQuotation.controls['SGSTPercentage'].setValue("");
+      this.AddQuotation.controls['SGSTPercentage'].clearValidators();
+      this.AddQuotation.controls['PFPercentage'].setValue("");
+      this.AddQuotation.controls['PFPercentage'].clearValidators();
+      this.AddQuotation.controls['PFAmount'].setValue("0");
+      this.AddQuotation.controls['PFAmount'].clearValidators();
+      this.AddQuotation.controls['FreightPercentage'].setValue("");
+      this.AddQuotation.controls['FreightPercentage'].clearValidators();
+      this.AddQuotation.controls['FreightAmount'].setValue("0");
+      this.AddQuotation.controls['FreightAmount'].clearValidators();
+      this.AddQuotation.controls['DeliveryDate'].setValue("");
+      this.AddQuotation.controls['DeliveryDate'].clearValidators();
+      this.AddQuotation.controls['IGSTPercentage'].setValue("0");
+      this.AddQuotation.controls['IGSTPercentage'].clearValidators();
+      //this.AddQuotation.controls['MultipleItems'].setValue("");
+      //this.AddQuotation.controls['MultipleItems'].clearValidators();
+      //this.AddQuotation.controls['ItemNameForMultiple'].setValue("");
+      //this.AddQuotation.controls['ItemNameForMultiple'].clearValidators();
+      //this.AddQuotation.controls['ItemDescriptionForMultiple'].setValue("");
+      //this.AddQuotation.controls['ItemDescriptionForMultiple'].setValue("");
+      //this.AddQuotation.controls['ItemDescriptionForMultiple'].clearValidators();
+    }
+    else {
+      this.AddQuotation.controls['UOM'].setValidators([Validators.required]);
+      this.AddQuotation.controls['CurrencyId'].setValidators([Validators.required]);
+      this.AddQuotation.controls['UnitPrice'].setValidators([Validators.required]);
+      this.AddQuotation.controls['DiscountOption'].setValidators([Validators.required]);
+      //this.AddQuotation.controls['DiscountPercentage'].setValidators([Validators.required]);
+      //this.AddQuotation.controls['Discount'].setValidators([Validators.required]);
+      this.AddQuotation.controls['HSNCode'].setValidators([Validators.required]);
+      this.AddQuotation.controls['VendorModelNo'].setValidators([Validators.required]);
+      this.AddQuotation.controls['MfgPartNo'].setValidators([Validators.required]);
+      this.AddQuotation.controls['MfgModelNo'].setValidators([Validators.required]);
+      this.AddQuotation.controls['ManufacturerName'].setValidators([Validators.required]);
+      this.AddQuotation.controls['CGSTPercentage'].setValidators([Validators.required]);
+      this.AddQuotation.controls['SGSTPercentage'].setValidators([Validators.required]);
+      this.AddQuotation.controls['PFPercentage'].setValidators([Validators.required]);
+      this.AddQuotation.controls['PFAmount'].setValidators([Validators.required]);
+      this.AddQuotation.controls['FreightPercentage'].setValidators([Validators.required]);
+      this.AddQuotation.controls['FreightAmount'].setValidators([Validators.required]);
+      this.AddQuotation.controls['DeliveryDate'].setValidators([Validators.required]);
+      this.AddQuotation.controls['IGSTPercentage'].setValidators([Validators.required]);
+      //this.AddQuotation.controls['MultipleItems'].setValidators([Validators.required]);
+      //this.AddQuotation.controls['ItemNameForMultiple'].setValidators([Validators.required]);
+      //this.AddQuotation.controls['ItemDescriptionForMultiple'].setValidators([Validators.required]);
+
+    }
+
+    this.AddQuotation.controls['UOM'].updateValueAndValidity();
+    this.AddQuotation.controls['CurrencyId'].updateValueAndValidity();
+    this.AddQuotation.controls['UnitPrice'].updateValueAndValidity();
+    this.AddQuotation.controls['DiscountOption'].updateValueAndValidity();
+    this.AddQuotation.controls['DiscountPercentage'].updateValueAndValidity();
+    this.AddQuotation.controls['Discount'].updateValueAndValidity();
+    this.AddQuotation.controls['HSNCode'].updateValueAndValidity();
+    this.AddQuotation.controls['VendorModelNo'].updateValueAndValidity();
+    this.AddQuotation.controls['MfgPartNo'].updateValueAndValidity();
+    this.AddQuotation.controls['MfgModelNo'].updateValueAndValidity();
+    this.AddQuotation.controls['ManufacturerName'].updateValueAndValidity();
+    this.AddQuotation.controls['CGSTPercentage'].updateValueAndValidity();
+    this.AddQuotation.controls['SGSTPercentage'].updateValueAndValidity();
+    this.AddQuotation.controls['PFPercentage'].updateValueAndValidity();
+    this.AddQuotation.controls['PFAmount'].updateValueAndValidity();
+    this.AddQuotation.controls['FreightPercentage'].updateValueAndValidity();
+    this.AddQuotation.controls['FreightAmount'].updateValueAndValidity();
+    this.AddQuotation.controls['DeliveryDate'].updateValueAndValidity();
+    this.AddQuotation.controls['IGSTPercentage'].updateValueAndValidity();
+    //this.AddQuotation.controls['MultipleItems'].updateValueAndValidity();
+    //this.AddQuotation.controls['ItemNameForMultiple'].updateValueAndValidity();
+    //this.AddQuotation.controls['ItemDescriptionForMultiple'].updateValueAndValidity();
   }
 
   ShowEditDialog(quoteDetail: any, item: any) {
@@ -559,8 +666,8 @@ export class VendorQuotationAddComponent implements OnInit {
     this.rfqItemInfo.UOM = quoteDetail.UOM;
     this.rfqItemInfo.CurrencyId = quoteDetail.CurrencyId;
     this.rfqItemInfo.DeliveryDate = quoteDetail.DeliveryDate;
-
-    this.rfqItem.QuotationQty = quoteDetail.Qty;
+    if (quoteDetail.Qty)
+      this.rfqItem.QuotationQty = quoteDetail.Qty;
     this.rfqItem.RFQItemId = quoteDetail.RFQItemsId;
     this.rfqItem.HSNCode = item.HSNCode;
     this.rfqItem.MfgPartNo = item.MfgPartNo;
@@ -578,7 +685,6 @@ export class VendorQuotationAddComponent implements OnInit {
     this.showTaxDuty = "";
     this.VQAddSubmitted = false;//Removes the Validation error when attempted to click the Add button
 
-
     if (item.PFAmount || item.PFAmount == "0")
       this.PFAmount();
     if (item.PFPercentage || item.PFPercentage == "0")
@@ -593,6 +699,8 @@ export class VendorQuotationAddComponent implements OnInit {
       this.IGSTEnablefromCGST();
     if (item.SGSTPercentage || item.SGSTPercentage == "0")
       this.IGSTEnablefromSGST();
+    if (quoteDetail.Qty == 0)
+      this.disableValidations();
   }
 
   ShowAddDialogitem(quoteDetail: any) {
@@ -698,6 +806,8 @@ export class VendorQuotationAddComponent implements OnInit {
     else {
 
       this.rfqItem.iteminfo = [];
+      if (!this.rfqItemInfo.DeliveryDate)
+        this.rfqItemInfo.DeliveryDate = null;
       this.rfqItem.iteminfo.push(this.rfqItemInfo);
       this.rfqItem.RFQRevisionId = this.RfqRevisionId;
       if (this.MultipleItems == 'true')
@@ -862,16 +972,30 @@ export class VendorQuotationAddComponent implements OnInit {
 
   }
 
+  showMessageDialog() {
+    this.displayMessageDialog = true;
+    this.ItemPricecount = 0;
+    this.quoteDetails.RemoteRFQItems_N.forEach(item => {
+      if (item.RemoteRFQItemsInfo_N.length > 0)
+        this.ItemPricecount = this.ItemPricecount + 1;
+    });
+    if (this.ItemPricecount == 1)
+      this.message = "" + this.ItemPricecount + " item price is updated out of " + this.quoteDetails.RemoteRFQItems_N.length + " items requested in RFQ";
+    else
+      this.message = "" + this.ItemPricecount + " item prices are updated out of " + this.quoteDetails.RemoteRFQItems_N.length + " items requested in RFQ";
+
+
+  }
 
   FinalSubmit() {
     this.spinner.show();
     this.RfqService.FinalSumit(this.RfqRevisionId, this.Vendor.VUniqueId).subscribe(data => {
       this.spinner.hide();
+      this.displayMessageDialog = false;
       this.disableOtherBtn = true;
       if (data[0] == "true") {
         this.messageService.add({ severity: 'success', summary: 'Success Message', detail: ' Updated sucessfully' });
       }
-
     });
 
   }
@@ -1048,5 +1172,4 @@ export class VendorQuotationAddComponent implements OnInit {
     }
     return revisionno;
   }
-
 }

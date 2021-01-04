@@ -12,7 +12,7 @@ import { ResetPasswordComponent } from './ResetPassword/ResetPassword.component'
 import { CreateAsnComponent } from './ASN/CreateASN.component';
 import { AsnListComponent } from './ASN/ASNList.component';
 //import { AsnViewComponent } from './ASN/ViewASN.component';
-import { InvoiceListComponent } from './Invoice/InvoiceList.component';
+import { InvoiceComponent } from './Invoice/Invoice.component';
 
 const routes: Routes = [{
   path: '',
@@ -38,7 +38,7 @@ const routes: Routes = [{
     { path: 'ASNList', component: AsnListComponent },
     //{ path: 'ASNDetails/:ASNId', component: AsnViewComponent },
     { path: 'ASNEdit/:ASNId', component: CreateAsnComponent },
-    { path: 'Invoice', component: InvoiceListComponent }
+    { path: 'Invoice/:ASNId', component: InvoiceComponent }
   ],
 }];
 

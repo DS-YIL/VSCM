@@ -272,6 +272,7 @@ export class Vendor {
   UserName: string;
   isRegister: boolean;
   Street: string;
+  VendorCode: string;
 }
 export class MPRBuyerGroup {
   BuyerGroupId: number;
@@ -648,4 +649,12 @@ export class RFQStatus {
   Remarks: string;
   updatedby: string;
   updatedDate: Date;
+}
+export class ASNfilters {
+  FromDate: string;
+  ToDate: string;
+  ASNNo: string;
+  Vendorid: string
+  VendorName: string;
+  IntiatedBy: string;
 }

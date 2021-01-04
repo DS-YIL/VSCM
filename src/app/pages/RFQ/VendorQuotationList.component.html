@@ -77,9 +77,9 @@
           <td class="ptable-cell">
             <button *ngIf="rowData.rfqRevisionId" type="button" class="btn btn-link" stye="font-size:14px" (click)="redirectToVendorQuotation(rowData)">{{rowData.RFQNo}}-{{rowData.RevisionNo}}</button>
           </td>
-          <td class="ptable-cell">{{rowData.CreatedDate | date : constants.dateFormat}}</td>
-          <td class="ptable-cell">{{rowData.RFQValidDate | date : constants.dateFormat}}</td>
-          <td class="ptable-cell">
+          <td class="ptable-cell text-center">{{rowData.CreatedDate | date : constants.dateFormat}}</td>
+          <td class="ptable-cell text-center">{{rowData.RFQValidDate | date : constants.dateFormat}}</td>
+          <td class="ptable-cell text-center">
             <span *ngIf="rowData.StatusId==7">Yet to Respond</span>
             <span *ngIf="rowData.StatusId==8">Responded</span>
             <span *ngIf="rowData.StatusId==26">Acknowledged</span>

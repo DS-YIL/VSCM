@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { DynamicSearchResult, RfqItemModel, rfqFilterParams, Vendor, Employee } from '../Models/RFQModel';
+import { DynamicSearchResult, RfqItemModel, rfqFilterParams, Vendor, Employee, ASNfilters } from '../Models/RFQModel';
 import { constants } from '../Models/RFQConstants'
 import { map } from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
-import { RemoteASNCommunication } from '../Models/ASN';
+import { RemoteASNCommunication, RemoteInvoiceDetails } from '../Models/ASN';
 
 @Injectable({
   providedIn: 'root'
@@ -315,20 +315,21 @@ export class RfqService {
     return this.http.get<any>(this.url + 'ASN/getPOInvoiceDetailsbyVendor/' + vendorId, httpOptions);
   }
 
+
   InsertandEditAsn(asn: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.post<any>(this.url + 'ASN/InsertandEditAsn', asn, httpOptions);
   };
 
-  getasnlist(vendorId: any): Observable<any> {
+  getasnlist(data: ASNfilters): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
-    return this.http.get<any>(this.url + 'ASN/getAsnList/' + vendorId, httpOptions);
+    return this.http.post<any>(this.url + 'ASN/getAsnList/', data, httpOptions);
 
   }
 
-  getInvoiceByInvoiceNo(InvoiceNo: any): Observable<any> {
+  GetInvoiceDetails(RemoteInvoiceDetails: RemoteInvoiceDetails): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
-    return this.http.get<any>(this.url + 'ASN/GetInvoiceDetails/' + InvoiceNo, httpOptions);
+    return this.http.post<any>(this.url + 'ASN/GetInvoiceDetails/', RemoteInvoiceDetails, httpOptions);
 
   }
 

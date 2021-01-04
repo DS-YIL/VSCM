@@ -37,7 +37,7 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { TabViewModule } from 'primeng/tabview';
 import { AsnListComponent } from './ASN/ASNList.component';
 //import { AsnViewComponent } from './ASN/ViewASN.component';
-import { InvoiceListComponent } from './Invoice/InvoiceList.component';
+import { InvoiceComponent } from './Invoice/Invoice.component';
 
 @NgModule({
   imports: [
@@ -84,7 +84,7 @@ import { InvoiceListComponent } from './Invoice/InvoiceList.component';
     CreateAsnComponent,
     AsnListComponent,
     //AsnViewComponent,
-    InvoiceListComponent
+    InvoiceComponent
   ],
   providers: [MessageService, ConfirmationService],
   entryComponents: [ConfirmationDialogComponent]

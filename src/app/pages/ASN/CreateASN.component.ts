@@ -30,16 +30,21 @@ export class CreateAsnComponent implements OnInit {
   public RemoteASNCommunications = new RemoteASNCommunication();
   public displayCommunicationDialog; displayConfirmationDialog: boolean = false;
   public selectedPOs: Array<any> = [];
+  public invoiceNoList: Array<any> = [];
   constructor(public constants: constants, private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService, public RfqService: RfqService, private messageService: MessageService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.Vendor = JSON.parse(localStorage.getItem("vendordetail"));
+    if (!localStorage.getItem("AccessToken")) {
+      this.router.navigateByUrl("Login");
+      return true;
+    }
     this.asnItem = new AsnModels();
     this.asnItem.PONo = "";
     this.asnItem.ShipFrom = this.Vendor.Street;
 
     this.CreatASN = this.formBuilder.group({
-      //PONo: ['', [Validators.required]],
+      PONo: ['', [Validators.required]],
       InvoiceNo: ['', [Validators.required]],
       InvoiceDate: ['', [Validators.required]],
       ShipFrom: ['', [Validators.required]],
@@ -68,6 +73,7 @@ export class CreateAsnComponent implements OnInit {
     this.CreatASN.controls['TotalNetWeight_Kgs'].clearValidators();
     this.CreatASN.controls['TotalVolume'].clearValidators();
 
+    this.getInvoiceNoList();
     this.route.params.subscribe(params => {
       if (params["ASNId"]) {
         this.asnid = params["ASNId"];
@@ -77,6 +83,16 @@ export class CreateAsnComponent implements OnInit {
     this.getIncoTerms();
     this.getModeofTransport();
     this.getPoDetails();
+  }
+
+  getInvoiceNoList() {
+    this.spinner.show();
+    this.dynamicData = new DynamicSearchResult();
+    this.dynamicData.query = "select InvoiceNo  from RemoteASNShipmentHeader";
+    this.RfqService.getDBMastersList(this.dynamicData).subscribe(data => {
+      this.spinner.hide();
+      this.invoiceNoList = data;
+    })
   }
 
   getIncoTerms() {
@@ -94,6 +110,7 @@ export class CreateAsnComponent implements OnInit {
       this.ModeOfTransportList = data;
     })
   }
+
   //get ASN Details
   getASNDetails() {
     this.spinner.show();
@@ -107,6 +124,14 @@ export class CreateAsnComponent implements OnInit {
     })
   }
 
+  //Check invoice no exist or not
+  checkInvoiceNo() {
+    if (!(this.asnid) && this.invoiceNoList.filter(li => li.InvoiceNo == this.asnItem.InvoiceNo).length > 0) {
+      this.asnItem.InvoiceNo = "";
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Invoice No already exist' });
+      return;
+    }
+  }
 
   onIncoTermChange() {
     if (this.asnItem.IncoTerm == "Other") {
@@ -169,14 +194,14 @@ export class CreateAsnComponent implements OnInit {
     if (this.CreatASN.invalid) {
       return;
     }
-    if (this.selectedItemDetailsList.length <= 0) {
+    if (this.selectedItemDetailsList.length <= 0 && !this.asnid) {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select at least one Item' });
       return;
     }
     this.displayConfirmationDialog = true;
     this.asnItem.VendorId = this.Vendor.vendorId;
     this.asnItem.CreatedBy = this.Vendor.VUniqueId;
-    this.asnItem.VendorName = this.Vendor.UserName;
+    this.asnItem.VendorName = this.Vendor.UserName + " " + "-" + " " + this.Vendor.VendorCode;
     this.asnItem.RemoteASNItemDetails = this.selectedItemDetailsList;
   }
 
@@ -185,7 +210,7 @@ export class CreateAsnComponent implements OnInit {
     this.RfqService.InsertandEditAsn(this.asnItem).subscribe(data => {
       this.spinner.hide();
       this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Asn Generated Sucessfully' });
-      this.router.navigate(['VSCM/Invoice']);
+      this.router.navigate(['/VSCM/Invoice', data]);
     })
 
   }
@@ -200,21 +225,34 @@ export class CreateAsnComponent implements OnInit {
 
   }
   getItemDetailsByPoNo() {
-    if (this.selectedPOs.length > 0) {
-      this.asnItem.ShipTo = this.selectedPOs[0].ShipTo;
-      this.spinner.show();
-      this.asnItem.PONo = this.selectedPOs.map(li => li.PONo).toString();
-      this.RfqService.getItemDetailsByPoNo(this.asnItem.PONo).subscribe(data => {
-        this.spinner.hide();
-        this.RemoteASNItemDetails = data;
-      })
-    }
-    else {
-      this.RemoteASNItemDetails = [];
+    // need check shipping address
+    if (this.checkShippingAddress()) {
+      if (this.selectedPOs.length > 0) {
+        this.asnItem.ShipTo = this.selectedPOs[0].ShipTo;
+        this.spinner.show();
+        this.asnItem.PONo = this.selectedPOs.map(li => li.PONo).toString();
+        this.RfqService.getItemDetailsByPoNo(this.asnItem.PONo).subscribe(data => {
+          this.spinner.hide();
+          this.RemoteASNItemDetails = data;
+        })
+      }
+      else {
+        this.RemoteASNItemDetails = [];
+      }
     }
   }
 
-
+  checkShippingAddress() {
+    for (var i = 0; i < this.selectedPOs.length; i++) {
+      if (i > 0 && this.selectedPOs[i].sloc) {
+        if (this.selectedPOs[i - 1].vendor != this.selectedPOs[i].vendor || this.selectedPOs[i - 1].Customer != this.selectedPOs[i].Customer) {
+          this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Shipping To address is different for ' + this.selectedPOs[i - 1].PONo + ' and ' + this.selectedPOs[i].PONo });
+          return false;
+        }
+      }
+    }
+    return true;
+  }
   //date format
   parseDate(dateString: string): Date {
     if (dateString) {
@@ -228,7 +266,7 @@ export class CreateAsnComponent implements OnInit {
     this.displayCommunicationDialog = true;
   }
 
-  dialogCancel(dialog:any) {
+  dialogCancel(dialog: any) {
     this[dialog] = false;
   }
 
@@ -251,5 +289,10 @@ export class CreateAsnComponent implements OnInit {
     else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Enter Remarks' });
     }
+  }
+
+  focusInput(message: any) {
+    this.messageService.add({ severity: 'info', summary: 'Info Message', detail: message });
+
   }
 }

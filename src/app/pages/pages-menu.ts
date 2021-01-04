@@ -39,16 +39,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
       }
     ],
   },
-  {
-    title: 'Invoice',
-    icon: 'keypad-outline',
-    expanded: false,
-    children: [
-      {
-        title: 'Invoices',
-        link: '/VSCM/Invoice/',
-        icon: 'list-outline'
-      }
-    ]
-  },
+  //{
+  //  title: 'Invoice',
+  //  icon: 'keypad-outline',
+  //  expanded: false,
+  //  children: [
+  //    {
+  //      title: 'Invoices',
+  //      link: '/VSCM/Invoice/',
+  //      icon: 'list-outline'
+  //    }
+  //  ]
+  //},
 ];

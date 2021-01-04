@@ -1,5 +1,6 @@
-<a href="http://vscm-1089815394.ap-south-1.elb.amazonaws.com/VSCMDocs/VendorUserGuide.pdf" target="_blank" style="color:blue !important;float:right">User Guide:</a><br />
-<div class="row" style="font-size:16px !important;font-weight: 600;background-color: goldenrod;">
+<!--<a href="http://vscm-1089815394.ap-south-1.elb.amazonaws.com/VSCMDocs/VendorUserGuide.pdf" target="_blank" style="color:blue !important;float:right">User Guide:</a><br />-->
+<span *ngIf="displayFooter" class="blink_text">Please Acknowledge the RFQ as a first step to proceed further, Acknowledgement section is available in the footer.</span><br />
+<div class="row mt-2" style="font-size:16px !important;font-weight: 600;background-color: goldenrod;">
   <div class="col-md-5 col-sm-5 col-xs-5 form-inline"><label>Issuer : </label><span>YOKOGAWA INDIA LIMITED</span></div>
   <div class="col-md-3 col-sm-3 col-xs-3 form-inline"><label class="form-label">  Vendor Quotation </label></div>
   <div class="col-md-3 col-sm-3 col-xs-3 form-inline">
@@ -109,7 +110,8 @@
       <ng-template pTemplate="header">
         <tr>
           <th colspan="8" style="text-align: right">
-            <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-plus" pTooltip="Add" class="ui-button-info" (click)="ShowAddDialog(item.RFQItemsId,item.QuotationQty,item.RemoteRFQDocuments,item)"></button>
+            <span *ngIf="!disableOtherBtn" style="color:orangered">If you don't want to quote,Please add  0 as quantity in the price section --> </span>&nbsp;&nbsp;
+            <button [disabled]="disableOtherBtn" class="btn btn-primary" (click)="ShowAddDialog(item.RFQItemsId,item.QuotationQty,item.RemoteRFQDocuments,item)">Add Price</button>
           </th>
         </tr>
         <tr class="text-center mprltbldata" *ngIf="item.RemoteRFQItemsInfo_N.length!=0">
@@ -300,7 +302,7 @@
     <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-check" id="sunmittermsid" class="ui-button-success" (click)="SubmitTerms()" label="SubmitTerms"></button>
   </div>
   <div class="col-lg-3 col-md-3 col-sm-3" style="padding-left: 4%;">
-    <button [disabled]="disableOtherBtn" type="button" pButton icon="fa fa-check" class="ui-button-success" (click)="FinalSubmit()" label="FinalSubmit"></button>
+    <button [disabled]="disableOtherBtn" type="button" pButton icon="fa fa-check" class="ui-button-success" (click)="showMessageDialog()" label="FinalSubmit"></button>
   </div>
 
 </div>
@@ -349,6 +351,7 @@
         <span class="valueEdit font-weight-bold">{{rfqItemInfo.ItemDescription}}</span>
       </div>
     </div>
+    <div class="row col-lg-12 col-md-12 col-sm-12"><span style="color:orangered">If you don't want to quote for the item, add 0 as quantity and enter Remarks</span></div>
     <div> <hr /></div>
     <div *ngIf="EditItem==false" class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
       <div class="col-lg-3 col-md-3 col-sm-3">
@@ -381,7 +384,7 @@
         <label class="form-label">Qty :</label>&nbsp;<span style="color:red">*</span>
       </div>
       <div class="col-lg-2 col-md-2 col-sm-2">
-        <input type="text" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="7" formControlName="Qty" [(ngModel)]="rfqItemInfo.Quantity" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.Qty.errors}" />
+        <input type="text" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" ngModel maxlength="7" formControlName="Qty" (keyup)="disableValidations()" [(ngModel)]="rfqItemInfo.Quantity" [ngClass]="{ 'is-invalid': VQAddSubmitted && AddQuotation.controls.Qty.errors}" />
         <span *ngIf="VQAddSubmitted && AddQuotation.controls.Qty.errors" class="invalid-feedback">Please enter Qty.</span>
       </div>
 
@@ -394,7 +397,7 @@
           <option *ngFor="let ua of UOMArray" [ngValue]="ua.UnitID">{{ua.UnitName}}</option>
 
         </select>
-        <span style="color:red" *ngIf="VQAddSubmitted && (AddQuotation.controls.UOM.value=='0' || AddQuotation.controls.UOM.value==null)" class="invalid-feedback">Please select UOM.</span>
+        <span style="color:red" *ngIf="VQAddSubmitted && rfqItemInfo.Quantity!=0 && (AddQuotation.controls.UOM.value=='0' || AddQuotation.controls.UOM.value==null)" class="invalid-feedback">Please select UOM.</span>
       </div>
       <div class="col-lg-2 col-md-2 col-sm-2">
         <label class="form-label">Currency :</label>&nbsp;<span style="color:red">*</span>
@@ -405,7 +408,7 @@
 
           <option *ngFor="let ca of currncyArray" [ngValue]="ca.CurrenyId">{{ca.CurrencyName}}</option>
         </select>
-        <span style="color:red" *ngIf="VQAddSubmitted && (AddQuotation.controls.CurrencyId.value=='0' || AddQuotation.controls.CurrencyId.value==null)" class="invalid-feedback">Please select Currency.</span>
+        <span style="color:red" *ngIf="VQAddSubmitted &&  rfqItemInfo.Quantity!=0 &&  (AddQuotation.controls.CurrencyId.value=='0' || AddQuotation.controls.CurrencyId.value==null)" class="invalid-feedback">Please select Currency.</span>
       </div>
     </div>
     <div class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
@@ -432,7 +435,7 @@
 
         <p-radioButton name="discount" value="true" label="Yes" formControlName="DiscountOption" [(ngModel)]="showDiscount" (click)="boolDiscount('event')" id="multiple"></p-radioButton>&nbsp;&nbsp;
         <p-radioButton name="discount" value="false" label="No" formControlName="DiscountOption" [(ngModel)]="showDiscount" (click)="boolDiscount('event')"></p-radioButton>
-        &nbsp;<span *ngIf="VQAddSubmitted && !showDiscount" class="invalid-feedback" style="display: contents !important">Is there is Discount?</span>
+        &nbsp;<span *ngIf="VQAddSubmitted && !showDiscount && rfqItemInfo.Quantity!=0" class="invalid-feedback" style="display: contents !important">Is there is Discount?</span>
       </div>
     </div>
     <div *ngIf="showDiscount=='true'" class="row col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px">
@@ -832,6 +835,24 @@
     <div class="ui-dialog-buttonpane ui-helper-clearfix">
       <button type="button" pButton icon="fa fa-check" (click)="onCommnicationSubmit('displayCommunicationDialog')" label="Submit"></button>
       <button type="button" pButton icon="fa fa-close" (click)="dialogCancel('displayCommunicationDialog')" label="Cancel"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
+
+<p-dialog header="Message :" [(visible)]="displayMessageDialog" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '700px'}">
+  <div class="ui-g ui-fluid">
+    <div class="ui-g-12">
+      <div class="ui-g-10">
+        <label class="form-label"><b>{{message}}</b></label><br />
+        <label *ngIf="quoteDetails.RemoteRFQItems_N && ItemPricecount!=quoteDetails.RemoteRFQItems_N.length" class="form-label"><b>All Item Prices need to updated to Proceed.</b></label>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button *ngIf="quoteDetails.RemoteRFQItems_N && ItemPricecount==quoteDetails.RemoteRFQItems_N.length" type="button" pButton icon="fa fa-check" (click)="FinalSubmit()" label="Submit"></button>
+      <button type="button" pButton icon="fa fa-close" (click)="dialogCancel('displayMessageDialog')" label="Back"></button>
     </div>
   </p-footer>
 </p-dialog>

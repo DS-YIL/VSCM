@@ -350,9 +350,10 @@ a.disabled {
 }
 
 .blink_text {
-  animation: 1s blinker linear infinite;
-  -webkit-animation: 1s blinker linear infinite;
-  -moz-animation: 1s blinker linear infinite;
+  font-size:16px;
+  animation: 4s blinker linear infinite;
+  -webkit-animation: 4s blinker linear infinite;
+  -moz-animation: 4s blinker linear infinite;
   color: red;
 }
 .expand {

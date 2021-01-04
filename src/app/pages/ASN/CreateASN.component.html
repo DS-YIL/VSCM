@@ -13,58 +13,65 @@
   <div class="tab-pane">
     <form [formGroup]="CreatASN">
       <div class="row m-0">
+        <div *ngIf="asnid==0" class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">PONo:<span style="color:red">*</span></label>&nbsp;
+          <div style="width:150px">
+            <p-multiSelect [options]="lstPONumbers" formControlName="PONo" [(ngModel)]="selectedPOs" [panelStyle]="{width:'200px'}" optionLabel="PONo" (onChange)="getItemDetailsByPoNo($event)"></p-multiSelect>
+          </div>
+        </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Invoice No:<span style="color:red">*</span></label>
-          <input type="text" ngModel maxlength="50" class="form-control" [(ngModel)]="asnItem.InvoiceNo" formControlName="InvoiceNo" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.InvoiceNo.errors}" />
+          <input type="text" ngModel maxlength="50" (focus)="focusInput('Accepts any character and max length is 50')"  class="form-control" [(ngModel)]="asnItem.InvoiceNo" formControlName="InvoiceNo" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.InvoiceNo.errors}" />
           <span *ngIf="ASNSubmitted && CreatASN.controls.InvoiceNo.errors" class="invalid-feedback">Enter Invoice No.</span>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Invoice Date:<span style="color:red">*</span></label>
-          <input type="date" class="form-control" style="padding-right: 0px;" #myDate [value]="asnItem.InvoiceDate | date:'yyyy-MM-dd'" (input)="asnItem.InvoiceDate=parseDate($event.target.value)" formControlName="InvoiceDate" [(ngModel)]="asnItem.InvoiceDate" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.InvoiceDate.errors}" />
+          <input type="date" class="form-control" (focus)="focusInput('Displays the invoice Date ')" style="padding-right: 0px;" #myDate [value]="asnItem.InvoiceDate | date:'yyyy-MM-dd'" (input)="asnItem.InvoiceDate=parseDate($event.target.value)" formControlName="InvoiceDate" [(ngModel)]="asnItem.InvoiceDate" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.InvoiceDate.errors}" />
           <span *ngIf="ASNSubmitted && CreatASN.controls.InvoiceDate.errors" class="invalid-feedback">Enter Invoice Date.</span>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Ship From:<span style="color:red">*</span></label>
-          <input type="text" class="form-control" formControlName="ShipFrom" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.ShipFrom.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.ShipFrom" />
+          <textarea class="form-control" (focus)="focusInput('Displays the delivery address From where the material is being  dispatched and max length is 500')" formControlName="ShipFrom" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.ShipFrom.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.ShipFrom"></textarea>
           <span *ngIf="ASNSubmitted && CreatASN.controls.ShipFrom.errors" class="invalid-feedback">Enter Ship from.</span>
-        </div>
-        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
-          <label class="form-label">Ship To:<span style="color:red">*</span></label>
-          <input type="text" class="form-control" formControlName="ShipTo" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.ShipTo.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.ShipTo" />
-          <span *ngIf="ASNSubmitted && CreatASN.controls.ShipTo.errors" class="invalid-feedback">Enter Ship To.</span>
         </div>
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Ship To:<span style="color:red">*</span></label>
+          <textarea class="form-control" (focus)="focusInput('Displays the delivery address To where the material is being  dispatched and max length is 500')" formControlName="ShipTo" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.ShipTo.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.ShipTo"></textarea>
+          <span *ngIf="ASNSubmitted && CreatASN.controls.ShipTo.errors" class="invalid-feedback">Enter Ship To.</span>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Shipping Date:<span style="color:red">*</span></label>
-          <input type="date" class="form-control" style="padding-right: 0px;" #myDate [value]="asnItem.ShippingDate | date:'yyyy-MM-dd'" (input)="asnItem.ShippingDate=parseDate($event.target.value)" formControlName="ShippingDate" [(ngModel)]="asnItem.ShippingDate" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.ShippingDate.errors}" />
+          <input type="date" class="form-control" (focus)="focusInput('Displays the date of material dispatch/shipment')" style="padding-right: 0px;" #myDate [value]="asnItem.ShippingDate | date:'yyyy-MM-dd'" (input)="asnItem.ShippingDate=parseDate($event.target.value)" formControlName="ShippingDate" [(ngModel)]="asnItem.ShippingDate" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.ShippingDate.errors}" />
           <span *ngIf="ASNSubmitted && CreatASN.controls.ShippingDate.errors" class="invalid-feedback">Enter Shipping Date.</span>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label"> Expected Delivery Date:<span style="color:red">*</span></label>
-          <input type="date" class="form-control" style="padding-right: 0px;" #myDate [value]="asnItem.DeliveryDate | date:'yyyy-MM-dd'" (input)="asnItem.DeliveryDate=parseDate($event.target.value)" formControlName="DeliveryDate" [(ngModel)]="asnItem.DeliveryDate" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.DeliveryDate.errors}" />
+          <input type="date" class="form-control" (focus)="focusInput('Displays the expected delivery date announced in the ASN as per the transit time required for material movement ')" style="padding-right: 0px;" #myDate [value]="asnItem.DeliveryDate | date:'yyyy-MM-dd'" (input)="asnItem.DeliveryDate=parseDate($event.target.value)" formControlName="DeliveryDate" [(ngModel)]="asnItem.DeliveryDate" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.DeliveryDate.errors}" />
           <span *ngIf="ASNSubmitted && CreatASN.controls.DeliveryDate.errors" class="invalid-feedback">Enter Delivery Date.</span>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Freight InvNo:</label>
-          <input type="number" class="form-control" formControlName="FreightInvNo" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.FreightInvNo.errors}" ngModel maxlength="50" [(ngModel)]="asnItem.FreightInvNo" />
+          <input type="number" class="form-control" (focus)="focusInput('A freight invoice is used, in case of freight charges are  billed separately')" formControlName="FreightInvNo" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.FreightInvNo.errors}" ngModel maxlength="50" [(ngModel)]="asnItem.FreightInvNo" />
           <span *ngIf="ASNSubmitted && CreatASN.controls.FreightInvNo.errors" class="invalid-feedback">Enter Freight InvNo.</span>
         </div>
-        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
-          <label class="form-label">Transporter Name:<span style="color:red">*</span></label>
-          <input type="text" class="form-control" formControlName="TransporterName" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.TransporterName.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.TransporterName" />
-          <span *ngIf="ASNSubmitted && CreatASN.controls.TransporterName.errors" class="invalid-feedback">Enter Transporter Name.</span>
-        </div>
+
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Transporter Name:<span style="color:red">*</span></label>
+          <input type="text" class="form-control" (focus)="focusInput('Displays the  name of  Transporter/Carrier ')" formControlName="TransporterName" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.TransporterName.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.TransporterName" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.TransporterName.errors" class="invalid-feedback">Enter Transporter Name.</span>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label"> LR/AWB/BL No:<span style="color:red">*</span></label>
-          <input type="text" class="form-control" formControlName="BillofLodingNumber" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.InvoiceNo.errors}" ngModel maxlength="100" [(ngModel)]="asnItem.BillofLodingNumber" />
+          <input type="text" class="form-control" (focus)="focusInput('Lorry Receipt /Air Way Bill/Bill of Lading number generated for transportation of Goods takes place by road/air/sea')" formControlName="BillofLodingNumber" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.InvoiceNo.errors}" ngModel maxlength="100" [(ngModel)]="asnItem.BillofLodingNumber" />
           <span *ngIf="ASNSubmitted && CreatASN.controls.BillofLodingNumber.errors" class="invalid-feedback">Enter Billof LodingNumber.</span>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Incoterm:<span style="color:red">*</span></label>
-          <select class="form-control" [(ngModel)]="asnItem.IncoTerm" formControlName="IncoTerm" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.IncoTerm.errors}" (change)=onIncoTermChange();>
+          <select class="form-control" (focus)="focusInput('Inco Terms rules associated with the transportation and delivery of goods ( EXW, FOB , CIP , FOR etc )')" [(ngModel)]="asnItem.IncoTerm" formControlName="IncoTerm" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.IncoTerm.errors}" (change)=onIncoTermChange();>
             <option value="">Select</option>
             <option *ngFor="let po of IncoTermsList" value={{po.IncoTerm}}>
               {{po.IncoTerm}}
@@ -74,19 +81,20 @@
         </div>
         <div *ngIf="asnItem.IncoTerm=='Other'" class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Incoterm Description:<span style="color:red">*</span></label>
-          <input type="text" class="form-control" formControlName="IncotermDescription" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.IncotermDescription.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.IncotermDescription" />
+          <input type="text" (focus)="focusInput('indicates the Incoterm Description')" class="form-control" formControlName="IncotermDescription" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.IncotermDescription.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.IncotermDescription" />
           <span *ngIf="ASNSubmitted && CreatASN.controls.IncotermDescription.errors" class="invalid-feedback">Enter Incoterm Description.</span>
         </div>
-        <div class='col-md-3 col-lg-3 col-sm-3'>
-          <label class="form-label">Incoterm Loc.:</label>
-          <input type="text" ngModel maxlength="500" class="form-control" formControlName="IncotermLoc" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.IncotermLoc.errors}" [(ngModel)]="asnItem.IncotermLoc" />
-          <span *ngIf="ASNSubmitted && CreatASN.controls.IncotermLoc.errors" class="invalid-feedback">Enter Incoterm Loc.</span>
-        </div>
+
       </div>
       <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
+        <div class='col-md-3 col-lg-3 col-sm-3'>
+          <label class="form-label">Incoterm Loc.:</label>
+          <input type="text" (focus)="focusInput('indicates the location/place from  where shipment is effected ')" ngModel maxlength="500" class="form-control" formControlName="IncotermLoc" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.IncotermLoc.errors}" [(ngModel)]="asnItem.IncotermLoc" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.IncotermLoc.errors" class="invalid-feedback">Enter Incoterm Loc.</span>
+        </div>
         <div class='col-md-3 col-lg-3 col-sm-3  form-group'>
           <label class="form-label">Mode Of Transport:<span style="color:red">*</span></label>
-          <select class="form-control" formControlName="ModeOfTransport" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.ModeOfTransport.errors}" [(ngModel)]="asnItem.ModeOfTransport">
+          <select class="form-control" (focus)="focusInput('Different ways of transportation Like   by Air , by road, by courier services, by Sea.')" formControlName="ModeOfTransport" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.ModeOfTransport.errors}" [(ngModel)]="asnItem.ModeOfTransport">
             <option value="">Select</option>
             <option *ngFor="let po of ModeOfTransportList" value={{po.ModeOfTransport}}>
               {{po.ModeOfTransport}}
@@ -96,27 +104,29 @@
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Delivery Note :</label>
-          <textarea class="form-control" formControlName="DeliveryNote" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.DeliveryNote.errors}" [(ngModel)]="asnItem.DeliveryNote"></textarea>
+          <textarea class="form-control"  (focus)="focusInput('A delivery note contains detailed information about items, quantities, and delivery dates, as well as package information such as the number of containers, pallets, boxes, and how the items are stored in the different packages.')" formControlName="DeliveryNote" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.DeliveryNote.errors}" [(ngModel)]="asnItem.DeliveryNote"></textarea>
           <span *ngIf="ASNSubmitted && CreatASN.controls.DeliveryNote.errors" class="invalid-feedback">Enter Delivery Note.</span>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Total Gross Weight in(Kgs):</label>
-          <input type="number" class="form-control" formControlName="TotalGrossWeight_Kgs" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.TotalGrossWeight_Kgs.errors}" [(ngModel)]="asnItem.TotalGrossWeight_Kgs" />
+          <input type="number" class="form-control" (focus)="focusInput('Gross Weight is the total weight of a shipment of goods, including their packaging')" formControlName="TotalGrossWeight_Kgs" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.TotalGrossWeight_Kgs.errors}" [(ngModel)]="asnItem.TotalGrossWeight_Kgs" />
           <span *ngIf="ASNSubmitted && CreatASN.controls.TotalGrossWeight_Kgs.errors" class="invalid-feedback">Enter Total Gross Weight_Kgs.</span>
         </div>
+      </div>
+      <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Total Net Weight in(Kgs):</label>
-          <input type="number" class="form-control" formControlName="TotalNetWeight_Kgs" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.TotalNetWeight_Kgs.errors}" [(ngModel)]="asnItem.TotalNetWeight_Kgs" />
+          <input type="number" class="form-control" (focus)="focusInput('Net Weight is the weight, or mass, of the goods themselves without any packaging')" formControlName="TotalNetWeight_Kgs" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.TotalNetWeight_Kgs.errors}" [(ngModel)]="asnItem.TotalNetWeight_Kgs" />
           <span *ngIf="ASNSubmitted && CreatASN.controls.TotalNetWeight_Kgs.errors" class="invalid-feedback">Enter Total Net Weight_Kgs.</span>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Total Volume:</label>
-          <input type="text" class="form-control" formControlName="TotalVolume" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.TotalVolume.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.TotalVolume" />
+          <input type="text" class="form-control"(focus)="focusInput('A notional or calculated weight for bulky goods sent  ')"  formControlName="TotalVolume" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.TotalVolume.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.TotalVolume" />
           <span *ngIf="ASNSubmitted && CreatASN.controls.TotalVolume.errors" class="invalid-feedback">Enter Total Volume.</span>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Insurance :<span style="color:red">*</span></label>
-          <select class="form-control" formControlName="Insurance" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.Insurance.errors}" [(ngModel)]="asnItem.Insurance">
+          <select class="form-control" (focus)="focusInput('To Indicate insurance to Supplier / YIL Account  as per PO terms ')" formControlName="Insurance" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.Insurance.errors}" [(ngModel)]="asnItem.Insurance">
             <option value="">Select</option>
             <option value="By YIL">By YIL</option>
             <option value="By Supplier">By Supplier</option>
@@ -129,12 +139,7 @@
   <div class="strike m-2">
     <span class="headername">ASN Items</span>
   </div>
-  <div *ngIf="asnid==0" class='col-md-6 col-lg-6 col-sm-6 form-inline'>
-    <label class="form-label">PONo:<span style="color:red">*</span></label>&nbsp;
-    <div style="width:150px">
-      <p-multiSelect [options]="lstPONumbers" [(ngModel)]="selectedPOs" [panelStyle]="{width:'200px'}" optionLabel="PONo" (onChange)="getItemDetailsByPoNo($event)"></p-multiSelect>
-    </div>
-  </div>
+
   <div class="tab-pane">
     <div class="row m-2">
       <p-table [value]="RemoteASNItemDetails" [paginator]="true" [rows]="10" [resizableColumns]="true" [responsive]="true" [style]="{'width':'100%','overflow':'auto!important'}">
@@ -284,7 +289,7 @@
         <label class="lblEdit">Incoterm Description:</label>
         <span class="valueEdit">{{asnItem.IncotermDescription}}</span>
       </div>
-     </div>
+    </div>
     <div class="ui-g-12 m-2">
       <div class='ui-g-3'>
         <label class="lblEdit">Incoterm Loc.:</label>
@@ -318,7 +323,7 @@
       </div>
     </div>
     <div class="ui-g-12 m-2">
-      <p-table [value]="RemoteASNItemDetails" [paginator]="true" [rows]="10" [resizableColumns]="true" [responsive]="true" [style]="{'width':'100%','overflow':'auto!important'}">
+      <p-table [value]="selectedItemDetailsList" [paginator]="true" [rows]="10" [resizableColumns]="true" [responsive]="true" [style]="{'width':'100%','overflow':'auto!important'}">
         <ng-template pTemplate="header">
           <tr class="mprltbldata">
             <th style="width:50px">S.No</th>
