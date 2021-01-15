@@ -711,11 +711,11 @@
             </option>
           </select>-->
         </div>
-        <div class='col-xs-2 col-md-2 col-sm-2'>
+        <div class='col-xs-2 col-md-2 col-sm-2 form-group'>
           <button class="attachedbtn" mat-raised-button (click)="fileInput14.click()">Select File</button>
           <input style="display: none" #attachments type="file" (change)="fileattached($event,'14')" #fileInput14>
         </div>
-        <div class='col-xs-6 col-md-6 col-sm-6'>
+        <div class='col-xs-6 col-md-6 col-sm-6 form-group'>
           <div *ngFor="let selected of VendorData.DocDetailsLists;let index = index">
             <div *ngIf="selected.DocumentationTypeId==14" class="form-group">
               <span class="fixed-text_new" pTooltip={{selected.DocumentName}} (click)="viewDocument(selected.PhysicalPath)"><i icon="fa fa-file" class="fa fa-file"></i></span>

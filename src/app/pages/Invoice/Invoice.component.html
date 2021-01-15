@@ -98,163 +98,158 @@
   <div class="strike m-2">
     <span class="headername"><b>List of documents to be uploaded by vendor</b></span>
   </div>
-  <div class="row col-lg-12 col-md-12 col-sm-12 m-2">
+  <div class="row col-lg-12 col-md-12 col-sm-12 ml-2">
     <div class='col-md-4 col-lg-4 col-sm-4'>
-      <label class="form-label"><b>Tax Invoice:</b></label>&nbsp;<span style="color:red">*</span>
-
-    </div>
-    <div class='col-md-8 col-lg-8 col-sm-8'>
-      <!--<input type="file" accept=".pdf,.doc,.docx,.xlsx">-->
-      <button class="attachedbtn" mat-raised-button (click)="fileInput1.click()">Select File</button>
-      <input style="display: none" #attachment type="file" (change)="fileattached($event,1)" accept=".pdf,.doc,.docx,.xlsx" #fileInput1>
-      <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
-        <span *ngIf="selected.DocumentTypeId==1" class="fixed-text_new">
-          <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
-          <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
-        </span>
-      </span>
-    </div>
-  </div>
-  <div class="row col-lg-12 col-md-12 col-sm-12 m-2">
-    <div class='col-md-4 col-lg-4 col-sm-4'>
-      <label class="form-label"><b>Delivery Challan:</b> </label>
-    </div>
-    <div class='col-md-8 col-lg-8 col-sm-8'>
-      <button class="attachedbtn" mat-raised-button (click)="fileInput2.click()">Select File</button>
-      <input style="display: none" #attachment type="file" (change)="fileattached($event,2)" accept=".pdf,.doc,.docx,.xlsx" #fileInput2>
-      <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
-        <span *ngIf="selected.DocumentTypeId==2" class="fixed-text_new">
-          <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>
-          <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
-        </span>
-      </span>
-    </div>
-
-  </div>
-  <div class="row col-lg-12 col-md-12 col-sm-12  m-2">
-    <div class='col-md-4 col-lg-4 col-sm-4'>
-      <label class="form-label"><b>Packing List :</b></label>
-    </div>
-    <div class='col-md-8 col-lg-8 col-sm-8'>
-      <!--<input type="file" accept=".pdf,.doc,.docx,.xlsx">-->
-      <button class="attachedbtn" mat-raised-button (click)="fileInput3.click()">Select File</button>
-      <input style="display: none" #attachment type="file" (change)="fileattached($event,3)" accept=".pdf,.doc,.docx,.xlsx" #fileInput3>
-      <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
-        <span *ngIf="selected.DocumentTypeId==3" class="fixed-text_new">
-          <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
-          <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
-        </span>
-      </span>
-    </div>
-  </div>
-  <div class="row col-lg-12 col-md-12 col-sm-12  m-2">
-    <div class='col-md-4 col-lg-4 col-sm-4'>
-      <label class="form-label"><b>LR/AWB/Courier Docket/B/L:</b></label>&nbsp;<span style="color:red">*</span>
-    </div>
-    <div class='col-md-8 col-lg-8 col-sm-8'>
-      <!--<input type="file" accept=".pdf,.doc,.docx,.xlsx">-->
-      <button class="attachedbtn" mat-raised-button (click)="fileInput4.click()">Select File</button>
-      <input style="display: none" #attachment type="file" (change)="fileattached($event,4)" accept=".pdf,.doc,.docx,.xlsx" #fileInput4>
-      <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
-        <span *ngIf="selected.DocumentTypeId==4" class="fixed-text_new">
-          <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
-          <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
-        </span>
-      </span>
-    </div>
-  </div>
-  <div class="row col-lg-12 col-md-12 col-sm-12  m-2">
-    <div class='col-md-4 col-lg-4 col-sm-4'>
-      <label class="form-label"><b>Freight Invoice:</b></label>&nbsp;<span style="color:red">*</span>
-    </div>
-    <div class='col-md-8 col-lg-8 col-sm-8'>
-      <!--<input type="file" accept=".pdf,.doc,.docx,.xlsx">-->
-      <button class="attachedbtn" mat-raised-button (click)="fileInput5.click()">Select File</button>
-      <input style="display: none" #attachment type="file" (change)="fileattached($event,5)" accept=".pdf,.doc,.docx,.xlsx" #fileInput5>
-      <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
-        <span *ngIf="selected.DocumentTypeId==5" class="fixed-text_new">
-          <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
-          <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
-        </span>
-      </span>
-    </div>
-  </div>
-  <div class="row col-lg-12 col-md-12 col-sm-12  m-2">
-    <div class='col-md-4 col-lg-4 col-sm-4'>
-      <label class="form-label"><b>Test Certificates:</b></label>&nbsp;<span style="color:red">*</span>
-    </div>
-    <div class='col-md-8 col-lg-8 col-sm-8'>
-      <!--<input type="file" accept=".pdf,.doc,.docx,.xlsx">-->
-      <button class="attachedbtn" mat-raised-button (click)="fileInput6.click()">Select File</button>
-      <input style="display: none" #attachment type="file" (change)="fileattached($event,6)" accept=".pdf,.doc,.docx,.xlsx" #fileInput6>
-      <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
-        <span *ngIf="selected.DocumentTypeId==6" class="fixed-text_new">
-          <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
-          <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
-        </span>
-      </span>
-    </div>
-  </div>
-  <div class="row col-lg-12 col-md-12 col-sm-12  m-2">
-    <div class='col-md-4 col-lg-4 col-sm-4'>
-      <label class="form-label"><b>Inspection Report :</b></label>
-    </div>
-    <div class='col-md-8 col-lg-8 col-sm-8'>
-      <!--<input type="file" accept=".pdf,.doc,.docx,.xlsx">-->
-      <button class="attachedbtn" mat-raised-button (click)="fileInput7.click()">Select File</button>
-      <input style="display: none" #attachment type="file" (change)="fileattached($event,7)" accept=".pdf,.doc,.docx,.xlsx" #fileInput7>
-      <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
-        <span *ngIf="selected.DocumentTypeId==7" class="fixed-text_new">
-          <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
-          <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
-        </span>
-      </span>
-    </div>
-  </div>
-  <div class="row col-lg-12 col-md-12 col-sm-12  m-2">
-    <div class='col-md-4 col-lg-4 col-sm-4'>
-      <label class="form-label"><b>Bank Guarantee:</b></label>&nbsp;<span style="color:red">*</span>
-    </div>
-    <div class='col-md-8 col-lg-8 col-sm-8'>
-      <!--<input type="file" accept=".pdf,.doc,.docx,.xlsx">-->
-      <button class="attachedbtn" mat-raised-button (click)="fileInput8.click()">Select File</button>
-      <input style="display: none" #attachment type="file" (change)="fileattached($event,8)" accept=".pdf,.doc,.docx,.xlsx" #fileInput8>
-      <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
-        <span *ngIf="selected.DocumentTypeId==8" class="fixed-text_new">
-          <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
-          <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
-        </span>
-      </span>
-    </div>
-  </div>
-  <div class="row col-lg-12 col-md-12 col-sm-12  m-2">
-    <div class='col-md-4 col-lg-4 col-sm-4'>
-      <label class="form-label"><b>Other Documents:</b></label>
-    </div>
-    <div class='col-md-8 col-lg-8 col-sm-8'>
-      <!--<input type="file" accept=".pdf,.doc,.docx,.xlsx" />-->
-      <!--<input type="text" class="form-control" name="PO.DocumentName" [(ngModel)]="PO.DocumentName" />-->
-      <button class="attachedbtn" mat-raised-button (click)="fileInput9.click()">Select File</button>
-      <input style="display: none" #attachment type="file" (change)="fileattached($event,9)" accept=".pdf,.doc,.docx,.xlsx" #fileInput9>
-      <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
-        <span *ngIf="selected.DocumentTypeId==9" class="fixed-text_new">
-          <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>
-          <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
-        </span>
-      </span>
-    </div>
-  </div>
-  <br />
-  <div class="row col-lg-12 col-md-12 col-sm-12 m-2">
-    <div class='col-md-4 col-lg-4 col-sm-4'>
-      <label class="form-label"><b>Remarks:</b></label>
-    </div>
-    <div class='col-md-8 col-lg-8 col-sm-8'>
-      <textarea rows="4" class="form-control" [(ngModel)]="RemoteInvoiceDetails.Remarks"></textarea>
-    </div>
-  </div>
-
-  <div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
-    <button style="margin-left:43%" type="submit" class="btn btn-outline-rounded btn-info" (click)="UpdateInvoice()">Submit</button>
+    <span style="color:red">Please Upload Documents in PDF Format</span>
   </div>
 </div>
+<div class="row col-lg-12 col-md-12 col-sm-12 m-2">
+  <div class='col-md-4 col-lg-4 col-sm-4'>
+    <label class="form-label"><b>Tax Invoice:</b></label>&nbsp;<span style="color:red">*</span>
+  </div>
+  <div class='col-md-8 col-lg-8 col-sm-8'>
+    <button class="attachedbtn" mat-raised-button (click)="fileInput1.click()">Select File</button>
+    <input style="display: none" #attachment type="file" (change)="fileattached($event,1)" accept=".pdf" #fileInput1>
+    <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
+      <span *ngIf="selected.DocumentTypeId==1" class="fixed-text_new">
+        <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
+        <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
+      </span>
+    </span>
+  </div>
+</div>
+<div class="row col-lg-12 col-md-12 col-sm-12 m-2">
+  <div class='col-md-4 col-lg-4 col-sm-4'>
+    <label class="form-label"><b>Delivery Challan:</b> </label>
+  </div>
+  <div class='col-md-8 col-lg-8 col-sm-8'>
+    <button class="attachedbtn" mat-raised-button (click)="fileInput2.click()">Select File</button>
+    <input style="display: none" #attachment type="file" (change)="fileattached($event,2)" accept=".pdf" #fileInput2>
+    <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
+      <span *ngIf="selected.DocumentTypeId==2" class="fixed-text_new">
+        <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>
+        <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
+      </span>
+    </span>
+  </div>
+
+</div>
+<div class="row col-lg-12 col-md-12 col-sm-12  m-2">
+  <div class='col-md-4 col-lg-4 col-sm-4'>
+    <label class="form-label"><b>Packing List :</b></label>
+  </div>
+  <div class='col-md-8 col-lg-8 col-sm-8'>
+    <button class="attachedbtn" mat-raised-button (click)="fileInput3.click()">Select File</button>
+    <input style="display: none" #attachment type="file" (change)="fileattached($event,3)" accept=".pdf" #fileInput3>
+    <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
+      <span *ngIf="selected.DocumentTypeId==3" class="fixed-text_new">
+        <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
+        <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
+      </span>
+    </span>
+  </div>
+</div>
+<div class="row col-lg-12 col-md-12 col-sm-12  m-2">
+  <div class='col-md-4 col-lg-4 col-sm-4'>
+    <label class="form-label"><b>LR/AWB/Courier Docket/B/L:</b></label>&nbsp;<span style="color:red">*</span>
+  </div>
+  <div class='col-md-8 col-lg-8 col-sm-8'>
+    <button class="attachedbtn" mat-raised-button (click)="fileInput4.click()">Select File</button>
+    <input style="display: none" #attachment type="file" (change)="fileattached($event,4)" accept=".pdf" #fileInput4>
+    <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
+      <span *ngIf="selected.DocumentTypeId==4" class="fixed-text_new">
+        <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
+        <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
+      </span>
+    </span>
+  </div>
+</div>
+<div class="row col-lg-12 col-md-12 col-sm-12  m-2">
+  <div class='col-md-4 col-lg-4 col-sm-4'>
+    <label class="form-label"><b>Freight Invoice:</b></label>&nbsp;<span style="color:red">*</span>
+  </div>
+  <div class='col-md-8 col-lg-8 col-sm-8'>
+    <button class="attachedbtn" mat-raised-button (click)="fileInput5.click()">Select File</button>
+    <input style="display: none" #attachment type="file" (change)="fileattached($event,5)" accept=".pdf" #fileInput5>
+    <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
+      <span *ngIf="selected.DocumentTypeId==5" class="fixed-text_new">
+        <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
+        <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
+      </span>
+    </span>
+  </div>
+</div>
+<div class="row col-lg-12 col-md-12 col-sm-12  m-2">
+  <div class='col-md-4 col-lg-4 col-sm-4'>
+    <label class="form-label"><b>Test Certificates:</b></label>&nbsp;<span style="color:red">*</span>
+  </div>
+  <div class='col-md-8 col-lg-8 col-sm-8'>
+    <button class="attachedbtn" mat-raised-button (click)="fileInput6.click()">Select File</button>
+    <input style="display: none" #attachment type="file" (change)="fileattached($event,6)" accept=".pdf" #fileInput6>
+    <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
+      <span *ngIf="selected.DocumentTypeId==6" class="fixed-text_new">
+        <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
+        <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
+      </span>
+    </span>
+  </div>
+</div>
+<div class="row col-lg-12 col-md-12 col-sm-12  m-2">
+  <div class='col-md-4 col-lg-4 col-sm-4'>
+    <label class="form-label"><b>Inspection Report :</b></label>
+  </div>
+  <div class='col-md-8 col-lg-8 col-sm-8'>
+    <button class="attachedbtn" mat-raised-button (click)="fileInput7.click()">Select File</button>
+    <input style="display: none" #attachment type="file" (change)="fileattached($event,7)" accept=".pdf" #fileInput7>
+    <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
+      <span *ngIf="selected.DocumentTypeId==7" class="fixed-text_new">
+        <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
+        <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
+      </span>
+    </span>
+  </div>
+</div>
+<div class="row col-lg-12 col-md-12 col-sm-12  m-2">
+  <div class='col-md-4 col-lg-4 col-sm-4'>
+    <label class="form-label"><b>Bank Guarantee:</b></label>&nbsp;<span style="color:red">*</span>
+  </div>
+  <div class='col-md-8 col-lg-8 col-sm-8'>
+    <button class="attachedbtn" mat-raised-button (click)="fileInput8.click()">Select File</button>
+    <input style="display: none" #attachment type="file" (change)="fileattached($event,8)" accept=".pdf" #fileInput8>
+    <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
+      <span *ngIf="selected.DocumentTypeId==8" class="fixed-text_new">
+        <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>&nbsp;
+        <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
+      </span>
+    </span>
+  </div>
+</div>
+<div class="row col-lg-12 col-md-12 col-sm-12  m-2">
+  <div class='col-md-4 col-lg-4 col-sm-4'>
+    <label class="form-label"><b>Other Documents:</b></label>
+  </div>
+  <div class='col-md-8 col-lg-8 col-sm-8'>
+    <button class="attachedbtn" mat-raised-button (click)="fileInput9.click()">Select File</button>
+    <input style="display: none" #attachment type="file" (change)="fileattached($event,9)" accept=".pdf" #fileInput9>
+    <span *ngFor="let selected of RemoteInvoiceDetails.RemoteInvoiceDocuments;let index = index">
+      <span *ngIf="selected.DocumentTypeId==9" class="fixed-text_new">
+        <i class="fa fa-paperclip" aria-hidden="true" (click)="viewDocument(selected.Path)" pTooltip="{{selected.DocumentName}}"></i>
+        <button mat-icon-button (click)="removeSelectedFile(selected,index)"><i icon="fa fa-trash" class="fa fa-trash"></i></button>
+      </span>
+    </span>
+  </div>
+</div>
+<br />
+<div class="row col-lg-12 col-md-12 col-sm-12 m-2">
+  <div class='col-md-4 col-lg-4 col-sm-4'>
+    <label class="form-label"><b>Remarks:</b></label>
+  </div>
+  <div class='col-md-8 col-lg-8 col-sm-8'>
+    <textarea rows="4" class="form-control" [(ngModel)]="RemoteInvoiceDetails.Remarks"></textarea>
+  </div>
+</div>
+
+<div class="row col-lg-12 col-md-12 col-sm-12 mt-2">
+  <button style="margin-left:43%" type="submit" class="btn btn-outline-rounded btn-info" (click)="UpdateInvoice()">Submit</button>
+</div>
+  </div>

@@ -15,7 +15,7 @@ import { constants } from '../../models/RFQConstants'
 export class CreateAsnComponent implements OnInit {
   public CreatASN: FormGroup;
   public ASNSubmitted: boolean = false;
-  public disableSubmit: boolean = true;
+  public disableSubmit; submit: boolean = true;
   public dynamicData = new DynamicSearchResult();
   public asnItem = new AsnModels();
   public AsnfilterForm: FormGroup;
@@ -206,13 +206,16 @@ export class CreateAsnComponent implements OnInit {
   }
 
   onASNFinalSubmit() {
-    this.spinner.show();
-    this.RfqService.InsertandEditAsn(this.asnItem).subscribe(data => {
-      this.spinner.hide();
-      this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Asn Generated Sucessfully' });
-      this.router.navigate(['/VSCM/Invoice', data]);
-    })
-
+    if (this.submit) {
+      this.submit = false;
+      this.spinner.show();
+      this.RfqService.InsertandEditAsn(this.asnItem).subscribe(data => {
+        this.submit = true;
+        this.spinner.hide();
+        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Asn Generated Sucessfully' });
+        this.router.navigate(['/VSCM/Invoice', data]);
+      })
+    }
   }
 
   //get po detai;s

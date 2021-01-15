@@ -47,6 +47,8 @@ export class InvoiceComponent implements OnInit {
         return inputArray.indexOf(item) == index;
       });
       this.asnItem.PONo = arr.toString();
+      this.RemoteInvoiceDetails.InvoiceNo = this.asnItem.InvoiceNo;
+      this.RemoteInvoiceDetails.ASNId = this.ASNId;
       this.GetInvoiceDetails();
     })
   }
