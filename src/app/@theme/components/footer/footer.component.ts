@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'ngx-footer',
   styleUrls: ['./footer.component.scss'],
-  template: `
-    <span class="created-by">Copyright © 2019 Yokogawa India Ltd.
-    </span>
-    
-  `,
+  templateUrl: './footer.component.html',
 })
-export class FooterComponent {
+export class FooterComponent implements OnInit {
+  public year: any;
+
+  ngOnInit() {
+    this.year = new Date().getFullYear();
+  }
 }
+
+
