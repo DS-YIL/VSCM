@@ -158,7 +158,7 @@ export class CreateAsnComponent implements OnInit {
 
   //check box selection event
   selectItemList(event: any, details: any, id: any) {
-    var index = this.RemoteASNItemDetails.findIndex(x => x.rfqitemsid == details.rfqitemsid);
+    var index = this.RemoteASNItemDetails.findIndex(x => x.PONo == details.PONo && x.Material == details.Material && x.POItemNo == details.POItemNo);
     if (event.target.checked == true) {
       if (!details.ASNQty) {
         this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Enter ASN Quantity' });
@@ -271,6 +271,7 @@ export class CreateAsnComponent implements OnInit {
 
   dialogCancel(dialog: any) {
     this[dialog] = false;
+    this.submit = true;
   }
 
   //update ASN coomunication

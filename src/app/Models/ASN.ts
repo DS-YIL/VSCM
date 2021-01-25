@@ -1,5 +1,6 @@
 export class AsnModels {
-  PONo: string="";
+  PONo: string = "";
+  PONos: string = "";
   InvoiceNo: string;
   InvoiceDate: Date;
   ASNNo: string;
