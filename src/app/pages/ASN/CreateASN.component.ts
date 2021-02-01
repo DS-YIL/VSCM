@@ -144,14 +144,18 @@ export class CreateAsnComponent implements OnInit {
     this.CreatASN.controls['IncotermDescription'].updateValueAndValidity();
   }
 
-  checkQuantity(details: any) {
-
+  checkQuantity(details: any, id: any) {
+    var index = this.RemoteASNItemDetails.findIndex(x => x.PONo == details.PONo && x.Material == details.Material && x.POItemNo == details.POItemNo);
     if (!details.RemainingQty && (details.ASNQty > (details.POQty))) {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Entered ASN Quantity should not be greater than PO Qty ' });
+      (<HTMLInputElement>document.getElementById("Item" + id)).checked = false;
+      this.selectedItemDetailsList.splice(index, 1);
       return;
     }
     if (details.RemainingQty && details.ASNQty > details.RemainingQty) {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Entered ASN Quantity should not be greater than sum of PO  Qty and Supllied Cumulative Qty' });
+      (<HTMLInputElement>document.getElementById("Item" + id)).checked = false;
+      this.selectedItemDetailsList.splice(index, 1);
       return;
     }
   }
