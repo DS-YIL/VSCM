@@ -1,34 +1,35 @@
 import { Injectable } from '@angular/core';
 import { searchParams } from '../Models/RFQModel';
 import * as CryptoJS from 'crypto-js';
+import { Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class constants {
+  constructor(@Inject(DOCUMENT) private document: Document) { }
+  public baseURL = this.document.location.origin;
+
   public DESkey: string;
   public AESkey: string;
   //local
- //public url = 'http://localhost:49658/Api/';
- //public tokenurl = 'http://localhost:49658/';
+  public url = 'http://localhost:49658/Api/';
+  public tokenurl = 'http://localhost:49658/';
 
-  //test server1
-  //public url = "http://10.29.15.68:92/Api/";
-  //public tokenurl = 'http://10.29.15.68:92/';
-  //public Documnentpath = "http://10.29.15.68:92/VSCMDocs/";
+
+  // NEW  test server
+  //public url = this.baseURL + ':81/api/Api/";
+  //public tokenurl = this.baseURL + ':81/api/';
   //public yscmurl = 'http://10.29.15.68:90/Api/mpr/'
-
-    // NEW  test server
-  public url = "http://vscm-1089815394.ap-south-1.elb.amazonaws.com:81/api/Api/";
-  public tokenurl = 'http://vscm-1089815394.ap-south-1.elb.amazonaws.com:81/api/';
-  public yscmurl = 'http://10.29.15.68:90/Api/mpr/'
-  public Documnentpath = "http://vscm-1089815394.ap-south-1.elb.amazonaws.com:81/VSCMDocs/";
+  //public Documnentpath = this.baseURL + ':81/VSCMDocs/";
 
   //AWS live
-  //public url = 'http://vscm-1089815394.ap-south-1.elb.amazonaws.com/api/Api/';
-  //public tokenurl = 'http://vscm-1089815394.ap-south-1.elb.amazonaws.com/api/';
-  //public yscmurl = 'http://10.29.15.183:90/Api/mpr/'    
-  //public Documnentpath = "http://vscm-1089815394.ap-south-1.elb.amazonaws.com/VSCMDocs/";
+  //public url = this.baseURL + '/api/Api/';
+  //public tokenurl = this.baseURL + '/api/';
+  public yscmurl = 'http://10.29.15.183:90/Api/mpr/'
+  public Documnentpath = this.baseURL + '/VSCMDocs/';
 
   public dateFormat = "MM/dd/yyyy";
   public RequisitionId: string = "";
