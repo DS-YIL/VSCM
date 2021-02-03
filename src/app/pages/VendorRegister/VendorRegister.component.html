@@ -573,6 +573,7 @@
           </select>-->
         </div>
         <div class='col-xs-2 col-md-2 col-sm-2 form-group'>
+          <span *ngIf="VendorData.VendorType==false && VendorData.MSMERequired == true" style="color:red;margin-left: -15px;">*</span>&nbsp;
           <button class="attachedbtn" mat-raised-button (click)="fileInput8.click()">Select File</button>
           <input style="display: none" #attachments type="file" (change)="fileattached($event,'8')" #fileInput8>
         </div>
@@ -596,7 +597,7 @@
           </select>-->
         </div>
         <div class='col-xs-2 col-md-2 col-sm-2 form-group'>
-          <span *ngIf="VendorData.VendorType==false" style="color:red;margin-left: -15px;">*</span>&nbsp;
+          <span *ngIf="VendorData.VendorType==false && VendorData.MSMERequired == true" style="color:red;margin-left: -15px;">*</span>&nbsp;
           <button class="attachedbtn" mat-raised-button (click)="fileInput16.click()">Select File</button>
           <input style="display: none" #attachments type="file" (change)="fileattached($event,'16')" #fileInput16>
         </div>
