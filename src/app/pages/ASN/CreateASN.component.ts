@@ -29,7 +29,8 @@ export class CreateAsnComponent implements OnInit {
   public ModeOfTransportList: Array<any> = [];
   public RemoteASNCommunications = new RemoteASNCommunication();
   public displayCommunicationDialog; displayConfirmationDialog: boolean = false;
-  public selectedPOs: Array<any> = [];
+  //public selectedPOs: Array<any> = [];
+  public selectedPOs: any;
   public invoiceNoList: Array<any> = [];
   constructor(public constants: constants, private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService, public RfqService: RfqService, private messageService: MessageService, private formBuilder: FormBuilder) { }
 
@@ -39,6 +40,7 @@ export class CreateAsnComponent implements OnInit {
       this.router.navigateByUrl("Login");
       return true;
     }
+    this.selectedPOs = "";
     this.asnItem = new AsnModels();
     this.asnItem.PONo = "";
     this.asnItem.ShipFrom = this.Vendor.Street;
@@ -232,22 +234,34 @@ export class CreateAsnComponent implements OnInit {
 
   }
   getItemDetailsByPoNo() {
-    // need check shipping address
-    if (this.checkShippingAddress()) {
-      if (this.selectedPOs.length > 0) {
-        this.asnItem.ShipTo = this.selectedPOs[0].ShipTo;
+      if (this.selectedPOs) {
+        this.asnItem.ShipTo = this.lstPONumbers.filter(li => li.PONo == this.selectedPOs)[0].ShipTo;
         this.spinner.show();
-        this.asnItem.PONo = this.selectedPOs.map(li => li.PONo).toString();
+        this.asnItem.PONo = this.selectedPOs;
         this.RfqService.getItemDetailsByPoNo(this.asnItem.PONo).subscribe(data => {
           this.spinner.hide();
           this.RemoteASNItemDetails = data;
-        })
-      }
-      else {
-        this.RemoteASNItemDetails = [];
-      }
+        })     
     }
   }
+
+  //getItemDetailsByPoNo() {
+  //  // need check shipping address
+  //  if (this.checkShippingAddress()) {
+  //    if (this.selectedPOs.length > 0) {
+  //      this.asnItem.ShipTo = this.selectedPOs[0].ShipTo;
+  //      this.spinner.show();
+  //      this.asnItem.PONo = this.selectedPOs.map(li => li.PONo).toString();
+  //      this.RfqService.getItemDetailsByPoNo(this.asnItem.PONo).subscribe(data => {
+  //        this.spinner.hide();
+  //        this.RemoteASNItemDetails = data;
+  //      })
+  //    }
+  //    else {
+  //      this.RemoteASNItemDetails = [];
+  //    }
+  //  }
+  //}
 
   checkShippingAddress() {
     for (var i = 0; i < this.selectedPOs.length; i++) {

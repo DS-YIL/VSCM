@@ -43,6 +43,8 @@ export class PONumbers {
   Remarks: string;
   PONumber: any;
   VendorAdress: string;
+  PONo: string;
+  ShipTo: string;
 }
 
 
@@ -74,6 +76,7 @@ export class RemoteInvoiceDetails {
   ModifiedDate: Date;
   ModifiedBy
   Remarks: string;
+  LRRemarks: string;
   RemoteInvoiceDocuments: Array<RemoteInvoiceDocuments> = [];
 }
 

@@ -15,8 +15,8 @@ export class constants {
   public DESkey: string;
   public AESkey: string;
   //local
-  public url = 'http://localhost:49658/Api/';
-  public tokenurl = 'http://localhost:49658/';
+  //public url = 'http://localhost:49658/Api/';
+  //public tokenurl = 'http://localhost:49658/';
 
 
   // NEW  test server
@@ -26,8 +26,8 @@ export class constants {
   //public Documnentpath = this.baseURL + ':81/VSCMDocs/";
 
   //AWS live
-  //public url = this.baseURL + '/api/Api/';
-  //public tokenurl = this.baseURL + '/api/';
+  public url = this.baseURL + '/api/Api/';
+  public tokenurl = this.baseURL + '/api/';
   public yscmurl = 'http://10.29.15.183:90/Api/mpr/'
   public Documnentpath = this.baseURL + '/VSCMDocs/';
 

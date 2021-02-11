@@ -44,7 +44,7 @@ export class VendorQuotationAddComponent implements OnInit {
   public rfqItemInfo: RfqItemInfoModel;
   public rfqItemId: string;
   TermsList: any[] = [];
-  istermsdisplay; EditItem; displayFooter: boolean = false;
+  istermsdisplay; EditItem; displayFooter; termsSubmitted: boolean = false;
   DocumentListMaster: any[] = [];
   public Vendor: Vendor;
   public Documents: RFQDocuments;
@@ -214,6 +214,10 @@ export class VendorQuotationAddComponent implements OnInit {
   RFQTermListdata() {
     this.RfqService.GetTermsListForRFQ(this.RfqRevisionId).subscribe(res => {
       this.TermsList = res;
+      if (this.TermsList.filter(li => (li.VendorResponse == null) || (li.VendorResponse == "null")).length > 0)
+        this.termsSubmitted = false;
+      else
+        this.termsSubmitted = true;
     });
   }
 
@@ -460,10 +464,16 @@ export class VendorQuotationAddComponent implements OnInit {
 
   //rfq terms submit
   SubmitTerms() {
+    this.termsSubmitted = false;
     this.spinner.show();
     this.RfqService.VendorTermsUpdate(this.TermsList).subscribe(data => {
       this.spinner.hide();
+      this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Terms & Conditions Submitted' });
       this.TermsList = data;
+      if (this.TermsList.filter(li => (li.VendorResponse == null) || (li.VendorResponse == "null")).length > 0)
+        this.termsSubmitted = false;
+      else
+        this.termsSubmitted = true;
     });
 
   }
@@ -973,6 +983,14 @@ export class VendorQuotationAddComponent implements OnInit {
   }
 
   showMessageDialog() {
+    if (this.TermsList.filter(li => (li.VendorResponse == null) || (li.VendorResponse == "null")).length > 0) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: ' Select all responses in terms & conditions' });
+      return true;
+    }
+    if (this.termsSubmitted == false) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Submit terms & conditions' });
+      return true;
+    }
     this.displayMessageDialog = true;
     this.ItemPricecount = 0;
     this.quoteDetails.RemoteRFQItems_N.forEach(item => {

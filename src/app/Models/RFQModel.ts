@@ -657,4 +657,5 @@ export class ASNfilters {
   Vendorid: string
   VendorName: string;
   IntiatedBy: string;
+  PONo: string;
 }

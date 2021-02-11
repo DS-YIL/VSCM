@@ -11,7 +11,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'RFQ',
     icon: 'keypad-outline',
-    expanded: false,
+    expanded: true,
     children: [
       {
         title: 'RFQ List',

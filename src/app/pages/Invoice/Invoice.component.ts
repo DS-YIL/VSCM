@@ -80,22 +80,22 @@ export class InvoiceComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select Tax Invoice' });
       return;
     }
-    if (this.RemoteInvoiceDetails.RemoteInvoiceDocuments.filter(li => li.DocumentTypeId == 4).length <= 0) {
-      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select LR/AWB/Courier Docket/B/L' });
+    if (!this.RemoteInvoiceDetails.LRRemarks && this.RemoteInvoiceDetails.RemoteInvoiceDocuments.filter(li => li.DocumentTypeId == 4).length <= 0) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select Either LR/AWB/Courier Docket/B/L Remarks or Document' });
       return;
     }
-    if (this.RemoteInvoiceDetails.RemoteInvoiceDocuments.filter(li => li.DocumentTypeId == 5).length <= 0) {
-      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select Freight Invoice' });
-      return;
-    }
+    //if (this.RemoteInvoiceDetails.RemoteInvoiceDocuments.filter(li => li.DocumentTypeId == 5).length <= 0) {
+    //  this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select Freight Invoice' });
+    //  return;
+    //}
     if (this.RemoteInvoiceDetails.RemoteInvoiceDocuments.filter(li => li.DocumentTypeId == 6).length <= 0) {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select Test Certificates' });
       return;
     }
-    if (this.RemoteInvoiceDetails.RemoteInvoiceDocuments.filter(li => li.DocumentTypeId == 8).length <= 0) {
-      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select Bank Guarantee' });
-      return;
-    }
+    //if (this.RemoteInvoiceDetails.RemoteInvoiceDocuments.filter(li => li.DocumentTypeId == 8).length <= 0) {
+    //  this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select Bank Guarantee' });
+    //  return;
+    //}
 
     this.spinner.show();
     this.RemoteInvoiceDetails.CreatedBy = this.VendorDetails.VUniqueId;

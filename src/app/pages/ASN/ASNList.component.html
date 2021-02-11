@@ -13,6 +13,10 @@
       <label class="form-label ">ASN No</label><br />
       <input class="form-control" [(ngModel)]="ASNfilters.ASNNo">
     </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 form-group">
+      <label class="form-label ">PO No</label><br />
+      <input class="form-control" [(ngModel)]="ASNfilters.PONo">
+    </div>
   </div>
   <div class="row m-2">
     <div class="col-md-12" style="text-align:center">
@@ -26,8 +30,8 @@
       <ng-template pTemplate="header">
         <tr class="mprltbldata">
           <th class="text-center">S.No</th>
-          <th class="text-center">ASN No.</th>
-          <!--<th class="text-center">PO/Reference No.</th>-->
+          <th class="text-center">ASN No</th>
+          <th class="text-center">PO No</th>
           <th class="text-center">Invoice No</th>
           <th class="text-center">Invoice Date</th>
           <th class="text-center">Delivery Date</th>
@@ -37,8 +41,9 @@
         <tr>
           <th></th>
           <th> <input pInputText type="text" class="form-control" (input)="dt.filter($event.target.value, 'ASNNo', 'contains')"></th>
-          <th> <input pInputText type="text" class="form-control" (input)="dt.filter($event.target.value, 'PONo', 'contains')"></th>
+          <th> <input pInputText type="text" class="form-control" (input)="dt.filter($event.target.value, 'PONos', 'contains')"></th>
           <th> <input pInputText type="text" class="form-control" (input)="dt.filter($event.target.value, 'InvoiceNo', 'contains')"></th>
+          <th></th>
           <th></th>
           <th></th>
           <th></th>
@@ -48,7 +53,7 @@
         <tr>
           <td class="text-center">{{ri +1}}</td>
           <td class="text-center">{{rowData.ASNNo}}</td>
-          <!--<td class="text-center">{{rowData.PONo}}</td>-->
+          <td class="text-center">{{rowData.PONos}}</td>
           <td class="text-center"><a [routerLink]="['/VSCM/Invoice/',rowData.ASNId]" routerLinkActive="active">{{rowData.InvoiceNo}}</a></td>
           <td class="text-center">{{rowData.InvoiceDate | date : 'dd/MM/yyyy'}}</td>
           <td class="text-center">{{rowData.DeliveryDate | date : 'dd/MM/yyyy'}}</td>

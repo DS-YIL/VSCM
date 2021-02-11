@@ -102,6 +102,7 @@ export class VendorRegisterComponent implements OnInit {
       PhoneNumberForAccounts: ['', [Validators.required]],
       EmailIdForAccounts: ['', [Validators.required]],
       AltEmailidForAccounts: ['', [Validators.required]],
+      HaveGST: ['', [Validators.required]],
       GSTNo: ['', [Validators.required]],
       PANNo: ['', [Validators.required]],
       CINNo: ['', [Validators.required]],
@@ -223,6 +224,10 @@ export class VendorRegisterComponent implements OnInit {
         this.VendorData.ESI = "1";
       else
         this.VendorData.ESI = "0";
+      if (this.VendorData.GSTNo)
+        this.VendorData.HaveGST = true;
+      else
+        this.VendorData.HaveGST = false;
       this.natureOfBusinessChange();
       this.CheckValidations();
       //this.listOfFiles1 = this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 1);
@@ -247,6 +252,7 @@ export class VendorRegisterComponent implements OnInit {
     if (this.VendorData.VendorType == false) {
       this.VendorRegister.controls['Country'].clearValidators();
       this.VendorRegister.controls['Country'].updateValueAndValidity();
+      this.GSTChange();
     }
   }
 
@@ -262,6 +268,17 @@ export class VendorRegisterComponent implements OnInit {
     this.VendorRegister.controls['SpecifyNatureOfBusiness'].updateValueAndValidity();
   }
 
+  GSTChange() {
+    if (this.VendorData.HaveGST == true) {
+      this.VendorRegister.controls['GSTNo'].setValidators([Validators.required]);
+    }
+    else {
+      this.VendorRegister.controls['GSTNo'].clearValidators();
+      this.VendorData.GSTNo = "";
+    }
+
+    this.VendorRegister.controls['GSTNo'].updateValueAndValidity();
+  }
 
   CheckPanNo() {
     if (this.VendorData.PANNo) {
@@ -315,7 +332,7 @@ export class VendorRegisterComponent implements OnInit {
       return;
     }
     //VendorType 0 - local vendor, 1- foreignvendor
-    if (this.VendorData.VendorType == false && this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 2).length <= 0) {
+    if (this.VendorData.HaveGST == true && this.VendorData.VendorType == false && this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 2).length <= 0) {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select GST Registration Certificate' });
       return;
     }

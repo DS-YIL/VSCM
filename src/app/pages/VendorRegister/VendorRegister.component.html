@@ -275,14 +275,19 @@
         <div *ngIf="VendorData.VendorType==false" class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>PAN No:</label>&nbsp;<span style="color:red">*</span>&nbsp;&nbsp;
           <!-- <input class="form-control input-md" #PANNo="ngModel" required id="PANNo" name="PANNo" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="PAN No" [(ngModel)]="Registration.PANNo"> -->
-          <input type="text" class="form-control" ngModel minlength="10" maxlength="10" formControlName="PANNo" [(ngModel)]="VendorData.PANNo" oninput="this.value = this.value.replace(/^([!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/? ])?$/g, '');" pattern="^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$" (blur)="CheckPanNo()"  [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.PANNo.errors}" />
+          <input type="text" class="form-control" ngModel minlength="10" maxlength="10" formControlName="PANNo" [(ngModel)]="VendorData.PANNo" oninput="this.value = this.value.replace(/^([!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/? ])?$/g, '');" pattern="^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$" (blur)="CheckPanNo()" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.PANNo.errors}" />
           <span *ngIf="VQAddSubmitted && VendorRegister.controls.PANNo.errors" class="invalid-feedback">Enter valid PANNo & length should be 10.</span>
         </div>
-        <div *ngIf="VendorData.VendorType==false"  class="col-xs-3 col-md-3 col-sm-3 form-group">
-          <label>GST No:</label>&nbsp;<span style="color:red">*</span>&nbsp;&nbsp;
-          <!-- <input class="form-control input-md" #GSTNo="ngModel" required id="GSTNo" name="GSTNo" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="GST No" [(ngModel)]="Registration.GSTNo"> -->
-          <input type="text" class="form-control" ngModel minlength="15" maxlength="15" formControlName="GSTNo" [(ngModel)]="VendorData.GSTNo" oninput="this.value = this.value.replace(/^([!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/? ])?$/g, '');" pattern="^([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-7]{1})([a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9a-zA-Z]{1}[zZ]{1}[0-9a-zA-Z]{1})+$" (keyup)="validateGSTNo()" (blur)="CheckGSTNo()" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.GSTNo.errors}" />
-          <span *ngIf="VQAddSubmitted && VendorRegister.controls.GSTNo.errors" class="invalid-feedback">Enter valid  GSTNo & length should be 15.</span>
+        <div *ngIf="VendorData.VendorType==false" class="col-xs-3 col-md-3 col-sm-3 form-group mt-4">
+          <label>Have GST NO</label>:&nbsp;<span style="color:red">*</span>&nbsp;&nbsp;
+          <p-radioButton name="HaveGST" value="1" label="Yes" formControlName="HaveGST" [(ngModel)]="VendorData.HaveGST" (click)=GSTChange();></p-radioButton>&nbsp;&nbsp;
+          <p-radioButton name="HaveGST" value="0" label="No" formControlName="HaveGST" [(ngModel)]="VendorData.HaveGST" (click)=GSTChange();></p-radioButton>&nbsp;&nbsp;
+        </div>
+        <div *ngIf="VendorData.VendorType==false && VendorData.HaveGST==true" class="col-xs-3 col-md-3 col-sm-3 form-group">
+            <label>GST No:</label>&nbsp;<span style="color:red">*</span>&nbsp;&nbsp;
+            <!-- <input class="form-control input-md" #GSTNo="ngModel" required id="GSTNo" name="GSTNo" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="GST No" [(ngModel)]="Registration.GSTNo"> -->
+            <input type="text" class="form-control" ngModel minlength="15" maxlength="15" formControlName="GSTNo" [(ngModel)]="VendorData.GSTNo" oninput="this.value = this.value.replace(/^([!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/? ])?$/g, '');" pattern="^([0]{1}[1-9]{1}|[1-2]{1}[0-9]{1}|[3]{1}[0-7]{1})([a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9a-zA-Z]{1}[zZ]{1}[0-9a-zA-Z]{1})+$" (keyup)="validateGSTNo()" (blur)="CheckGSTNo()" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.GSTNo.errors}" />
+            <span *ngIf="VQAddSubmitted && VendorRegister.controls.GSTNo.errors" class="invalid-feedback">Enter valid  GSTNo & length should be 15.</span>
         </div>
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>CIN No:</label>
@@ -290,14 +295,14 @@
           <input type="text" class="form-control" ngModel minlength="21" maxlength="21" formControlName="CINNo" [(ngModel)]="VendorData.CINNo" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.CINNo.errors}" />
           <span *ngIf="VQAddSubmitted && VendorRegister.controls.CINNo.errors" class="invalid-feedback">Enter Valid CINNo & length should 21.</span>
         </div>
+      </div>
+      <div class="row m-2">
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>TAN No:</label>
           <!-- <input class="form-control input-md" #TanNo="ngModel"  required id="TanNo" name="TanNo" type="text" pattern="^([^(\x00-\x7F)*]+(\s)*|(\w+){3}(\s)*(\w+)*(\s)*)+$" placeholder="TAX No" [(ngModel)]="Registration.TanNo"> -->
           <input type="text" class="form-control" ngModel maxlength="15" formControlName="TanNo" [(ngModel)]="VendorData.TanNo" [ngClass]="{ 'is-invalid': VQAddSubmitted && VendorRegister.controls.TanNo.errors}" />
           <span *ngIf="VQAddSubmitted && VendorRegister.controls.TanNo.errors" class="invalid-feedback">Enter TanNo.</span>
         </div>
-      </div>
-      <div class="row m-2">
         <div class="col-xs-3 col-md-3 col-sm-3 form-group">
           <label>Select Nature Of Business:</label>&nbsp;<span style="color:red">*</span>&nbsp;&nbsp;
           <select id="drp_Business" class="form-control dropdown" formControlName="NaturOfBusiness" [(ngModel)]="VendorData.NatureofBusiness" (change)=natureOfBusinessChange(); [ngClass]="{'is-invalid': VQAddSubmitted && (VendorRegister.controls.NaturOfBusiness.value=='0' || VendorRegister.controls.NaturOfBusiness.value==null)}">
@@ -416,7 +421,7 @@
       </div>
       <div class="row m-2 form-inline" id="documents">
         <div class='col-xs-4 col-md-4 col-sm-4 form-group'>
-          <label><b>Select GST registration certificate:</b></label>
+          <label><b>Select GST Registration Certificate:</b></label>
           <!--<select id="drp_documenttype2" class="form-control input-md" (change)="onDDLChange($event.target.value,2,'isDisabledGST')">
             <option disabled selected value> -- Select GST registration certificate-- </option>
             <option id="selectedPANId" *ngFor=" let DocList of DocumentList " value={{DocList.DocId}}>
@@ -425,7 +430,7 @@
           </select>-->
         </div>
         <div class='col-xs-2 col-md-2 col-sm-2 form-group'>
-          <span *ngIf="VendorData.VendorType==false" style="color:red;margin-left: -15px;">*</span>&nbsp;
+          <span *ngIf="VendorData.VendorType==false && VendorData.HaveGST == true" style="color:red;margin-left: -15px;">*</span>&nbsp;
           <button class="attachedbtn" mat-raised-button (click)="fileInput2.click()">Select File</button>
           <input style="display: none" #attachments type="file" (change)="fileattached($event,'2')" #fileInput2>
         </div>
@@ -473,7 +478,7 @@
           </select>-->
         </div>
         <div class='col-xs-2 col-md-2 col-sm-2 form-group'>
-          <button class="attachedbtn" mat-raised-button  (click)="fileInput4.click()">Select File</button>
+          <button class="attachedbtn" mat-raised-button (click)="fileInput4.click()">Select File</button>
           <input style="display: none" #attachments type="file" (change)="fileattached($event,'4')" #fileInput4>
         </div>
         <div class='col-xs-6 col-md-6 col-sm-6 form-group'>
@@ -487,7 +492,7 @@
       </div>
       <div class="row m-2 form-inline" id="documents">
         <div class='col-xs-4 col-md-4 col-sm-4 form-group'>
-          <label><b>Select bank mandate duly signed by banker:</b></label>
+          <label><b>Select Bank Mandate Duly Signed By Banker:</b></label>
           <!--<select id="drp_documenttype5" class="form-control input-md" (change)="onDDLChange($event.target.value,5,'isDisabledBank')">
             <option disabled selected value> -- Select Bank Mandate duly signed by banker-- </option>
             <option id="selectedPANId" *ngFor=" let DocList of DocumentList " value={{DocList.DocId}}>
@@ -497,7 +502,7 @@
         </div>
         <div class='col-xs-2 col-md-2 col-sm-2 form-group'>
           <span *ngIf="VendorData.VendorType==true" style="color:red;margin-left: -15px;">*</span>&nbsp;
-          <button class="attachedbtn" mat-raised-button  (click)="fileInput5.click()">Select File</button>
+          <button class="attachedbtn" mat-raised-button (click)="fileInput5.click()">Select File</button>
           <input style="display: none" #attachments type="file" (change)="fileattached($event,'5')" #fileInput5>
         </div>
         <div class='col-xs-6 col-md-6 col-sm-6 form-group'>
@@ -511,7 +516,7 @@
       </div>
       <div class="row m-2 form-inline" id="documents">
         <div class='col-xs-4 col-md-4 col-sm-4 form-group'>
-          <label><b>Select cancelled cheque copy:</b></label>
+          <label><b>Select Cancelled Cheque Copy:</b></label>
           <!--<select id="drp_documenttype6" class="form-control input-md" (change)="onDDLChange($event.target.value,6,'isDisabledCheque')">
             <option disabled selected value> -- Select Cancelled cheque Copy-- </option>
             <option id="selectedPANId" *ngFor=" let DocList of DocumentList " value={{DocList.DocId}}>
@@ -521,7 +526,7 @@
         </div>
         <div class='col-xs-2 col-md-2 col-sm-2 form-group'>
           <span *ngIf="VendorData.VendorType==false" style="color:red;margin-left: -15px;">*</span>&nbsp;
-          <button class="attachedbtn" mat-raised-button  (click)="fileInput6.click()">Select File</button>
+          <button class="attachedbtn" mat-raised-button (click)="fileInput6.click()">Select File</button>
           <input style="display: none" #attachments type="file" (change)="fileattached($event,'6')" #fileInput6>
         </div>
         <div class='col-xs-6 col-md-6 col-sm-6 form-group'>
@@ -535,7 +540,7 @@
       </div>
       <div class="row m-2 form-inline" id="documents">
         <div class='col-xs-4 col-md-4 col-sm-4 form-group'>
-          <label><b>Select Certificate from factory Inspector:</b></label>
+          <label><b>Select Certificate From Factory Inspector:</b></label>
           <!--<select id="drp_documenttype7" class="form-control input-md" (change)="onDDLChange($event.target.value,7,'isDisabledInspecter')">
             <option disabled selected value> -- Select Certificate from factory Inspector-- </option>
             <option id="selectedPANId" *ngFor=" let DocList of DocumentList " value={{DocList.DocId}}>
@@ -544,7 +549,7 @@
           </select>-->
         </div>
         <div class='col-xs-2 col-md-2 col-sm-2 form-group'>
-          <button class="attachedbtn" mat-raised-button  (click)="fileInput7.click()">Select File</button>
+          <button class="attachedbtn" mat-raised-button (click)="fileInput7.click()">Select File</button>
           <input style="display: none" #attachments type="file" (change)="fileattached($event,'7')" #fileInput7>
         </div>
         <div class='col-xs-6 col-md-6 col-sm-6 form-group'>
@@ -588,7 +593,7 @@
       </div>
       <div *ngIf="VendorData.ESI=='0'" class="row m-2 form-inline" id="documents">
         <div class='col-xs-4 col-md-4 col-sm-4 form-group'>
-          <label><b>Select declaration on letter head:</b></label>
+          <label><b>Select Declaration On Letter Head:</b></label>
           <!--<select id="drp_documenttype16" class="form-control input-md" (change)="onDDLChange($event.target.value,16,'isDisabledESI')">
             <option disabled selected value> -- Select Declaration on letter head -- </option>
             <option id="selectedPANId" *ngFor=" let DocList of DocumentList " value={{DocList.DocId}}>
@@ -612,7 +617,7 @@
       </div>
       <div class="row m-2 form-inline" id="documents">
         <div class='col-xs-4 col-md-4 col-sm-4 form-group'>
-          <label><b>Select pollution clearance certificate copy:</b></label>
+          <label><b>Select Pollution Clearance Certificate Copy:</b></label>
           <!--<select id="drp_documenttype9" class="form-control input-md" (change)="onDDLChange($event.target.value,9,'isDisabledPollution')">
             <option disabled selected value> -- Select Pollution clearance certificate copy-- </option>
             <option id="selectedPANId" *ngFor=" let DocList of DocumentList " value={{DocList.DocId}}>
@@ -621,7 +626,7 @@
           </select>-->
         </div>
         <div class='col-xs-2 col-md-2 col-sm-2 form-group'>
-          <button class="attachedbtn" mat-raised-button  (click)="fileInput9.click()">Select File</button>
+          <button class="attachedbtn" mat-raised-button (click)="fileInput9.click()">Select File</button>
           <input style="display: none" #attachments type="file" (change)="fileattached($event,'9')" #fileInput9>
         </div>
         <div class='col-xs-6 col-md-6 col-sm-6 form-group'>
@@ -635,7 +640,7 @@
       </div>
       <div class="row m-2 form-inline" id="documents">
         <div class='col-xs-4 col-md-4 col-sm-4 form-group'>
-           <label><b>Select excise registration certificate copy:</b></label>
+          <label><b>Select Excise Registration Certificate Copy:</b></label>
           <!--<select id="drp_documenttype10" class="form-control input-md" (change)="onDDLChange($event.target.value,10,'isDisabledExcise')">
             <option disabled selected value> -- Select Excise registration certificate copy-- </option>
             <option *ngFor=" let DocList of DocumentList " value={{DocList.DocId}}>
@@ -644,7 +649,7 @@
           </select>-->
         </div>
         <div class='col-xs-2 col-md-2 col-sm-2 form-group'>
-          <button class="attachedbtn" mat-raised-button  (click)="fileInput10.click()">Select File</button>
+          <button class="attachedbtn" mat-raised-button (click)="fileInput10.click()">Select File</button>
           <input style="display: none" #attachments type="file" (change)="fileattached($event,'10')" #fileInput10>
         </div>
         <div class='col-xs-6 col-md-6 col-sm-6 form-group'>
@@ -667,7 +672,7 @@
           </select>-->
         </div>
         <div class='col-xs-2 col-md-2 col-sm-2 form-group'>
-          <button class="attachedbtn" mat-raised-button  (click)="fileInput17.click()">Select File</button>
+          <button class="attachedbtn" mat-raised-button (click)="fileInput17.click()">Select File</button>
           <input style="display: none" #attachments type="file" (change)="fileattached($event,'17')" #fileInput17>
         </div>
         <div class='col-xs-6 col-md-6 col-sm-6 form-group'>
@@ -681,7 +686,7 @@
       </div>
       <div *ngIf="VendorData.VendorType==true" class="row m-2 form-inline" id="documents">
         <div class='col-xs-4 col-md-4 col-sm-4 form-group'>
-           <label><b>Form10 F:</b></label>
+          <label><b>Form10 F:</b></label>
           <!--<select id="drp_documenttype18" class="form-control input-md" (change)="onDDLChange($event.target.value,18,'isDisableForm10Doc')">
             <option disabled selected value> -- Form10 F-- </option>
             <option *ngFor=" let DocList of DocumentList " value={{DocList.DocId}}>
@@ -690,7 +695,7 @@
           </select>-->
         </div>
         <div class='col-xs-2 col-md-2 col-sm-2 form-group'>
-          <button class="attachedbtn" mat-raised-button  (click)="fileInput18.click()">Select File</button>
+          <button class="attachedbtn" mat-raised-button (click)="fileInput18.click()">Select File</button>
           <input style="display: none" #attachments type="file" (change)="fileattached($event,'18')" #fileInput18>
         </div>
         <div class='col-xs-6 col-md-6 col-sm-6 form-group'>
@@ -704,7 +709,7 @@
       </div>
       <div class="row m-2 form-inline" id="documents">
         <div class='col-xs-4 col-md-4 col-sm-4 form-group'>
-            <label><b>Other Documents:</b></label>
+          <label><b>Other Documents:</b></label>
           <!--<select id="drp_documenttype14" class="form-control input-md" (change)="onDDLChange($event.target.value,14,'isDisableOtherDoc')">
             <option disabled selected value> -- Other Documents-- </option>
             <option *ngFor=" let DocList of DocumentList " value={{DocList.DocId}}>

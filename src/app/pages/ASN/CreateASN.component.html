@@ -16,7 +16,13 @@
         <div *ngIf="asnid==0" class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">PONo:<span style="color:red">*</span></label>&nbsp;
           <div style="width:150px">
-            <p-multiSelect [options]="lstPONumbers" formControlName="PONo" [(ngModel)]="selectedPOs" [panelStyle]="{width:'200px'}" optionLabel="PONo" (onChange)="getItemDetailsByPoNo($event)"></p-multiSelect>
+            <select class="form-control" formControlName="PONo" [(ngModel)]="selectedPOs" (change)="getItemDetailsByPoNo($event)" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.PONo.errors}">
+              <option value="">Select</option>
+              <option *ngFor=" let po of lstPONumbers " value={{po.PONo}}>
+                {{po.PONo}}
+              </option>
+            </select>
+            <!--<p-multiSelect [options]="lstPONumbers" formControlName="PONo" [(ngModel)]="selectedPOs" [panelStyle]="{width:'200px'}" optionLabel="PONo" (onChange)="getItemDetailsByPoNo($event)"></p-multiSelect>-->
           </div>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
