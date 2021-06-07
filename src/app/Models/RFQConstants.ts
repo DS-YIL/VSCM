@@ -20,18 +20,19 @@ export class constants {
 
 
   // NEW  test server
-  //public url = this.baseURL + ':81/api/Api/";
-  //public tokenurl = this.baseURL + ':81/api/';
-  //public yscmurl = 'http://10.29.15.68:90/Api/mpr/'
-  //public Documnentpath = this.baseURL + ':81/VSCMDocs/";
+  public url = "http://vscm-1089815394.ap-south-1.elb.amazonaws.com:81/api/api/";
+  public tokenurl = "http://vscm-1089815394.ap-south-1.elb.amazonaws.com:81/api/";
+  public yscmurl = "http://10.29.15.68:90/Api/mpr/";
+  public Documnentpath = "http://vscm-1089815394.ap-south-1.elb.amazonaws.com:81/VSCMDocs/";
 
   //AWS live
-  public url = this.baseURL + '/api/Api/';
-  public tokenurl = this.baseURL + '/api/';
-  public yscmurl = 'http://10.29.15.183:90/Api/mpr/'
-  public Documnentpath = this.baseURL + '/VSCMDocs/';
+  //public url = this.baseURL + '/api/Api/';
+  //public tokenurl = this.baseURL + '/api/';
+  //public yscmurl = 'http://10.29.15.183:90/Api/mpr/';
+  //public Documnentpath = this.baseURL + '/VSCMDocs/';
 
   public dateFormat = "MM/dd/yyyy";
+  public dateFormatWithTime = "dd/MM/yyyy h:mm:ss a"
   public RequisitionId: string = "";
 
   public DepartmentId: searchParams = { tableName: 'MPRDepartments', fieldId: 'DepartmentId', fieldName: 'Department', condition: "", fieldAliasName: "DepartmentName" };

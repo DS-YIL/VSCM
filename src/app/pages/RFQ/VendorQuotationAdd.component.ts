@@ -6,6 +6,8 @@ import { constants } from '../../Models/RFQConstants';
 import { RfqService } from '../../services/rfq.service ';
 import { NgxSpinnerService } from "ngx-spinner";
 import { MessageService, ConfirmationService } from 'primeng/api';
+import * as FileSaver from 'file-saver';
+import { CursorError } from '@angular/compiler/src/ml_parser/lexer';
 
 @Component({
   selector: 'app-VendorQuotationAdd',
@@ -464,6 +466,18 @@ export class VendorQuotationAddComponent implements OnInit {
 
   //rfq terms submit
   SubmitTerms() {
+    var showErr = false;
+    if (this.TermsList.filter(li => (li.VendorResponse == "NotAgree")).length > 0) {
+      for (var i = 0; i < this.TermsList.length; i++) {
+        if (this.TermsList[i].VendorResponse == "NotAgree" && !this.TermsList[i].Remarks) {
+          showErr = true;
+        }
+      }
+    }
+    if (showErr) {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: ' Enter Remarks for Not Agree response' });
+      return true;
+    }
     this.termsSubmitted = false;
     this.spinner.show();
     this.RfqService.VendorTermsUpdate(this.TermsList).subscribe(data => {
@@ -1190,4 +1204,54 @@ export class VendorQuotationAddComponent implements OnInit {
     }
     return revisionno;
   }
+
+
+  DownLoadExcel() {
+    this.spinner.show();
+    this.RfqService.downLoadRFQInfoExcel(this.RfqRevisionId).subscribe(data => {
+      this.spinner.hide();
+      this.RfqService.deleteRFQFormatFile().subscribe(result => {
+      });
+      this.downloadFile(data);
+    });
+  }
+
+  downloadFile(data: Blob) {
+    const contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const blob = new Blob([data], { type: contentType });
+    const url = window.URL.createObjectURL(blob);
+    const currentdate = new Date();
+    FileSaver.saveAs(blob, 'RfqData_' + currentdate.getDate() + '-' + currentdate.getMonth() + '-' + currentdate.getFullYear() + '-' + currentdate.getSeconds() + '_' + this.RfqRevisionId + '.xlsx');
+  }
+  uploadExcel(event: any) {
+    this.spinner.show();
+    let fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      let file: File = fileList[0];
+      let formData: FormData = new FormData();
+      var id = this.Vendor.vendorId;
+      formData.append(id, file, file.name);
+      this.RfqService.UploadRfqData(formData).subscribe({
+        next: data => {
+          if (data.ErrorMessage) {
+            this.messageService.add({ severity: 'error', summary: 'Error Message', detail: data.ErrorMessage });
+            this.spinner.hide();
+            return;
+          }
+
+          if (data) {
+            console.log(data);
+            this.spinner.hide();
+            this.loadQuotationDetails();
+            this.messageService.add({ severity: 'success', summary: 'Sucess Message', detail: 'file uploaded' });
+          }
+        }, error: error => {
+          this.messageService.add({ severity: 'error', summary: 'Error Message', detail: error.message });
+          this.spinner.hide();
+        }
+      });
+    }
+  }
+
+
 }

@@ -15,19 +15,20 @@
       <div class="row m-0">
         <div *ngIf="asnid==0" class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">PONo:<span style="color:red">*</span></label>&nbsp;
-          <div style="width:150px">
-            <select class="form-control" formControlName="PONo" [(ngModel)]="selectedPOs" (change)="getItemDetailsByPoNo($event)" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.PONo.errors}">
+          <div  class="form-inline">
+            <p-autoComplete  [(ngModel)]="selectedPOs" appendTo="body" [suggestions]="filteredPOs" (onSelect)="getItemDetailsByPoNo()" (change)="getItemDetailsByPoNo()" placeholder="Search by PO No" [ngModelOptions]="{standalone: true}" [forceSelection]="false" (completeMethod)="filterpo($event)" [size]="30" [dropdown]="true"> </p-autoComplete>
+            <!--<select class="form-control" formControlName="PONo" [(ngModel)]="selectedPOs" (change)="getItemDetailsByPoNo()" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.PONo.errors}">
               <option value="">Select</option>
               <option *ngFor=" let po of lstPONumbers " value={{po.PONo}}>
                 {{po.PONo}}
               </option>
-            </select>
+            </select>-->
             <!--<p-multiSelect [options]="lstPONumbers" formControlName="PONo" [(ngModel)]="selectedPOs" [panelStyle]="{width:'200px'}" optionLabel="PONo" (onChange)="getItemDetailsByPoNo($event)"></p-multiSelect>-->
-          </div>
+         </div>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Invoice No:<span style="color:red">*</span></label>
-          <input type="text" ngModel maxlength="50" (focus)="focusInput('Accepts any character and max length is 50')"  class="form-control" [(ngModel)]="asnItem.InvoiceNo" formControlName="InvoiceNo" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.InvoiceNo.errors}" />
+          <input type="text" ngModel maxlength="50" (focus)="focusInput('Accepts any character and max length is 50')" class="form-control" [(ngModel)]="asnItem.InvoiceNo" formControlName="InvoiceNo" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.InvoiceNo.errors}" />
           <span *ngIf="ASNSubmitted && CreatASN.controls.InvoiceNo.errors" class="invalid-feedback">Enter Invoice No.</span>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
@@ -109,7 +110,7 @@
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Delivery Note :</label>
-          <textarea class="form-control"  (focus)="focusInput('A delivery note contains detailed information about items, quantities, and delivery dates, as well as package information such as the number of containers, pallets, boxes, and how the items are stored in the different packages.')" formControlName="DeliveryNote" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.DeliveryNote.errors}" [(ngModel)]="asnItem.DeliveryNote"></textarea>
+          <textarea class="form-control" (focus)="focusInput('A delivery note contains detailed information about items, quantities, and delivery dates, as well as package information such as the number of containers, pallets, boxes, and how the items are stored in the different packages.')" formControlName="DeliveryNote" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.DeliveryNote.errors}" [(ngModel)]="asnItem.DeliveryNote"></textarea>
           <span *ngIf="ASNSubmitted && CreatASN.controls.DeliveryNote.errors" class="invalid-feedback">Enter Delivery Note.</span>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
@@ -126,7 +127,7 @@
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
           <label class="form-label">Total Volume:</label>
-          <input type="text" class="form-control"(focus)="focusInput('A notional or calculated weight for bulky goods sent  ')"  formControlName="TotalVolume" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.TotalVolume.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.TotalVolume" />
+          <input type="text" class="form-control" (focus)="focusInput('A notional or calculated weight for bulky goods sent  ')" formControlName="TotalVolume" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.TotalVolume.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.TotalVolume" />
           <span *ngIf="ASNSubmitted && CreatASN.controls.TotalVolume.errors" class="invalid-feedback">Enter Total Volume.</span>
         </div>
         <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
@@ -136,6 +137,11 @@
             <option value="By YIL">By YIL</option>
             <option value="By Supplier">By Supplier</option>
           </select><span *ngIf="ASNSubmitted && CreatASN.controls.Insurance.errors" class="invalid-feedback">Enter Insurance.</span>
+        </div>
+        <div class='col-md-3 col-lg-3 col-sm-3 form-group'>
+          <label class="form-label">Invoice Amount:<span style="color:red">*</span></label>
+          <input type="number" class="form-control" (focus)="focusInput('A notional or calculated weight for bulky goods sent  ')" formControlName="InvoiceAmntByVendor" [ngClass]="{ 'is-invalid': ASNSubmitted && CreatASN.controls.InvoiceAmntByVendor.errors}" ngModel maxlength="500" [(ngModel)]="asnItem.InvoiceAmntByVendor" />
+          <span *ngIf="ASNSubmitted && CreatASN.controls.InvoiceAmntByVendor.errors" class="invalid-feedback">Enter Invoice Amount.</span>
         </div>
       </div>
     </form>
@@ -160,9 +166,10 @@
             <th style="width:200px">Material Description</th>
             <th>HSN Code</th>
             <th style="width:100px">PO Qty</th>
+            <th style="width:100px">Unit Price</th>
             <th style="width:100px">Supplied Cumulative Qty</th>
             <!--<th style="width:100px">PO Cumulative Qty</th>-->
-            <th  style="width:150px">ASN Quantity</th>
+            <th style="width:150px">ASN Quantity</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex" let-rindex=0>
@@ -179,6 +186,7 @@
             <td class="ptable-cell">{{rowData.MaterialDescription}}</td>
             <td class="ptable-cell">{{rowData.HSNCode}}</td>
             <td class="ptable-cell">{{rowData.POQty}}</td>
+            <td class="ptable-cell">{{rowData.unitprice}}</td>
             <td class="ptable-cell">{{rowData.SupplierCumulativeQty}}</td>
             <!--<td class="ptable-cell">{{rowData.PoCumulativeQty}}</td>-->
             <td class="ptable-cell"><input type="number" [disabled]="asnid==0 && rowData.SupplierCumulativeQty && rowData.SupplierCumulativeQty>=rowData.POQty" [(ngModel)]="rowData.ASNQty" required class="form-control" numberOnly (blur)="checkQuantity(rowData,ri)" /></td>
@@ -235,6 +243,25 @@
     <div class="ui-dialog-buttonpane ui-helper-clearfix">
       <button type="button" pButton icon="fa fa-check" (click)="onCommnicationSubmit()" label="Submit"></button>
       <button type="button" pButton icon="fa fa-close" (click)="dialogCancel('displayCommunicationDialog')" label="Cancel"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
+
+<p-dialog header="Confirmation :" [(visible)]="displayMessageDialog" [responsive]="true" showEffect="fade" [modal]="true" [style]="{width: '700px'}">
+  <div class="ui-g ui-fluid">
+    <div class="ui-g-12">
+      <div class="ui-g-10">
+        <label class="form-label"><b>Entered Invoice Amount is not matched with Default Invoice Amount.</b></label><br />
+        <label class="form-label"><b>PO Value is {{this.asnItem.DefaultInvoiceAmnt}}, but invoice value is {{this.asnItem.InvoiceAmntByVendor}}</b></label><br />
+        <i class="pi pi-exclamation-triangle"> <label class="form-label"><b style="color:red">Are you sure you want to continue??</b></label></i>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" pButton icon="fa fa-check" (click)="dialogOk()" label="Yes"></button>
+      <button type="button" pButton icon="fa fa-close" (click)="dialogCancel('displayMessageDialog')" label="Back"></button>
     </div>
   </p-footer>
 </p-dialog>
@@ -326,6 +353,10 @@
         <label class="lblEdit">Insurance:</label>
         <span class="valueEdit">{{asnItem.Insurance}}</span>
       </div>
+      <div class='ui-g-3'>
+        <label class="lblEdit">Invoice Amount:</label>
+        <span class="valueEdit">{{asnItem.InvoiceAmntByVendor}}</span>
+      </div>
     </div>
     <div class="ui-g-12 m-2">
       <p-table [value]="selectedItemDetailsList" [paginator]="true" [rows]="10" [resizableColumns]="true" [responsive]="true" [style]="{'width':'100%','overflow':'auto!important'}">
@@ -366,9 +397,9 @@
     <div class="ui-dialog-buttonpane ui-helper-clearfix">
       <div class="row mt-2">
         <div class="col-md-2 col-lg-2 col-sm-2"></div>
-        <input type="checkbox" style="height:20px;width:20px" (click)="agreeInputs($event)">&nbsp;&nbsp;<span>I Agree to the above information is correct</span>
+        <input type="checkbox" [(ngModel)]="Agree" style="height:20px;width:20px" (click)="agreeInputs($event)">&nbsp;&nbsp;<span>I Agree to the above information is correct</span>
       </div>
-      <button type="button"  [disabled]="disableSubmit" pButton icon="fa fa-check" (click)="onASNFinalSubmit()" label="Proceed"></button>
+      <button type="button" [disabled]="disableSubmit" pButton icon="fa fa-check" (click)="onASNFinalSubmit()" label="Proceed"></button>
       <button type="button" pButton icon="fa fa-close" (click)="dialogCancel('displayConfirmationDialog')" label="Back"></button>
     </div>
   </p-footer>

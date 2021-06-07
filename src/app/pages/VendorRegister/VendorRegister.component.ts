@@ -48,6 +48,8 @@ export class VendorRegisterComponent implements OnInit {
   file: string;
   public regGST: RegExp;
   public regpan: RegExp;
+  public showTermsdialog; showGuidelinesDialog: boolean = false;
+  public disableForm: boolean = true;
 
   @ViewChild('attachments', { static: false }) attachment: any;
 
@@ -228,6 +230,10 @@ export class VendorRegisterComponent implements OnInit {
         this.VendorData.HaveGST = true;
       else
         this.VendorData.HaveGST = false;
+      if (this.VendorData.TermsAndConditions && this.VendorData.Guidelines)
+        this.disableForm = false;
+      if (!this.VendorData.TermsAndConditions || !this.VendorData.Guidelines)
+        this.disableForm = true;
       this.natureOfBusinessChange();
       this.CheckValidations();
       //this.listOfFiles1 = this.VendorData.DocDetailsLists.filter(li => li.DocumentationTypeId == 1);
@@ -239,12 +245,14 @@ export class VendorRegisterComponent implements OnInit {
       this.VendorRegister.controls['MSME'].clearValidators();
       this.VendorRegister.controls['State'].clearValidators();
       this.VendorRegister.controls['GSTNo'].clearValidators();
+      this.VendorRegister.controls['HaveGST'].clearValidators();
       this.VendorRegister.controls['PANNo'].clearValidators();
       this.VendorRegister.controls['IFSCCode'].clearValidators();
 
       this.VendorRegister.controls['MSME'].updateValueAndValidity();
       this.VendorRegister.controls['State'].updateValueAndValidity();
       this.VendorRegister.controls['GSTNo'].updateValueAndValidity();
+      this.VendorRegister.controls['HaveGST'].updateValueAndValidity();
       this.VendorRegister.controls['PANNo'].updateValueAndValidity();
       this.VendorRegister.controls['IFSCCode'].updateValueAndValidity();
     }
@@ -446,8 +454,57 @@ export class VendorRegisterComponent implements OnInit {
 
       this.VendorData.DocDetailsLists.splice(index, 1);
     }
+  }
 
-
+  //Terms & guidelines change
+  termsChange(type: any) {
+    if (type == "Terms") {
+      if (this.VendorData.TermsAndConditions)
+        this.showTermsdialog = true;
+      else
+        this.showTermsdialog = false;
+    }
+    if (type == "Guidelines") {
+      if (this.VendorData.Guidelines)
+        this.showGuidelinesDialog = true;
+      else
+        this.showGuidelinesDialog = false;
+    }
+    if (this.VendorData.TermsAndConditions && this.VendorData.Guidelines)
+      this.disableForm = false;
+    if (!this.VendorData.TermsAndConditions || !this.VendorData.Guidelines)
+      this.disableForm = true;
+    this.RFQservice.updateRegTerms(this.VendorData).subscribe(data => {
+    });
 
   }
+  dialogCancel(dialog: any, type: any) {
+    this[dialog] = false;
+    if (type == "Guidelines")
+      this.VendorData.Guidelines = false;
+    if (type == "Terms")
+      this.VendorData.TermsAndConditions = false;
+    if (this.VendorData.TermsAndConditions && this.VendorData.Guidelines)
+      this.disableForm = false;
+    if (!this.VendorData.TermsAndConditions || !this.VendorData.Guidelines)
+      this.disableForm = true;
+  }
+
+  dialogOk(dialog: any) {
+    this.spinner.show();
+    this.RFQservice.updateRegTerms(this.VendorData).subscribe(data => {
+      this.spinner.hide();
+      this[dialog] = false;
+      if (data) {
+        //this.VendorData.TermsAndConditions = data.TermsAndConditions;
+        //this.VendorData.Guidelines = data.Guidelines;
+        if (this.VendorData.TermsAndConditions && this.VendorData.Guidelines)
+          this.disableForm = false;
+        if (!this.VendorData.TermsAndConditions || !this.VendorData.Guidelines)
+          this.disableForm = true;
+      }
+    });
+
+  }
+
 }

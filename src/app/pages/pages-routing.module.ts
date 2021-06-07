@@ -13,6 +13,8 @@ import { CreateAsnComponent } from './ASN/CreateASN.component';
 import { AsnListComponent } from './ASN/ASNList.component';
 //import { AsnViewComponent } from './ASN/ViewASN.component';
 import { InvoiceComponent } from './Invoice/Invoice.component';
+import { BGViewComponent } from './BG/BGView.component';
+import { BGListComponent } from './BG/BGList.component';
 
 const routes: Routes = [{
   path: '',
@@ -38,7 +40,9 @@ const routes: Routes = [{
     { path: 'ASNList', component: AsnListComponent },
     //{ path: 'ASNDetails/:ASNId', component: AsnViewComponent },
     { path: 'ASNEdit/:ASNId', component: CreateAsnComponent },
-    { path: 'Invoice/:ASNId', component: InvoiceComponent }
+    { path: 'Invoice/:ASNId', component: InvoiceComponent },
+    { path: "BGView/:BGId", component: BGViewComponent },
+    { path: "BGList", component: BGListComponent },
   ],
 }];
 

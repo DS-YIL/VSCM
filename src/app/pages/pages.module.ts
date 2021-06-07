@@ -26,6 +26,8 @@ import { MatDialogModule, MatButtonModule, MatExpansionModule } from '@angular/m
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { SelectfilterPipe } from '../common/selectfilter.pipe';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+
 import { LoginComponent } from './Login/Login.component';
 import { VendorRegisterComponent } from './VendorRegister/VendorRegister.component';
 import { VendorQuotationAddComponent } from './RFQ/VendorQuotationAdd.component';
@@ -38,6 +40,8 @@ import { TabViewModule } from 'primeng/tabview';
 import { AsnListComponent } from './ASN/ASNList.component';
 //import { AsnViewComponent } from './ASN/ViewASN.component';
 import { InvoiceComponent } from './Invoice/Invoice.component';
+import { BGViewComponent } from './BG/BGView.component';
+import { BGListComponent } from './BG/BGList.component';
 
 @NgModule({
   imports: [
@@ -67,7 +71,8 @@ import { InvoiceComponent } from './Invoice/Invoice.component';
     MatExpansionModule,
     NbMenuModule,
     TabMenuModule,
-    TabViewModule
+    TabViewModule,
+    AutoCompleteModule
 
   ],
   declarations: [
@@ -84,7 +89,9 @@ import { InvoiceComponent } from './Invoice/Invoice.component';
     CreateAsnComponent,
     AsnListComponent,
     //AsnViewComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    BGViewComponent,
+    BGListComponent
   ],
   providers: [MessageService, ConfirmationService],
   entryComponents: [ConfirmationDialogComponent]

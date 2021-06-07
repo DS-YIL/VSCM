@@ -41,15 +41,17 @@ export class InvoiceComponent implements OnInit {
     this.spinner.show();
     this.RfqService.getAsnByAsnno(this.ASNId).subscribe(data => {
       this.spinner.hide();
-      this.asnItem = data;
-      //var arr = this.asnItem.RemoteASNItemDetails.map(({ PONo }) => PONo)
-      //arr = arr.filter(function (item, index, inputArray) {
-      //  return inputArray.indexOf(item) == index;
-      //});
-      //this.asnItem.PONo = arr.toString();
-      this.RemoteInvoiceDetails.InvoiceNo = this.asnItem.InvoiceNo;
-      this.RemoteInvoiceDetails.ASNId = this.ASNId;
-      this.GetInvoiceDetails();
+      if (data) {
+        this.asnItem = data;
+        //var arr = this.asnItem.RemoteASNItemDetails.map(({ PONo }) => PONo)
+        //arr = arr.filter(function (item, index, inputArray) {
+        //  return inputArray.indexOf(item) == index;
+        //});
+        //this.asnItem.PONo = arr.toString();
+        this.RemoteInvoiceDetails.InvoiceNo = this.asnItem.InvoiceNo;
+        this.RemoteInvoiceDetails.ASNId = this.ASNId;
+        this.GetInvoiceDetails();
+      }
     })
   }
 

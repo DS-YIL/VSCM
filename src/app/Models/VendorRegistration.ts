@@ -77,7 +77,8 @@ export class VendorRegistration {
   SwiftCode: string = "";
   VendorType: boolean;
   Country: string;
-
+  TermsAndConditions: boolean;
+  Guidelines: boolean
 }
 
 export class VendorDocDetailsList {

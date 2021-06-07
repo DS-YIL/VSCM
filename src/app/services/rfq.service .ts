@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { DynamicSearchResult, RfqItemModel, rfqFilterParams, Vendor, Employee, ASNfilters } from '../Models/RFQModel';
+import { DynamicSearchResult, RfqItemModel, rfqFilterParams, Vendor, Employee, ASNfilters, BankGuarantee, BGfilters } from '../Models/RFQModel';
 import { constants } from '../Models/RFQConstants'
 import { map } from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
@@ -147,6 +147,11 @@ export class RfqService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
     return this.http.get<any>(this.url + 'RFQ/Getvendordetails/' + vendorid, httpOptions);
   }
+  updateRegTerms(vendorList: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.post<any>(this.url + 'RFQ/updateRegTerms/', JSON.stringify(vendorList), httpOptions);
+  }
+
   uploadFile(formdata: FormData): Observable<any> {
     const customHeaders = new HttpHeaders({
       'Authorization': 'Bearer ' + this.accessToken,
@@ -387,5 +392,51 @@ export class RfqService {
   //  }
   //  return throwError(error.message || "server error.");
   //}
+
+  //Bank Guarantee
+
+  updateBG(bg: BankGuarantee): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.post<any>(this.url + 'RFQ/updateBG', bg, httpOptions);
+  }
+
+  getBGList(data: BGfilters): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.post<any>(this.url + 'RFQ/getBGList', data, httpOptions);
+  }
+  getBGDetails(BGId: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.get<any>(this.url + 'RFQ/getBGDetails/' + BGId, httpOptions);
+  }
+
+  DeleteBGFile(DocId: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.get<any>(this.url + 'RFQ/DeleteBGFile/' + DocId, httpOptions);
+  }
+
+
+  downLoadRFQInfoExcel(revisionId: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }), responseType: 'blob' as 'json' };
+
+    return this.http.get<any>(this.url + 'RFQ/Downloadexcel/' + revisionId, httpOptions);
+  }
+  UploadRfqData(formdata: FormData): Observable<any> {
+    const customHeaders = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.accessToken,
+      'Accepted-Encoding': 'application/json'
+    });
+    const customOptions = {
+      headers: customHeaders,
+      reportProgress: true,
+    };
+    return this.http.post<any>(this.url + 'RFQ/UploadRfqData/', formdata, customOptions)
+      .pipe(map(data => {
+        return data;
+      }))
+  }
+  deleteRFQFormatFile(): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "bearer " + this.accessToken }) };
+    return this.http.get<any>(this.url + 'RFQ/deleteRFQFormatFile/', httpOptions);
+  }
 }
 

@@ -6,7 +6,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Registration',
     icon: 'home-outline',
     link: '/VSCM/Vendorregister',
-    home: true,
+    home: false,
   },
   {
     title: 'RFQ',
@@ -39,6 +39,37 @@ export const MENU_ITEMS: NbMenuItem[] = [
       }
     ],
   },
+  {
+    title: 'BG',
+    icon: 'lock-outline',
+    expanded: false,
+    children: [
+      {
+        title: 'BG List',
+        link: '/VSCM/BGList',
+        icon: 'list-outline'
+      },
+    ],
+  },
+  {
+    title: 'Guidelines',
+    icon: 'lock-outline',
+    expanded: false,
+    children: [
+      {
+        title: 'Yokogawa General T&C',
+        url: 'http://vscm-1089815394.ap-south-1.elb.amazonaws.com/VSCMDocs/YokogawaTermsandConditions.pdf',
+        target: "true",
+        icon: 'list-outline'
+      },
+      {
+        title: 'Yokogawa  Guidelines',
+        url: 'http://vscm-1089815394.ap-south-1.elb.amazonaws.com/VSCMDocs/Yokogawaguidelines.pdf',
+        target: "true",
+        icon: 'list-outline'
+      },
+    ],
+  }
   //{
   //  title: 'Invoice',
   //  icon: 'keypad-outline',

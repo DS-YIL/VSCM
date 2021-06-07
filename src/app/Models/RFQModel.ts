@@ -569,7 +569,7 @@ export class rfqFilterParams {
   RFQNo: string;
   VendorId: string;
   DocumentNo: string;
-  StatusId: number=0;
+  StatusId: number = 0;
 }
 export class QuoteDetails {
   RfqNo: string;
@@ -658,4 +658,61 @@ export class ASNfilters {
   VendorName: string;
   IntiatedBy: string;
   PONo: string;
+}
+export class BankGuarantee {
+  BGId: number;
+  BGNo: string;
+  SequenceNo: number;
+  BGSerialNo: string;
+  Vendorid: number;
+  VendorName: string;
+  PONo: string;
+  PODate: Date;
+  POValue: string;
+  BGValue: string;
+  Items: string;
+  BGDate: Date;
+  BGExpiryDate: Date
+  WarrantyExpiryDate: Date;
+  ClaimDate: Date;
+  BGStatus: string = "";
+  BGRemarks: string = "";
+  CreatedBy: string;
+  VerifiedonReceiptofOriginal: boolean;
+  RemoteBGDocuments: Array<RemoteBGDocument> = [];
+  RemoteBGStatusTracks: Array<RemoteBGStatusTrack> = [];
+}
+
+export class BGfilters {
+  FromDate: string;
+  ToDate: string;
+  BGNo: string;
+  VendorName: string;
+  IntiatedBy: string;
+  PONo: string;
+  BGStatus: string = "";
+  Vendorid: string;
+}
+export class RemoteBGStatusTrack {
+  StatustrackId: number;
+  BGId: number;
+  Status: string;
+  Remarks: string;
+  UpdatedBy: string;
+  UpdatedDate: Date;
+  DeleteFlag: boolean;
+  DeletedBy: string;
+  DeletedDate: Date;
+}
+
+export class RemoteBGDocument {
+  DocId: number;
+  BGId: number;
+  DocumentName: string;
+  Path: string;
+  UploadedBy: string;
+  UploadedDate: Date;
+  DeleteFlag: boolean
+  DeletedBy: string
+  DeletedDate: Date;
 }

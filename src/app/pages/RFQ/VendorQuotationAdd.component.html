@@ -1,5 +1,13 @@
-<!--<a href="http://vscm-1089815394.ap-south-1.elb.amazonaws.com/VSCMDocs/VendorUserGuide.pdf" target="_blank" style="color:blue !important;float:right">User Guide:</a><br />-->
-<span *ngIf="displayFooter" class="blink_text">Please Acknowledge the RFQ as a first step to proceed further, Acknowledgement section is available in the footer.</span><br />
+<div class="row mt-2">
+  <div class="col-md-8 col-sm-8 col-xs-8 form-inline">
+    <span *ngIf="displayFooter" class="blink_text">Please Acknowledge the RFQ as a first step to proceed further, Acknowledgement section is available in the footer.</span>
+  </div>
+  <div class="col-md-4 col-sm-4 col-xs-4 form-inline">
+    <label style="float:right"> Upload :</label>&nbsp;
+    <input type="file" [disabled]="disableOtherBtn" id="uploadInputFile" class="form-control" (change)="uploadExcel($event)" placeholder="Upload Excel" accept=".xlsx,.xls" style="float:right">&nbsp;&nbsp;
+    <button type="button" [disabled]="disableOtherBtn" pButton icon="fa fa-download" pTooltip="DownLoad Excel" class="btn btn-success" (click)="DownLoadExcel()" style="float:right"></button>&nbsp;&nbsp;
+  </div>
+</div>
 <div class="row mt-2" style="font-size:16px !important;font-weight: 600;background-color: goldenrod;">
   <div class="col-md-5 col-sm-5 col-xs-5 form-inline"><label>Issuer : </label><span>YOKOGAWA INDIA LIMITED</span></div>
   <div class="col-md-3 col-sm-3 col-xs-3 form-inline"><label class="form-label">  Vendor Quotation </label></div>

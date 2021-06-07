@@ -30,7 +30,7 @@ import { ThemeModule } from './@theme/theme.module';
 import { NbSidebarModule, NbMenuModule, NbDatepickerModule, NbDialogModule, NbWindowModule, NbToastrModule, NbChatModule } from '@nebular/theme';
 import { CoreModule } from './@core/core.module';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
-
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
@@ -65,6 +65,7 @@ import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
     MatButtonModule,
     ConfirmDialogModule,
     MatExpansionModule,
+    AutoCompleteModule,
     ThemeModule.forRoot(),
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),

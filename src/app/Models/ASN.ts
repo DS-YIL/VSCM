@@ -1,8 +1,13 @@
 export class AsnModels {
   PONo: string = "";
   PONos: string = "";
+  PODate: Date;
   InvoiceNo: string;
   InvoiceDate: Date;
+  InvoiceAmntByVendor: string;
+  DefaultInvoiceAmnt: string;
+  ProjectName: string;
+  ProjectCode: string;
   ASNNo: string;
   ShipFrom: string;
   ShipTo: string;
@@ -28,7 +33,8 @@ export class AsnModels {
   Incoterm: string;
   HSNCode: string;
   InboundDeliveryNo: string;
-  DocumentDate: string
+  DocumentDate: string;
+  InvoiceType: string;
 }
 
 export class PONumbers {
@@ -45,6 +51,7 @@ export class PONumbers {
   VendorAdress: string;
   PONo: string;
   ShipTo: string;
+  PODate: Date;
 }
 
 

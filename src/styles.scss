@@ -361,9 +361,16 @@ a.disabled {
   color: #598bff;
   cursor:pointer;
 }
-
-body .ui-multiselect{
-  width:200px !important
+.disableDiv {
+  pointer-events: none;
+  background: #f4f4f4 !important;
+}
+.enableDiv {
+  pointer-events: visible;
+  background: none;
+}
+body .ui-multiselect {
+  width: 200px !important
 }
 
 .mprltbldata > th {

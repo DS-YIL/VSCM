@@ -91,6 +91,10 @@
       <label class="lblEdit">Insurance:</label>
       <span class="valueEdit">{{asnItem.Insurance}}</span>
     </div>
+    <div class='col-xs-3 col-md-3 col-sm-3 form-group'>
+      <label class="lblEdit">Invoice Amount:</label>
+      <span class="valueEdit">{{asnItem.InvoiceAmntByVendor}}</span>
+    </div>
   </div>
 
 
@@ -100,7 +104,7 @@
   </div>
   <div class="row col-lg-12 col-md-12 col-sm-12 ml-2">
     <div class='col-md-4 col-lg-4 col-sm-4'>
-      <span style="color:red">Please Upload Documents in PDF Format</span>
+      <span style="color:orange">Please Upload Documents in PDF Format</span>
     </div>
   </div>
   <div class="row col-lg-12 col-md-12 col-sm-12 m-2">
@@ -149,7 +153,7 @@
       </span>
     </div>
   </div>
-  <div class="row col-lg-12 col-md-12 col-sm-12  ml-4"><span style="color:red">Either document or remarks is mandatory for LR/AWB/Courier Docket/B/L </span></div>
+  <div class="row col-lg-12 col-md-12 col-sm-12  ml-4"><span style="color:orange">Either document or remarks is mandatory for LR/AWB/Courier Docket/B/L </span></div>
   <div class="row col-lg-12 col-md-12 col-sm-12  m-2">
     <div class='col-md-6 col-lg-6 col-sm-6 form-inline'><b>LR/AWB/Courier Docket/B/L Remarks:</b>&nbsp;<textarea maxlength="2000" class="form-control" [(ngModel)]="RemoteInvoiceDetails.LRRemarks"></textarea></div>
     </div>

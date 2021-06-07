@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Vendor, DynamicSearchResult } from '../../Models/RFQModel';
 import { NgxSpinnerService } from 'ngx-spinner'
 import { constants } from '../../models/RFQConstants'
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-create-asn',
@@ -15,7 +16,7 @@ import { constants } from '../../models/RFQConstants'
 export class CreateAsnComponent implements OnInit {
   public CreatASN: FormGroup;
   public ASNSubmitted: boolean = false;
-  public disableSubmit; submit: boolean = true;
+  public disableSubmit; submit; Agree: boolean = true;
   public dynamicData = new DynamicSearchResult();
   public asnItem = new AsnModels();
   public AsnfilterForm: FormGroup;
@@ -28,11 +29,13 @@ export class CreateAsnComponent implements OnInit {
   public IncoTermsList: Array<any> = [];
   public ModeOfTransportList: Array<any> = [];
   public RemoteASNCommunications = new RemoteASNCommunication();
-  public displayCommunicationDialog; displayConfirmationDialog: boolean = false;
+  public displayCommunicationDialog; displayConfirmationDialog; displayMessageDialog: boolean = false;
   //public selectedPOs: Array<any> = [];
   public selectedPOs: any;
   public invoiceNoList: Array<any> = [];
-  constructor(public constants: constants, private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService, public RfqService: RfqService, private messageService: MessageService, private formBuilder: FormBuilder) { }
+  filteredPOs: any[];
+
+  constructor(public constants: constants, private router: Router, private ConfirmationService: ConfirmationService, private route: ActivatedRoute, private spinner: NgxSpinnerService, public RfqService: RfqService, private messageService: MessageService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.Vendor = JSON.parse(localStorage.getItem("vendordetail"));
@@ -65,8 +68,10 @@ export class CreateAsnComponent implements OnInit {
       TotalNetWeight_Kgs: ['', [Validators.required]],
       TotalVolume: ['', [Validators.required]],
       Insurance: ['', [Validators.required]],
+      InvoiceAmntByVendor: ['', [Validators.required]],
     });
 
+    this.CreatASN.controls['PONo'].clearValidators();
     this.CreatASN.controls['IncotermDescription'].clearValidators();
     this.CreatASN.controls['FreightInvNo'].clearValidators();
     this.CreatASN.controls['IncotermLoc'].clearValidators();
@@ -197,6 +202,7 @@ export class CreateAsnComponent implements OnInit {
   //submit ASN 
   submitAsn() {
     this.ASNSubmitted = true;
+    this.Agree = false;
     if (this.CreatASN.invalid) {
       return;
     }
@@ -204,16 +210,38 @@ export class CreateAsnComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select at least one Item' });
       return;
     }
-    this.displayConfirmationDialog = true;
+    this.asnItem.RemoteASNItemDetails = this.selectedItemDetailsList;
+    //check invoice Amount
+    this.asnItem.DefaultInvoiceAmnt = this.asnItem.RemoteASNItemDetails.map(item => item.unitprice * item.ASNQty).reduce((prev, next) => prev + next).toString();
+    if (this.asnItem.DefaultInvoiceAmnt != this.asnItem.InvoiceAmntByVendor)
+      this.displayMessageDialog = true;
+    else
+      this.displayConfirmationDialog = true;
+
+    this.asnItem.InvoiceType = this.selectedItemDetailsList[0].InvoiceType;
     this.asnItem.VendorId = this.Vendor.vendorId;
     this.asnItem.CreatedBy = this.Vendor.VUniqueId;
     this.asnItem.VendorName = this.Vendor.UserName + " " + "-" + " " + this.Vendor.VendorCode;
-    this.asnItem.RemoteASNItemDetails = this.selectedItemDetailsList;
+  }
+
+  //invoice Amount Confirmation
+  dialogOk() {
+    this.displayMessageDialog = false;
+    this.displayConfirmationDialog = true;
+    this.disableSubmit = true;
+  }
+
+
+  dialogCancel(dialog: any) {
+    this[dialog] = false;
+    this.submit = true;
   }
 
   onASNFinalSubmit() {
     if (this.submit) {
       this.submit = false;
+      this.asnItem.ProjectName = this.asnItem.RemoteASNItemDetails.map(item => item.ProjectName).filter((value, index, self) => self.indexOf(value) === index).toString();
+      this.asnItem.ProjectCode = this.asnItem.RemoteASNItemDetails.map(item => item.ProjectCode).filter((value, index, self) => self.indexOf(value) === index).toString();
       this.spinner.show();
       this.RfqService.InsertandEditAsn(this.asnItem).subscribe(data => {
         this.submit = true;
@@ -223,6 +251,19 @@ export class CreateAsnComponent implements OnInit {
       })
     }
   }
+
+  filterpo(event) {
+    if (this.lstPONumbers && this.lstPONumbers.length > 0) {
+      this.filteredPOs = [];
+      for (let i = 0; i < this.lstPONumbers.length; i++) {
+        let pos = this.lstPONumbers[i].PONo;
+        if (pos.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+          this.filteredPOs.push(pos);
+        }
+      }
+    }
+  }
+
 
   //get po detai;s
   getPoDetails() {
@@ -234,15 +275,30 @@ export class CreateAsnComponent implements OnInit {
 
   }
   getItemDetailsByPoNo() {
-      if (this.selectedPOs) {
+    if (this.selectedPOs) {
+      if (this.lstPONumbers.filter(li => li.PONo == this.selectedPOs).length > 0) {
+        this.selectedItemDetailsList = [];
         this.asnItem.ShipTo = this.lstPONumbers.filter(li => li.PONo == this.selectedPOs)[0].ShipTo;
+        this.asnItem.PODate = this.lstPONumbers.filter(li => li.PONo == this.selectedPOs)[0].PODate;
         this.spinner.show();
         this.asnItem.PONo = this.selectedPOs;
         this.RfqService.getItemDetailsByPoNo(this.asnItem.PONo).subscribe(data => {
           this.spinner.hide();
           this.RemoteASNItemDetails = data;
-        })     
+        })
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select PO No from the list' });
+        this.RemoteASNItemDetails = [];
+        return true;
+      }
     }
+    else {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Enter PO No' });
+      this.RemoteASNItemDetails = [];
+      return true;
+    }
+
   }
 
   //getItemDetailsByPoNo() {
@@ -287,10 +343,6 @@ export class CreateAsnComponent implements OnInit {
     this.displayCommunicationDialog = true;
   }
 
-  dialogCancel(dialog: any) {
-    this[dialog] = false;
-    this.submit = true;
-  }
 
   //update ASN coomunication
   onCommnicationSubmit() {
@@ -306,7 +358,6 @@ export class CreateAsnComponent implements OnInit {
           this.getASNDetails();
         }
       })
-
     }
     else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Enter Remarks' });
