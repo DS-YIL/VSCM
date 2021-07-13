@@ -16,12 +16,12 @@ export class InvoiceComponent implements OnInit {
   constructor(public RfqService: RfqService, private messageService: MessageService, private route: ActivatedRoute, public constants: constants, private spinner: NgxSpinnerService, private router: Router) { }
   public VendorDetails: Vendor;
   public poInvoiceList: Array<any> = [];
-  public AddEditDialog = false;
   public RemoteInvoiceDetails: RemoteInvoiceDetails;
   public RemoteInvoiceDocuments: RemoteInvoiceDocuments;
-  public disableTaxDoc; disableInvoiceDoc; isEdit: boolean;
+  public disableTaxDoc; disableInvoiceDoc;
   public ASNId: number;
   public asnItem = new AsnModels();
+  public hideSubmitBtn: boolean = false;
 
   ngOnInit() {
     this.VendorDetails = JSON.parse(localStorage.getItem("vendordetail"));
@@ -51,6 +51,10 @@ export class InvoiceComponent implements OnInit {
         this.RemoteInvoiceDetails.InvoiceNo = this.asnItem.InvoiceNo;
         this.RemoteInvoiceDetails.ASNId = this.ASNId;
         this.GetInvoiceDetails();
+        if (this.asnItem.AckStatus == 'Approved')
+          this.hideSubmitBtn = true;
+        else
+          this.hideSubmitBtn = false;
       }
     })
   }
@@ -106,12 +110,12 @@ export class InvoiceComponent implements OnInit {
     this.RemoteInvoiceDetails.ASNId = this.ASNId;
     this.RfqService.UpdateInvoice(this.RemoteInvoiceDetails).subscribe(data => {
       this.spinner.hide();
-      if (this.isEdit == false)
-        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Invoice Generated' });
-      if (this.isEdit == true)
-        this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Invoice Updated' });
-      this.AddEditDialog = false;
-      this.GetInvoiceDetails();
+      //if (this.isEdit == false)
+      //  this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Invoice Generated' });
+      //if (this.isEdit == true)
+      this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'Invoice Updated' });
+      this.router.navigate(['/VSCM/ASNList']);
+     // this.GetInvoiceDetails();
     })
   }
 

@@ -34,7 +34,10 @@ export class AsnModels {
   HSNCode: string;
   InboundDeliveryNo: string;
   DocumentDate: string;
-  InvoiceType: string;
+  InvoiceType: string="";
+  Crcy: string;
+  ExchangeRate: string;
+  AckStatus: string;
 }
 
 export class PONumbers {
@@ -52,6 +55,8 @@ export class PONumbers {
   PONo: string;
   ShipTo: string;
   PODate: Date;
+  Crcy: string;
+  ExchangeRate: string;
 }
 
 

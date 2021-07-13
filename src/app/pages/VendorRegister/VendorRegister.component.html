@@ -1,5 +1,7 @@
 <!-- <p>vendor-register works!</p> -->
 <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;font-size:14px !important;align-content: center;font-weight: 600;background-color: goldenrod;height:1%;">Vendor Registration Form</div>
+<br />
+<div class="mt-2 text-info"><b>To fill Registration details you should read (by click on below link) and confirm (by click on below check boxes) Terms & Conditions and guidelines,than you will be able to fill details.</b></div>
 <div class="form-inline m-4">
   <p-inputSwitch [(ngModel)]="VendorData.TermsAndConditions" (click)="termsChange('Terms')"></p-inputSwitch>&nbsp; &nbsp; <a href="http://vscm-1089815394.ap-south-1.elb.amazonaws.com/VSCMDocs/YokogawaTermsAndConditions.pdf" target="_blank" style="color:blue !important;float:right;margin-right: 100px; ">Yokogawa General Terms and Conditions</a><br />&nbsp;&nbsp;
   <p-inputSwitch [(ngModel)]="VendorData.Guidelines" (click)="termsChange('Guidelines')"></p-inputSwitch>&nbsp;&nbsp;<a href="http://vscm-1089815394.ap-south-1.elb.amazonaws.com/VSCMDocs/YokogawaGuidelines.pdf" target="_blank" style="color:blue !important;float:right;margin-right: 100px; ">Yokogawa Sustainable Procurement Guidelines</a><br />&nbsp;&nbsp;

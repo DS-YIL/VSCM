@@ -16,7 +16,7 @@ import { ConfirmationService } from 'primeng/api';
 export class CreateAsnComponent implements OnInit {
   public CreatASN: FormGroup;
   public ASNSubmitted: boolean = false;
-  public disableSubmit; submit; Agree: boolean = true;
+  public disableFinalSubmit; submit; showSubmitBtn; Agree: boolean = true;
   public dynamicData = new DynamicSearchResult();
   public asnItem = new AsnModels();
   public AsnfilterForm: FormGroup;
@@ -34,7 +34,7 @@ export class CreateAsnComponent implements OnInit {
   public selectedPOs: any;
   public invoiceNoList: Array<any> = [];
   filteredPOs: any[];
-
+  public InvoiceType: string;
   constructor(public constants: constants, private router: Router, private ConfirmationService: ConfirmationService, private route: ActivatedRoute, private spinner: NgxSpinnerService, public RfqService: RfqService, private messageService: MessageService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -47,6 +47,8 @@ export class CreateAsnComponent implements OnInit {
     this.asnItem = new AsnModels();
     this.asnItem.PONo = "";
     this.asnItem.ShipFrom = this.Vendor.Street;
+    this.showSubmitBtn = true;
+    this.submit = true;
 
     this.CreatASN = this.formBuilder.group({
       PONo: ['', [Validators.required]],
@@ -124,10 +126,17 @@ export class CreateAsnComponent implements OnInit {
     this.RfqService.getAsnByAsnno(this.asnid).subscribe(data => {
       this.spinner.hide();
       this.asnItem = data;
+      if (!this.asnItem.InvoiceType)
+        this.asnItem.InvoiceType = "Supply";
       this.asnItem.PONo = this.asnItem.PONo;
       this.RemoteASNItemDetails = this.asnItem.RemoteASNItemDetails;
       this.CreatASN.controls['PONo'].clearValidators();
       this.CreatASN.controls['PONo'].updateValueAndValidity();
+      this.clearValidations();
+      if (this.asnItem.AckStatus == 'Approved')
+        this.showSubmitBtn = false;
+      else
+        this.showSubmitBtn = true;
     })
   }
 
@@ -153,17 +162,32 @@ export class CreateAsnComponent implements OnInit {
 
   checkQuantity(details: any, id: any) {
     var index = this.RemoteASNItemDetails.findIndex(x => x.PONo == details.PONo && x.Material == details.Material && x.POItemNo == details.POItemNo);
-    if (!details.RemainingQty && (details.ASNQty > (details.POQty))) {
-      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Entered ASN Quantity should not be greater than PO Qty ' });
-      (<HTMLInputElement>document.getElementById("Item" + id)).checked = false;
-      this.selectedItemDetailsList.splice(index, 1);
-      return;
+
+    if (this.asnid == 0) {
+      if (!details.RemainingQty && (details.ASNQty > (details.POQty))) {
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Entered ASN Quantity should not be greater than PO Qty ' });
+        (<HTMLInputElement>document.getElementById("Item" + id)).checked = false;
+        this.selectedItemDetailsList.splice(index, 1);
+        return;
+      }
+      if (details.RemainingQty && details.ASNQty > details.RemainingQty) {
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Entered ASN Quantity should not be greater than sum of PO  Qty and Supllied Cumulative Qty' });
+        (<HTMLInputElement>document.getElementById("Item" + id)).checked = false;
+        this.selectedItemDetailsList.splice(index, 1);
+        return;
+      }
     }
-    if (details.RemainingQty && details.ASNQty > details.RemainingQty) {
-      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Entered ASN Quantity should not be greater than sum of PO  Qty and Supllied Cumulative Qty' });
-      (<HTMLInputElement>document.getElementById("Item" + id)).checked = false;
-      this.selectedItemDetailsList.splice(index, 1);
-      return;
+    else {
+      if (!details.SupplierCumulativeQty) {
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Enter SupplierCumulative Quantity' });
+        details.SupplierCumulativeQty = details.SupplierCumulativeQty;
+        return;
+      }
+      if (details.SupplierCumulativeQty && (details.SupplierCumulativeQty > (details.POQty))) {
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Entered SupplierCumulative Quantity should not be greater than PO Qty ' });
+        details.SupplierCumulativeQty = details.SupplierCumulativeQty;
+        return;
+      }
     }
   }
 
@@ -171,7 +195,7 @@ export class CreateAsnComponent implements OnInit {
   selectItemList(event: any, details: any, id: any) {
     var index = this.RemoteASNItemDetails.findIndex(x => x.PONo == details.PONo && x.Material == details.Material && x.POItemNo == details.POItemNo);
     if (event.target.checked == true) {
-      if (!details.ASNQty) {
+      if (details.ASNQty == null) {
         this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Enter ASN Quantity' });
         (<HTMLInputElement>document.getElementById("Item" + id)).checked = false;
         return;
@@ -195,9 +219,9 @@ export class CreateAsnComponent implements OnInit {
   //agree inputs
   agreeInputs(event: any) {
     if (event.target.checked == true)
-      this.disableSubmit = false;
+      this.disableFinalSubmit = false;
     else
-      this.disableSubmit = true;
+      this.disableFinalSubmit = true;
   }
   //submit ASN 
   submitAsn() {
@@ -210,15 +234,23 @@ export class CreateAsnComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Select at least one Item' });
       return;
     }
-    this.asnItem.RemoteASNItemDetails = this.selectedItemDetailsList;
+    if (this.asnid == 0)//insert
+    {
+      this.asnItem.RemoteASNItemDetails = this.selectedItemDetailsList;
+      this.asnItem.DefaultInvoiceAmnt = this.asnItem.RemoteASNItemDetails.map(item => item.UnitPrice * item.ASNQty).reduce((prev, next) => prev + next).toString();
+
+    }
+    else {
+      this.selectedItemDetailsList = this.asnItem.RemoteASNItemDetails;
+      this.asnItem.DefaultInvoiceAmnt = this.asnItem.RemoteASNItemDetails.map(item => item.UnitPrice * item.SupplierCumulativeQty).reduce((prev, next) => prev + next).toString();
+    }
     //check invoice Amount
-    this.asnItem.DefaultInvoiceAmnt = this.asnItem.RemoteASNItemDetails.map(item => item.unitprice * item.ASNQty).reduce((prev, next) => prev + next).toString();
     if (this.asnItem.DefaultInvoiceAmnt != this.asnItem.InvoiceAmntByVendor)
       this.displayMessageDialog = true;
     else
       this.displayConfirmationDialog = true;
 
-    this.asnItem.InvoiceType = this.selectedItemDetailsList[0].InvoiceType;
+
     this.asnItem.VendorId = this.Vendor.vendorId;
     this.asnItem.CreatedBy = this.Vendor.VUniqueId;
     this.asnItem.VendorName = this.Vendor.UserName + " " + "-" + " " + this.Vendor.VendorCode;
@@ -228,7 +260,7 @@ export class CreateAsnComponent implements OnInit {
   dialogOk() {
     this.displayMessageDialog = false;
     this.displayConfirmationDialog = true;
-    this.disableSubmit = true;
+    this.disableFinalSubmit = true;
   }
 
 
@@ -262,9 +294,32 @@ export class CreateAsnComponent implements OnInit {
         }
       }
     }
+    else {
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'There are no PO Nos to create ASN' });
+    }
   }
 
+  clearValidations() {
+    if (this.asnItem.InvoiceType == 'Service') {
+      this.CreatASN.controls['ShippingDate'].clearValidators();
+      this.CreatASN.controls['DeliveryDate'].clearValidators();
+      this.CreatASN.controls['TransporterName'].clearValidators();
+      this.CreatASN.controls['BillofLodingNumber'].clearValidators();
+      this.CreatASN.controls['IncoTerm'].clearValidators();
+      this.CreatASN.controls['IncotermLoc'].clearValidators();
+      this.CreatASN.controls['ModeOfTransport'].clearValidators();
+      this.CreatASN.controls['Insurance'].clearValidators();
 
+      this.CreatASN.controls['ShippingDate'].updateValueAndValidity();
+      this.CreatASN.controls['DeliveryDate'].updateValueAndValidity();
+      this.CreatASN.controls['TransporterName'].updateValueAndValidity();
+      this.CreatASN.controls['BillofLodingNumber'].updateValueAndValidity();
+      this.CreatASN.controls['IncoTerm'].updateValueAndValidity();
+      this.CreatASN.controls['IncotermLoc'].updateValueAndValidity();
+      this.CreatASN.controls['ModeOfTransport'].updateValueAndValidity();
+      this.CreatASN.controls['Insurance'].updateValueAndValidity();
+    }
+  }
   //get po detai;s
   getPoDetails() {
     this.spinner.show();
@@ -280,11 +335,19 @@ export class CreateAsnComponent implements OnInit {
         this.selectedItemDetailsList = [];
         this.asnItem.ShipTo = this.lstPONumbers.filter(li => li.PONo == this.selectedPOs)[0].ShipTo;
         this.asnItem.PODate = this.lstPONumbers.filter(li => li.PONo == this.selectedPOs)[0].PODate;
+        this.asnItem.Crcy = this.lstPONumbers.filter(li => li.PONo == this.selectedPOs)[0].Crcy;
+        this.asnItem.ExchangeRate = this.lstPONumbers.filter(li => li.PONo == this.selectedPOs)[0].ExchangeRate;
         this.spinner.show();
         this.asnItem.PONo = this.selectedPOs;
         this.RfqService.getItemDetailsByPoNo(this.asnItem.PONo).subscribe(data => {
           this.spinner.hide();
           this.RemoteASNItemDetails = data;
+
+          if (this.RemoteASNItemDetails[0].InvoiceType == "Y201")
+            this.asnItem.InvoiceType = "Service";
+          else//Y101
+            this.asnItem.InvoiceType = "Supply";
+          this.clearValidations();
         })
       }
       else {

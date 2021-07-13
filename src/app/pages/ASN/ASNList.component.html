@@ -36,7 +36,7 @@
           <th class="text-center">Invoice Date</th>
           <th class="text-center">Delivery Date</th>
           <th class="text-center">Created Date</th>
-          <th class="text-center">View</th>
+          <th class="text-center">View/Edit</th>
         </tr>
         <tr>
           <th></th>
@@ -58,7 +58,7 @@
           <td class="text-center">{{rowData.InvoiceDate | date : 'dd/MM/yyyy'}}</td>
           <td class="text-center">{{rowData.DeliveryDate | date : 'dd/MM/yyyy'}}</td>
           <td class="text-center">{{rowData.CreatedDate | date : 'dd/MM/yyyy'}}</td>
-          <td class="text-center"><a [routerLink]="['/VSCM/ASNEdit/',rowData.ASNId]" routerLinkActive="active">View</a></td>
+          <td class="text-center"><a [routerLink]="['/VSCM/ASNEdit/',rowData.ASNId]" routerLinkActive="active"><span *ngIf="rowData.AckStatus != 'Approved'">Edit</span><span *ngIf="rowData.AckStatus == 'Approved'">View</span></a></td>
         </tr>
       </ng-template>
     </p-table>
